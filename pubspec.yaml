@@ -41,6 +41,7 @@ dependencies:
   pdf:
   path_provider:
   http:
+  faker: 
 
 
   # The following adds the Cupertino Icons font to your application.
