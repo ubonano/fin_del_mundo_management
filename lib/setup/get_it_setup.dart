@@ -11,10 +11,10 @@ GetIt getIt = GetIt.instance;
 FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
 void setupServiceLocator() {
-  setupDailyIncomeInstances();
+  _setupDailyIncomeInstances();
 }
 
-void setupDailyIncomeInstances() {
+void _setupDailyIncomeInstances() {
   getIt.registerLazySingleton<DailyIncomeRepository>(
     () => FirestoreDailyIncomeRepository(
       Logger('FirestoreDailyIncomeRepository'),
