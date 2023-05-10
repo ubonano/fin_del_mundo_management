@@ -29,7 +29,7 @@ class DailyIncomePage extends StatelessWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    _controller.deleteIncome(income);
+                    _controller.delete(income);
                   },
                 ),
               );

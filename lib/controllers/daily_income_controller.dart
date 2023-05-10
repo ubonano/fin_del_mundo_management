@@ -11,12 +11,12 @@ class DailyIncomeController {
   final _incomes = BehaviorSubject<List<DailyIncome>>();
 
   DailyIncomeController(this._logger, this._repository) {
-    loadIncomes();
+    _load();
   }
 
   Stream<List<DailyIncome>> get incomes => _incomes.stream;
 
-  void loadIncomes() {
+  void _load() {
     _logger.info('Loading incomes');
     _repository.getAll().listen(
       (data) => _incomes.add(data),
@@ -28,7 +28,7 @@ class DailyIncomeController {
     _logger.info('Incomes loaded');
   }
 
-  Future<void> addIncome(DailyIncome income) async {
+  Future<void> add(DailyIncome income) async {
     _logger.info('Adding income');
     try {
       await _repository.add(income);
@@ -38,7 +38,7 @@ class DailyIncomeController {
     }
   }
 
-  Future<void> updateIncome(DailyIncome income) async {
+  Future<void> update(DailyIncome income) async {
     _logger.info('Updating income');
     try {
       await _repository.update(income);
@@ -48,7 +48,7 @@ class DailyIncomeController {
     }
   }
 
-  Future<void> deleteIncome(DailyIncome income) async {
+  Future<void> delete(DailyIncome income) async {
     _logger.info('Deleting income');
     try {
       await _repository.delete(income);
