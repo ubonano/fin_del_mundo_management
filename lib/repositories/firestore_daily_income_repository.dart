@@ -4,8 +4,12 @@ import '../utils/interfaces/daily_income_repository.dart';
 import 'package:logging/logging.dart';
 
 class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
-  final _logger = Logger('FirestoreDailyIncomeRepository');
-  final _collection = FirebaseFirestore.instance.collection('dailyIncomes');
+  final Logger _logger;
+  late final CollectionReference _collection;
+
+  FirestoreDailyIncomeRepository(this._logger, FirebaseFirestore instance) {
+    _collection = instance.collection('dailyIncomes');
+  }
 
   @override
   Stream<List<DailyIncome>> getAll() {
