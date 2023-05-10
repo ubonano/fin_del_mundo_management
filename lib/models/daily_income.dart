@@ -1,0 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class DailyIncome {
+  final String id;
+  final DateTime createdAt;
+  final DateTime modifiedAt;
+  final String createdBy;
+  final String modifiedBy;
+  final DateTime date;
+  final String branch;
+  final double total;
+  final Map<String, double> paymentMethods;
+  final double surplus;
+  final double shortage;
+
+  DailyIncome({
+    required this.id,
+    required this.createdAt,
+    required this.modifiedAt,
+    required this.createdBy,
+    required this.modifiedBy,
+    required this.date,
+    required this.branch,
+    required this.total,
+    required this.paymentMethods,
+    required this.surplus,
+    required this.shortage,
+  });
+
+  Map<String, dynamic> toDocument() {
+    return {
+      'createdAt': createdAt,
+      'modifiedAt': modifiedAt,
+      'createdBy': createdBy,
+      'modifiedBy': modifiedBy,
+      'date': date,
+      'branch': branch,
+      'total': total,
+      'paymentMethods': paymentMethods,
+      'surplus': surplus,
+      'shortage': shortage,
+    };
+  }
+
+  factory DailyIncome.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+
+    return DailyIncome(
+      id: doc.id,
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
+      createdBy: data['createdBy'],
+      modifiedBy: data['modifiedBy'],
+      date: (data['date'] as Timestamp).toDate(),
+      branch: data['branch'],
+      total: data['total'],
+      paymentMethods: Map<String, double>.from(data['paymentMethods']),
+      surplus: data['surplus'],
+      shortage: data['shortage'],
+    );
+  }
+}
