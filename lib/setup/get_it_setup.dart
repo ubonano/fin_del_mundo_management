@@ -21,6 +21,7 @@ void setupDailyIncomeInstances() {
       _firebaseFirestore,
     ),
   );
+
   getIt.registerLazySingleton<DailyIncomeController>(
     () => DailyIncomeController(
       Logger('DailyIncomeController'),
