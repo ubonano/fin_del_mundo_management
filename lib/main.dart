@@ -2,10 +2,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'setup/firebase_options.dart';
+import 'setup/get_it_setup.dart';
 import 'setup/router.dart';
+import 'utils/faker/income_daily_faker.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  setupServiceLocator();
+
+  // generateIncomes();
+
   runApp(MyApp());
 }
 

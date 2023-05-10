@@ -1,31 +1,34 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../controllers/daily_income_controller.dart';
 import '../../models/daily_income.dart';
 import '../../setup/get_it_setup.dart';
+import '../widgets/app_stream_builder.dart';
 
 @RoutePage()
 class DailyIncomePage extends StatelessWidget {
   final _controller = getIt<DailyIncomeController>();
 
-  DailyIncomePage({super.key});
+  DailyIncomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ingresos diarios')),
-      body: StreamBuilder<List<DailyIncome>>(
+      body: AppStreamBuilder<List<DailyIncome>>(
         stream: _controller.incomes,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return CircularProgressIndicator();
-
+        onData: (data) {
           return ListView.builder(
-            itemCount: snapshot.data?.length,
+            itemCount: data.length,
             itemBuilder: (context, index) {
-              final income = snapshot.data![index];
+              final income = data[index];
               return ListTile(
                 title: Text(income.branch),
-                // Agrega más campos aquí
+                subtitle: Text(
+                  'Date: ${DateFormat('EEEE dd-MM-yyyy').format(income.date)}\n'
+                  'Total: ${income.total.toStringAsFixed(2)}',
+                ),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
