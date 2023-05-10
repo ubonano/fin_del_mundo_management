@@ -9,7 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i2;
-import 'package:fin_del_mundo_management/ui/pages/daily_income_page.dart'
+import 'package:fin_del_mundo_management/ui/pages/daily_income/daily_income_page.dart'
     as _i1;
 
 abstract class $AppRouter extends _i2.RootStackRouter {
