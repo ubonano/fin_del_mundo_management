@@ -34,15 +34,21 @@ class DailyIncomeController {
   Future<void> add(DailyIncome income) async {
     _logger.info('Adding income');
     try {
-      await _repository.add(income.copyWith(
-        createdBy: createdBy,
-        modifiedBy: modifiedBy,
-        createdAt: DateTime.now(),
-        modifiedAt: DateTime.now(),
-      ));
+      await _repository.add(
+        income.copyWith(
+          createdBy: createdBy,
+          modifiedBy: modifiedBy,
+          createdAt: DateTime.now(),
+          modifiedAt: DateTime.now(),
+          total: income.paymentMethods.values.reduce((a, b) => a + b) +
+              income.surplus -
+              income.shortage,
+        ),
+      );
       _logger.info('Income added');
     } catch (e) {
       _logger.severe('Error adding income: $e');
+      rethrow;
     }
   }
 
@@ -56,6 +62,7 @@ class DailyIncomeController {
       _logger.info('Income updated');
     } catch (e) {
       _logger.severe('Error updating income: $e');
+      rethrow;
     }
   }
 
@@ -66,6 +73,7 @@ class DailyIncomeController {
       _logger.info('Income deleted');
     } catch (e) {
       _logger.severe('Error deleting income: $e');
+      rethrow;
     }
   }
 
