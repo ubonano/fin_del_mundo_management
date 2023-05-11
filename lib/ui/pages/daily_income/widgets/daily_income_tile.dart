@@ -6,8 +6,11 @@ class DailyIncomeTile extends StatelessWidget {
   final DailyIncome income;
   final void Function()? onDeletePressed;
 
-  const DailyIncomeTile(
-      {super.key, required this.income, required this.onDeletePressed});
+  const DailyIncomeTile({
+    super.key,
+    required this.income,
+    required this.onDeletePressed,
+  });
 
   @override
   Widget build(BuildContext context) {
