@@ -9,9 +9,7 @@ import 'widgets/daily_income_list.dart';
 
 @RoutePage()
 class DailyIncomePage extends StatefulWidget {
-  late final StackRouter? router;
-
-  DailyIncomePage({Key? key}) : super(key: key);
+  const DailyIncomePage({Key? key}) : super(key: key);
 
   @override
   State<DailyIncomePage> createState() => _DailyIncomePageState();
@@ -19,10 +17,11 @@ class DailyIncomePage extends StatefulWidget {
 
 class _DailyIncomePageState extends State<DailyIncomePage> {
   final _controller = getIt<DailyIncomeController>();
+  late final StackRouter? router;
 
   @override
   Widget build(BuildContext context) {
-    widget.router = AutoRouter.of(context);
+    router = AutoRouter.of(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Ingresos diarios')),
@@ -47,7 +46,7 @@ class _DailyIncomePageState extends State<DailyIncomePage> {
       context,
       onPressed: () {
         _controller.delete(income);
-        widget.router?.pop();
+        router?.pop();
       },
     );
   }
