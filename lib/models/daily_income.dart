@@ -27,6 +27,9 @@ class DailyIncome {
     required this.branch,
   });
 
+  double calculateTotal() =>
+      paymentMethods.values.reduce((a, b) => a + b) + surplus - shortage;
+
   DailyIncome copyWith({
     String? id,
     DateTime? createdAt,

@@ -10,9 +10,6 @@ class DailyIncomeController {
 
   final _incomes = BehaviorSubject<List<DailyIncome>>();
 
-  String createdBy = ''; // TODO replace with actual logged in user
-  String modifiedBy = ''; // TODO replace with actual logged in user
-
   DailyIncomeController(this._logger, this._repository) {
     _load();
   }
@@ -36,13 +33,11 @@ class DailyIncomeController {
     try {
       await _repository.add(
         income.copyWith(
-          createdBy: createdBy,
-          modifiedBy: modifiedBy,
+          createdBy: 'notImplemented',
+          modifiedBy: 'notImplemented',
           createdAt: DateTime.now(),
           modifiedAt: DateTime.now(),
-          total: income.paymentMethods.values.reduce((a, b) => a + b) +
-              income.surplus -
-              income.shortage,
+          total: income.calculateTotal(),
         ),
       );
       _logger.info('Income added');
@@ -55,10 +50,13 @@ class DailyIncomeController {
   Future<void> update(DailyIncome income) async {
     _logger.info('Updating income');
     try {
-      await _repository.update(income.copyWith(
-        modifiedBy: modifiedBy,
-        modifiedAt: DateTime.now(),
-      ));
+      await _repository.update(
+        income.copyWith(
+          modifiedBy: 'notImplemented',
+          modifiedAt: DateTime.now(),
+          total: income.calculateTotal(),
+        ),
+      );
       _logger.info('Income updated');
     } catch (e) {
       _logger.severe('Error updating income: $e');

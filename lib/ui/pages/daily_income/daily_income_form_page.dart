@@ -32,10 +32,10 @@ class _DailyIncomeFormPageState extends State<DailyIncomeFormPage> {
   Widget build(BuildContext context) {
     router = AutoRouter.of(context);
 
+    // TODO Agregar las validaciones en los campos
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Daily Income Form'),
-      ),
+      appBar: AppBar(title: const Text('Registrar ingreso diario')),
       body: Form(
         key: _formKey,
         child: ListView(

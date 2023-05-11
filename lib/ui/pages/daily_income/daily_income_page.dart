@@ -30,23 +30,21 @@ class _DailyIncomePageState extends State<DailyIncomePage> {
         stream: _controller.incomes,
         onData: (data) => DailyIncomeList(
           incomes: data,
-          onDeletePressed: onDeletePressed,
+          onDeletePressed: (income) {
+            AppDialog.showDelete(
+              context,
+              onPressed: () {
+                _controller.delete(income);
+                router?.pop();
+              },
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => router?.push(const DailyIncomeFormRoute()),
       ),
-    );
-  }
-
-  void onDeletePressed(DailyIncome income) {
-    AppDialog.showDelete(
-      context,
-      onPressed: () {
-        _controller.delete(income);
-        router?.pop();
-      },
     );
   }
 }
