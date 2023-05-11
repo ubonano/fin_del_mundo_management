@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fin_del_mundo_management/setup/router.gr.dart';
 import 'package:flutter/material.dart';
 import '../../../controllers/daily_income_controller.dart';
 import '../../../models/daily_income.dart';
@@ -34,9 +35,7 @@ class _DailyIncomePageState extends State<DailyIncomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          // Aquí puede ir la lógica para agregar un nuevo ingreso
-        },
+        onPressed: () => router?.push(const DailyIncomeFormRoute()),
       ),
     );
   }
