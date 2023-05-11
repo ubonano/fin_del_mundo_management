@@ -9,8 +9,8 @@ class AppDialog extends StatefulWidget {
   const AppDialog({
     Key? key,
     required this.onPressed,
-    this.title = 'Eliminar registro',
-    this.content = '¿Esta seguro que desea eliminar este registro',
+    required this.title,
+    required this.content,
   }) : super(key: key);
 
   static Future<void> showDelete(
