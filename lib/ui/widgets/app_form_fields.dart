@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_validators.dart';
-
 class _AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
@@ -42,231 +40,51 @@ class _AppTextField extends StatelessWidget {
 }
 
 class AppFormFields {
-  static Widget email(
-    TextEditingController controller, {
+  static Widget text({
+    required TextEditingController controller,
+    required String labelText,
+    String? Function(String?)? validator,
+    void Function(String)? onFieldSubmitted,
+    bool obscureText = false,
+  }) {
+    return _AppTextField(
+      controller: controller,
+      onFieldSubmitted: onFieldSubmitted,
+      labelText: labelText,
+      obscureText: obscureText,
+      validator: validator,
+    );
+  }
+
+  static Widget number(
+      {required TextEditingController controller,
+      required String labelText,
+      String? Function(String?)? validator,
+      void Function(String)? onFieldSubmitted}) {
+    return _AppTextField(
+      controller: controller,
+      onFieldSubmitted: onFieldSubmitted,
+      labelText: labelText,
+      keyboardType: TextInputType.number,
+      validator: validator,
+    );
+  }
+
+  static Widget date({
+    required TextEditingController controller,
+    required String labelText,
     bool enabled = true,
     void Function(String)? onFieldSubmitted,
+    String? Function(String?)? validator,
   }) {
     return _AppTextField(
       controller: controller,
       onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Email',
-      keyboardType: TextInputType.emailAddress,
-      validator: AppValidators.email,
-      enabled: enabled,
-    );
-  }
-
-  static Widget password(TextEditingController controller,
-      {void Function(String)? onFieldSubmitted}) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Contraseña',
-      obscureText: true,
-      validator: AppValidators.password,
-    );
-  }
-
-  static Widget passwordConfirmation(
-    TextEditingController controller,
-    TextEditingController passwordController, {
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Confirmar contraseña',
-      obscureText: true,
-      validator: (value) =>
-          AppValidators.confirmPassword(value, passwordController.text),
-    );
-  }
-
-  static Widget date(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Fecha',
+      labelText: labelText,
       keyboardType: TextInputType.datetime,
       enabled: enabled,
-      validator: AppValidators.date,
-    );
-  }
-
-  static Widget amount(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Monto',
-      keyboardType: TextInputType.number,
-      validator: AppValidators.amount,
-      enabled: enabled,
-    );
-  }
-
-  static Widget name(
-    TextEditingController controller, {
-    void Function(String)? onFieldSubmitted,
-    bool enabled = true,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Nombre',
-      validator: AppValidators.name,
-      enabled: enabled,
-    );
-  }
-
-  static Widget lastName(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Apellido',
-      validator: AppValidators.lastName,
-      enabled: enabled,
-    );
-  }
-
-  static Widget idNumber(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Número de identificación',
-      validator: AppValidators.idNumber,
-      enabled: enabled,
-    );
-  }
-
-  static Widget phone(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Teléfono',
-      keyboardType: TextInputType.phone,
-      validator: AppValidators.phone,
-      enabled: enabled,
-    );
-  }
-
-  static Widget address(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Dirección',
-      keyboardType: TextInputType.streetAddress,
-      validator: AppValidators.address,
-      enabled: enabled,
-    );
-  }
-
-  static Widget isActiveSwitch(bool isActive, void Function(bool)? onChanged) {
-    return Row(
-      children: [
-        const Text('Activo'),
-        Switch(
-          value: isActive,
-          onChanged: onChanged,
-        ),
-      ],
-    );
-  }
-
-  static Widget tableNumber(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Número de mesa',
-      keyboardType: TextInputType.number,
-      validator: AppValidators.tableNumber,
-      enabled: enabled,
-    );
-  }
-
-  static Widget numberOfGuests(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Cantidad de comensales',
-      keyboardType: TextInputType.number,
-      validator: AppValidators.numberOfGuests,
-      enabled: enabled,
-    );
-  }
-
-  static Widget waiterName(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Nombre del mesero',
-      validator: AppValidators.waiterName,
-      enabled: enabled,
-    );
-  }
-
-  static Widget product(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Producto',
-      validator: AppValidators.product,
-      enabled: enabled,
-    );
-  }
-
-  static Widget quantity(
-    TextEditingController controller, {
-    bool enabled = true,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return _AppTextField(
-      controller: controller,
-      onFieldSubmitted: onFieldSubmitted,
-      labelText: 'Cantidad',
-      keyboardType: TextInputType.number,
-      validator: AppValidators.quantity,
-      enabled: enabled,
+      validator: validator,
+      // validator: AppValidators.date,
     );
   }
 }
