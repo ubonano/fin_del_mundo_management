@@ -17,10 +17,12 @@ class DailyIncomeTile extends StatelessWidget {
         'Date: ${DateFormat('EEEE dd-MM-yyyy').format(income.date)}\n'
         'Total: ${income.total.toStringAsFixed(2)}',
       ),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: onDeletePressed,
-      ),
+      trailing: onDeletePressed != null
+          ? IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: onDeletePressed,
+            )
+          : null,
     );
   }
 }
