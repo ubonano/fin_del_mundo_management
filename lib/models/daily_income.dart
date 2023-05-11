@@ -27,6 +27,34 @@ class DailyIncome {
     required this.shortage,
   });
 
+  DailyIncome copyWith({
+    String? id,
+    DateTime? createdAt,
+    DateTime? modifiedAt,
+    String? createdBy,
+    String? modifiedBy,
+    DateTime? date,
+    String? branch,
+    double? total,
+    Map<String, double>? paymentMethods,
+    double? surplus,
+    double? shortage,
+  }) {
+    return DailyIncome(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      modifiedAt: modifiedAt ?? this.modifiedAt,
+      createdBy: createdBy ?? this.createdBy,
+      modifiedBy: modifiedBy ?? this.modifiedBy,
+      date: date ?? this.date,
+      branch: branch ?? this.branch,
+      total: total ?? this.total,
+      paymentMethods: paymentMethods ?? this.paymentMethods,
+      surplus: surplus ?? this.surplus,
+      shortage: shortage ?? this.shortage,
+    );
+  }
+
   Map<String, dynamic> toDocument() {
     return {
       'createdAt': createdAt,
