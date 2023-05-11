@@ -14,17 +14,17 @@ class DailyIncome {
   final double shortage;
 
   DailyIncome({
-    required this.id,
+    this.id = '',
+    this.createdBy = '',
+    this.modifiedBy = '',
+    this.total = 0.0,
     required this.createdAt,
     required this.modifiedAt,
-    required this.createdBy,
-    required this.modifiedBy,
     required this.date,
-    required this.branch,
-    required this.total,
     required this.paymentMethods,
     required this.surplus,
     required this.shortage,
+    required this.branch,
   });
 
   DailyIncome copyWith({
