@@ -50,7 +50,7 @@ class _DailyIncomePageState extends State<DailyIncomePage> {
         child: const Icon(Icons.add),
         onPressed: () {
           _logger.info('Add button pressed');
-          router?.push(const DailyIncomeFormRoute());
+          router?.push(DailyIncomeFormRoute());
         },
       ),
     );

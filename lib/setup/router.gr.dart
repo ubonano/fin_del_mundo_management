@@ -9,10 +9,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i3;
+import 'package:fin_del_mundo_management/models/daily_income.dart' as _i5;
 import 'package:fin_del_mundo_management/ui/pages/daily_income/daily_income_form_page.dart'
     as _i1;
 import 'package:fin_del_mundo_management/ui/pages/daily_income/daily_income_page.dart'
     as _i2;
+import 'package:flutter/material.dart' as _i4;
 
 abstract class $AppRouter extends _i3.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -20,9 +22,14 @@ abstract class $AppRouter extends _i3.RootStackRouter {
   @override
   final Map<String, _i3.PageFactory> pagesMap = {
     DailyIncomeFormRoute.name: (routeData) {
+      final args = routeData.argsAs<DailyIncomeFormRouteArgs>(
+          orElse: () => const DailyIncomeFormRouteArgs());
       return _i3.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.DailyIncomeFormPage(),
+        child: _i1.DailyIncomeFormPage(
+          key: args.key,
+          income: args.income,
+        ),
       );
     },
     DailyIncomeRoute.name: (routeData) {
@@ -36,16 +43,40 @@ abstract class $AppRouter extends _i3.RootStackRouter {
 
 /// generated route for
 /// [_i1.DailyIncomeFormPage]
-class DailyIncomeFormRoute extends _i3.PageRouteInfo<void> {
-  const DailyIncomeFormRoute({List<_i3.PageRouteInfo>? children})
-      : super(
+class DailyIncomeFormRoute extends _i3.PageRouteInfo<DailyIncomeFormRouteArgs> {
+  DailyIncomeFormRoute({
+    _i4.Key? key,
+    _i5.DailyIncome? income,
+    List<_i3.PageRouteInfo>? children,
+  }) : super(
           DailyIncomeFormRoute.name,
+          args: DailyIncomeFormRouteArgs(
+            key: key,
+            income: income,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'DailyIncomeFormRoute';
 
-  static const _i3.PageInfo<void> page = _i3.PageInfo<void>(name);
+  static const _i3.PageInfo<DailyIncomeFormRouteArgs> page =
+      _i3.PageInfo<DailyIncomeFormRouteArgs>(name);
+}
+
+class DailyIncomeFormRouteArgs {
+  const DailyIncomeFormRouteArgs({
+    this.key,
+    this.income,
+  });
+
+  final _i4.Key? key;
+
+  final _i5.DailyIncome? income;
+
+  @override
+  String toString() {
+    return 'DailyIncomeFormRouteArgs{key: $key, income: $income}';
+  }
 }
 
 /// generated route for
