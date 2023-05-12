@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
@@ -16,9 +17,9 @@ class DailyIncomeForm extends StatefulWidget {
 
 class _DailyIncomeFormState extends State<DailyIncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late StackRouter? router;
   final _controller = getIt<DailyIncomeController>();
-
-  late final StackRouter? router;
+  final _logger = Logger('DailyIncomeForm');
 
   late final TextEditingController _dateController =
       TextEditingController(text: widget.income?.date.toIso8601String() ?? '');
@@ -38,6 +39,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   @override
   Widget build(BuildContext context) {
+    _logger.info('Building DailyIncomeForm');
     router = AutoRouter.of(context);
 
     return Form(
@@ -55,6 +57,51 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
           _submitButton(),
         ],
       ),
+    );
+  }
+
+  void _submit() {
+    _logger.info('Submitting form');
+
+    if (_formKey.currentState!.validate()) {
+      try {
+        final income = DailyIncome(
+          id: widget.income?.id ?? '',
+          modifiedAt: DateTime.now(),
+          createdAt: widget.income?.createdAt ?? DateTime.now(),
+          date: DateTime.parse(_dateController.text),
+          branch: _branchController.text,
+          total: widget.income?.total ?? 0.0,
+          paymentMethods: {
+            'cash': double.parse(_cashController.text),
+            'cards': double.parse(_cardsController.text),
+            'mercadoPago': double.parse(_mercadoPagoController.text),
+          },
+          surplus: double.parse(_surplusController.text),
+          shortage: double.parse(_shortageController.text),
+        );
+
+        if (widget.income == null) {
+          _controller.add(income);
+          _showSnackbar('Ingreso diario guardado');
+        } else {
+          _controller.update(income);
+          _showSnackbar('Ingreso diario actualizado');
+        }
+
+        _logger.info('Form submitted successfully');
+
+        router?.pop();
+      } catch (e) {
+        _logger.severe('Error occurred while submitting form', e);
+        _showSnackbar('Ocurrio un error');
+      }
+    }
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
     );
   }
 
@@ -126,46 +173,10 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     );
   }
 
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      try {
-        final income = DailyIncome(
-          modifiedAt: DateTime.now(),
-          createdAt: widget.income?.createdAt ?? DateTime.now(),
-          date: DateTime.parse(_dateController.text),
-          branch: _branchController.text,
-          paymentMethods: {
-            'cash': double.parse(_cashController.text),
-            'cards': double.parse(_cardsController.text),
-            'mercadoPago': double.parse(_mercadoPagoController.text),
-          },
-          surplus: double.parse(_surplusController.text),
-          shortage: double.parse(_shortageController.text),
-        );
-
-        if (widget.income == null) {
-          _controller.add(income);
-          _showSnackbar('Ingreso diario guardado');
-        } else {
-          _controller.update(income);
-          _showSnackbar('Ingreso diario actualizado');
-        }
-
-        router?.pop();
-      } catch (e) {
-        _showSnackbar('Ocurrio un error');
-      }
-    }
-  }
-
-  void _showSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
   @override
   void dispose() {
+    _logger.info('Disposing DailyIncomeForm');
+
     _dateController.dispose();
     _branchController.dispose();
     _cashController.dispose();
