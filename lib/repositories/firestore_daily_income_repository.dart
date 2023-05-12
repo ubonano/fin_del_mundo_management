@@ -13,12 +13,14 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
 
   @override
   Stream<List<DailyIncome>> getAll() {
-    _logger.info('Starting to fetch all daily incomes');
+    _logger.info(
+        'FirestoreDailyIncomeRepository: Starting to fetch all daily incomes');
     return _collection.snapshots().map(
       (query) {
         final incomes =
             query.docs.map((doc) => DailyIncome.fromDocument(doc)).toList();
-        _logger.info('Finished fetching all daily incomes');
+        _logger.info(
+            'FirestoreDailyIncomeRepository: Finished fetching all daily incomes');
         return incomes;
       },
     );
@@ -26,13 +28,16 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
 
   @override
   Future<void> add(DailyIncome income) {
-    _logger.info('Starting to add a daily income');
+    _logger
+        .info('FirestoreDailyIncomeRepository: Starting to add a daily income');
     return _collection
         .add(income.toDocument())
-        .then((value) => _logger.info('Successfully added a daily income'))
+        .then((value) => _logger.info(
+            'FirestoreDailyIncomeRepository: Successfully added a daily income'))
         .catchError(
       (error) {
-        _logger.severe('Failed to add a daily income: $error');
+        _logger.severe(
+            'FirestoreDailyIncomeRepository: Failed to add a daily income: $error');
         throw error;
       },
     );
@@ -40,16 +45,17 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
 
   @override
   Future<void> update(DailyIncome income) {
-    _logger.info('Starting to update a daily income with ID: ${income.id}');
+    _logger.info(
+        'FirestoreDailyIncomeRepository: Starting to update a daily income with ID: [${income.id}]');
     return _collection.doc(income.id).update(income.toDocument()).then(
       (value) {
-        _logger
-            .info('Successfully updated a daily income with ID: ${income.id}');
+        _logger.info(
+            'FirestoreDailyIncomeRepository: Successfully updated a daily income with ID: [${income.id}]');
       },
     ).catchError(
       (error) {
         _logger.severe(
-            'Failed to update a daily income with ID: ${income.id}. Error: $error');
+            'FirestoreDailyIncomeRepository: Failed to update a daily income with ID: [${income.id}]. Error: $error');
         throw error;
       },
     );
@@ -57,15 +63,17 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
 
   @override
   Future<void> delete(DailyIncome income) {
-    _logger.info('Starting to delete a daily income with ID: ${income.id}');
+    _logger.info(
+        'FirestoreDailyIncomeRepository: Starting to delete a daily income with ID: [${income.id}]');
     return _collection
         .doc(income.id)
         .delete()
-        .then((value) => _logger.info('Successfully deleted a daily income'))
+        .then((value) => _logger.info(
+            'FirestoreDailyIncomeRepository: Successfully deleted a daily income'))
         .catchError(
       (error) {
         _logger.severe(
-            'Failed to delete a daily income with ID: ${income.id}. Error: $error');
+            'FirestoreDailyIncomeRepository: Failed to delete a daily income with ID: [${income.id}]. Error: $error');
         throw error;
       },
     );
