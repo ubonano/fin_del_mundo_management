@@ -49,7 +49,7 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
     ).catchError(
       (error) {
         _logger.severe(
-            'Failed to update a daily income with ID: ${income.id}: $error');
+            'Failed to update a daily income with ID: ${income.id}. Error: $error');
         throw error;
       },
     );
@@ -57,14 +57,15 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
 
   @override
   Future<void> delete(DailyIncome income) {
-    _logger.info('Starting to delete a daily income');
+    _logger.info('Starting to delete a daily income with ID: ${income.id}');
     return _collection
         .doc(income.id)
         .delete()
         .then((value) => _logger.info('Successfully deleted a daily income'))
         .catchError(
       (error) {
-        _logger.severe('Failed to delete a daily income: $error');
+        _logger.severe(
+            'Failed to delete a daily income with ID: ${income.id}. Error: $error');
         throw error;
       },
     );
