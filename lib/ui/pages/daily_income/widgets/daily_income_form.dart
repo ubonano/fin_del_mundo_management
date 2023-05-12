@@ -6,7 +6,12 @@ import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_fields.dart';
 
 class DailyIncomeForm extends StatefulWidget {
-  const DailyIncomeForm({Key? key}) : super(key: key);
+  final DailyIncome? income;
+
+  const DailyIncomeForm({
+    Key? key,
+    this.income,
+  }) : super(key: key);
 
   @override
   _DailyIncomeFormState createState() => _DailyIncomeFormState();
@@ -18,13 +23,21 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   late final StackRouter? router;
 
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _branchController = TextEditingController();
-  final TextEditingController _cashController = TextEditingController();
-  final TextEditingController _cardsController = TextEditingController();
-  final TextEditingController _mercadoPagoController = TextEditingController();
-  final TextEditingController _surplusController = TextEditingController();
-  final TextEditingController _shortageController = TextEditingController();
+  late final TextEditingController _dateController =
+      TextEditingController(text: widget.income?.date.toIso8601String() ?? '');
+  late final TextEditingController _branchController =
+      TextEditingController(text: widget.income?.branch ?? '');
+  late final TextEditingController _cashController = TextEditingController(
+      text: widget.income?.paymentMethods['cash'].toString() ?? '');
+  late final TextEditingController _cardsController = TextEditingController(
+      text: widget.income?.paymentMethods['cards'].toString() ?? '');
+  late final TextEditingController _mercadoPagoController =
+      TextEditingController(
+          text: widget.income?.paymentMethods['mercadoPago'].toString() ?? '');
+  late final TextEditingController _surplusController =
+      TextEditingController(text: widget.income?.surplus.toString() ?? '');
+  late final TextEditingController _shortageController =
+      TextEditingController(text: widget.income?.shortage.toString() ?? '');
 
   @override
   Widget build(BuildContext context) {
@@ -87,23 +100,27 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       try {
-        _controller.add(
-          DailyIncome(
-            modifiedAt: DateTime.now(),
-            createdAt: DateTime.now(),
-            date: DateTime.parse(_dateController.text),
-            branch: _branchController.text,
-            paymentMethods: {
-              'cash': double.parse(_cashController.text),
-              'cards': double.parse(_cardsController.text),
-              'mercadoPago': double.parse(_mercadoPagoController.text),
-            },
-            surplus: double.parse(_surplusController.text),
-            shortage: double.parse(_shortageController.text),
-          ),
+        final income = DailyIncome(
+          modifiedAt: DateTime.now(),
+          createdAt: widget.income?.createdAt ?? DateTime.now(),
+          date: DateTime.parse(_dateController.text),
+          branch: _branchController.text,
+          paymentMethods: {
+            'cash': double.parse(_cashController.text),
+            'cards': double.parse(_cardsController.text),
+            'mercadoPago': double.parse(_mercadoPagoController.text),
+          },
+          surplus: double.parse(_surplusController.text),
+          shortage: double.parse(_shortageController.text),
         );
 
-        _showSnackbar('Ingreso diario guardado');
+        if (widget.income == null) {
+          _controller.add(income);
+          _showSnackbar('Ingreso diario guardado');
+        } else {
+          _controller.update(income);
+          _showSnackbar('Ingreso diario actualizado');
+        }
 
         router?.pop();
       } catch (e) {
