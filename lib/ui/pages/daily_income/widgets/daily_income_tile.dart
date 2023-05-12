@@ -23,7 +23,7 @@ class DailyIncomeTile extends StatefulWidget {
 class _DailyIncomeTileState extends State<DailyIncomeTile> {
   final _controller = getIt<DailyIncomeController>();
   final _logger = Logger('DailyIncomeTile');
-  late final StackRouter? router;
+  late StackRouter? router;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,7 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
 
   void _onDeletePressed() {
     _logger.info('Delete button pressed for daily income: ${widget.income.id}');
+
     AppDialog.showDelete(
       context,
       onPressed: () {
