@@ -30,10 +30,12 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
     return _collection
         .add(income.toDocument())
         .then((value) => _logger.info('Successfully added a daily income'))
-        .catchError((error) {
-      _logger.severe('Failed to add a daily income: $error');
-      throw error;
-    });
+        .catchError(
+      (error) {
+        _logger.severe('Failed to add a daily income: $error');
+        throw error;
+      },
+    );
   }
 
   @override
