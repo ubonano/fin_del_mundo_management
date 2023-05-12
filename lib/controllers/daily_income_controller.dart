@@ -48,7 +48,7 @@ class DailyIncomeController {
   }
 
   Future<void> update(DailyIncome income) async {
-    _logger.info('Updating income');
+    _logger.info('Updating income with ID: ${income.id}');
     try {
       await _repository.update(
         income.copyWith(
@@ -59,18 +59,18 @@ class DailyIncomeController {
       );
       _logger.info('Income updated');
     } catch (e) {
-      _logger.severe('Error updating income: $e');
+      _logger.severe('Error updating income with ID: ${income.id}: $e');
       rethrow;
     }
   }
 
   Future<void> delete(DailyIncome income) async {
-    _logger.info('Deleting income');
+    _logger.info('Deleting income with ID: ${income.id}');
     try {
       await _repository.delete(income);
       _logger.info('Income deleted');
     } catch (e) {
-      _logger.severe('Error deleting income: $e');
+      _logger.severe('Error deleting income with ID: ${income.id}: $e');
       rethrow;
     }
   }
