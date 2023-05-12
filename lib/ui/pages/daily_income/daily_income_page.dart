@@ -5,7 +5,6 @@ import 'package:logging/logging.dart';
 import '../../../controllers/daily_income_controller.dart';
 import '../../../models/daily_income.dart';
 import '../../../setup/get_it_setup.dart';
-import '../../widgets/app_order_delete_dialog.dart';
 import '../../widgets/app_stream_builder.dart';
 import 'widgets/daily_income_list.dart';
 
@@ -31,19 +30,9 @@ class _DailyIncomePageState extends State<DailyIncomePage> {
       appBar: AppBar(title: const Text('Ingresos diarios')),
       body: AppStreamBuilder<List<DailyIncome>>(
         stream: _controller.incomes,
-        onData: (data) {
+        onData: (incomes) {
           _logger.info('Received daily incomes data');
-          return DailyIncomeList(
-            incomes: data,
-            onDeletePressed: (income) {
-              _logger
-                  .info('Delete button pressed for daily income: ${income.id}');
-              AppDialog.showDelete(
-                context,
-                onPressed: () => onDeletePressed(income),
-              );
-            },
-          );
+          return DailyIncomeList(incomes: incomes);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -53,25 +42,6 @@ class _DailyIncomePageState extends State<DailyIncomePage> {
           router?.push(DailyIncomeFormRoute());
         },
       ),
-    );
-  }
-
-  void onDeletePressed(DailyIncome income) {
-    _logger.info('Deleting daily income: ${income.id}');
-    try {
-      _controller.delete(income);
-      router?.pop();
-      _logger.info('Daily income deleted successfully');
-    } catch (e) {
-      _logger.severe('Error deleting daily income: ${e.toString()}');
-      _showSnackbar('An error occurred');
-    }
-  }
-
-  void _showSnackbar(String message) {
-    _logger.info('Showing snackbar with message: $message');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
     );
   }
 }

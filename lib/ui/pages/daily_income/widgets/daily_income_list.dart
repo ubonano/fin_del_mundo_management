@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart'; // Import logging
+import 'package:logging/logging.dart';
 import '../../../../models/daily_income.dart';
 import 'daily_income_tile.dart';
 
 class DailyIncomeList extends StatefulWidget {
   final List<DailyIncome> incomes;
-  final void Function(DailyIncome income)? onDeletePressed;
 
-  const DailyIncomeList({
-    Key? key,
-    required this.incomes,
-    this.onDeletePressed,
-  }) : super(key: key);
+  const DailyIncomeList({Key? key, required this.incomes}) : super(key: key);
 
   @override
   State<DailyIncomeList> createState() => _DailyIncomeListState();
@@ -29,16 +24,7 @@ class _DailyIncomeListState extends State<DailyIncomeList> {
       itemBuilder: (context, index) {
         final income = widget.incomes[index];
         _logger.info('Building DailyIncomeTile for income id: ${income.id}');
-        return DailyIncomeTile(
-          income: income,
-          onDeletePressed: widget.onDeletePressed != null
-              ? () {
-                  _logger.info(
-                      'Delete button pressed for income id: ${income.id}');
-                  widget.onDeletePressed!(income);
-                }
-              : null,
-        );
+        return DailyIncomeTile(income: income);
       },
     );
   }
