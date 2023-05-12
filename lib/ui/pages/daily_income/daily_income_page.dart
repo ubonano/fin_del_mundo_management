@@ -19,26 +19,27 @@ class DailyIncomePage extends StatefulWidget {
 class _DailyIncomePageState extends State<DailyIncomePage> {
   final _logger = Logger('DailyIncomePage');
   final _controller = getIt<DailyIncomeController>();
-  late final StackRouter? router;
+  late StackRouter? router;
 
   @override
   Widget build(BuildContext context) {
     router = AutoRouter.of(context);
-    _logger.info('Building DailyIncomePage');
+
+    _logger.info('DailyIncomePage: Building DailyIncomePage');
 
     return Scaffold(
       appBar: AppBar(title: const Text('Ingresos diarios')),
       body: AppStreamBuilder<List<DailyIncome>>(
         stream: _controller.incomes,
         onData: (incomes) {
-          _logger.info('Received daily incomes data');
+          _logger.info('DailyIncomePage: Received daily incomes data');
           return DailyIncomeList(incomes: incomes);
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          _logger.info('Add button pressed');
+          _logger.info('DailyIncomePage: Add button pressed');
           router?.push(DailyIncomeFormRoute());
         },
       ),
