@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fin_del_mundo_management/utils/app_validators.dart';
 import 'package:flutter/material.dart';
 import '../../../controllers/daily_income_controller.dart';
 import '../../../models/daily_income.dart';
@@ -32,8 +31,6 @@ class _DailyIncomeFormPageState extends State<DailyIncomeFormPage> {
   Widget build(BuildContext context) {
     router = AutoRouter.of(context);
 
-    // TODO Agregar las validaciones en los campos
-
     return Scaffold(
       appBar: AppBar(title: const Text('Registrar ingreso diario')),
       body: Form(
@@ -42,45 +39,44 @@ class _DailyIncomeFormPageState extends State<DailyIncomeFormPage> {
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
             AppFormFields.date(
-                controller: _dateController,
-                labelText: 'Fecha',
-                onFieldSubmitted: (value) => _submit(),
-                validator: AppValidators.date),
+              labelText: 'Fecha',
+              required: true,
+              controller: _dateController,
+              onFieldSubmitted: (value) => _submit(),
+            ),
             AppFormFields.text(
               labelText: 'Sucursal',
+              required: true,
               controller: _branchController,
               onFieldSubmitted: (value) => _submit(),
-              // validator: AppValidators.password,
             ),
             AppFormFields.number(
               labelText: 'Efectivo',
+              required: true,
               controller: _cashController,
               onFieldSubmitted: (value) => _submit(),
-              // validator: AppValidators.password,
             ),
             AppFormFields.number(
               labelText: 'Tarjetas',
+              required: true,
               controller: _cardsController,
               onFieldSubmitted: (value) => _submit(),
-              // validator: AppValidators.password,
             ),
             AppFormFields.number(
-              labelText: 'MercadoPago',
+              labelText: 'Mercado Pago',
+              required: true,
               controller: _mercadoPagoController,
               onFieldSubmitted: (value) => _submit(),
-              // validator: AppValidators.password,
             ),
             AppFormFields.number(
               labelText: 'Sobrante',
               controller: _surplusController,
               onFieldSubmitted: (value) => _submit(),
-              // validator: AppValidators.password,
             ),
             AppFormFields.number(
               labelText: 'Faltante',
               controller: _shortageController,
               onFieldSubmitted: (value) => _submit(),
-              // validator: AppValidators.password,
             ),
             ElevatedButton(
               onPressed: _submit,
@@ -110,11 +106,12 @@ class _DailyIncomeFormPageState extends State<DailyIncomeFormPage> {
             shortage: double.parse(_shortageController.text),
           ),
         );
-        _showSnackbar('Ingreso diario guardado!');
+
+        _showSnackbar('Ingreso diario guardado');
 
         router?.pop();
       } catch (e) {
-        _showSnackbar('Error writing order: $e');
+        _showSnackbar('Ocurrio un error');
       }
     }
   }

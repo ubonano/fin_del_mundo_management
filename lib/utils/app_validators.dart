@@ -12,6 +12,24 @@ class AppValidators {
     return null;
   }
 
+  static String? text(String? value, {bool required = true}) {
+    if (_isEmptyOrNull(value, required)) {
+      return 'Por favor, complete el campo';
+    }
+    return null;
+  }
+
+  static String? number(String? value, {bool required = true}) {
+    if (_isEmptyOrNull(value, required)) {
+      return 'Por favor, complete el campo';
+    }
+
+    if (double.tryParse(value!) == null) {
+      return 'Por favor, ingresa un número válido';
+    }
+    return null;
+  }
+
   static bool _isEmptyOrNull(String? value, bool required) {
     return required && (value == null || value.isEmpty);
   }
