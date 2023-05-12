@@ -8,10 +8,7 @@ import '../../../widgets/app_form_fields.dart';
 class DailyIncomeForm extends StatefulWidget {
   final DailyIncome? income;
 
-  const DailyIncomeForm({
-    Key? key,
-    this.income,
-  }) : super(key: key);
+  const DailyIncomeForm({Key? key, this.income}) : super(key: key);
 
   @override
   _DailyIncomeFormState createState() => _DailyIncomeFormState();
@@ -48,52 +45,84 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       child: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          AppFormFields.date(
-            labelText: 'Fecha',
-            required: true,
-            controller: _dateController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          AppFormFields.text(
-            labelText: 'Sucursal',
-            required: true,
-            controller: _branchController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          AppFormFields.number(
-            labelText: 'Efectivo',
-            required: true,
-            controller: _cashController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          AppFormFields.number(
-            labelText: 'Tarjetas',
-            required: true,
-            controller: _cardsController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          AppFormFields.number(
-            labelText: 'Mercado Pago',
-            required: true,
-            controller: _mercadoPagoController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          AppFormFields.number(
-            labelText: 'Sobrante',
-            controller: _surplusController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          AppFormFields.number(
-            labelText: 'Faltante',
-            controller: _shortageController,
-            onFieldSubmitted: (value) => _submit(),
-          ),
-          ElevatedButton(
-            onPressed: _submit,
-            child: const Text('Submit'),
-          ),
+          _dateField(),
+          _branchField(),
+          _cashField(),
+          _cardsField(),
+          _mpField(),
+          _surplusField(),
+          _shortageField(),
+          _submitButton(),
         ],
       ),
+    );
+  }
+
+  Widget _dateField() {
+    return AppFormFields.date(
+      labelText: 'Fecha',
+      required: true,
+      controller: _dateController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _branchField() {
+    return AppFormFields.text(
+      labelText: 'Sucursal',
+      required: true,
+      controller: _branchController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _cashField() {
+    return AppFormFields.number(
+      labelText: 'Efectivo',
+      required: true,
+      controller: _cashController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _cardsField() {
+    return AppFormFields.number(
+      labelText: 'Tarjetas',
+      required: true,
+      controller: _cardsController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _mpField() {
+    return AppFormFields.number(
+      labelText: 'Mercado Pago',
+      required: true,
+      controller: _mercadoPagoController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _surplusField() {
+    return AppFormFields.number(
+      labelText: 'Sobrante',
+      controller: _surplusController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _shortageField() {
+    return AppFormFields.number(
+      labelText: 'Faltante',
+      controller: _shortageController,
+      onFieldSubmitted: (value) => _submit(),
+    );
+  }
+
+  Widget _submitButton() {
+    return ElevatedButton(
+      onPressed: _submit,
+      child: const Text('Submit'),
     );
   }
 
