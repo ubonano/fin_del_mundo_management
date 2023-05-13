@@ -9,19 +9,37 @@ class DailyIncomeController {
   final DailyIncomeRepository _repository;
 
   final _incomes = BehaviorSubject<List<DailyIncome>>();
+  final _selectedBranch = BehaviorSubject<String>.seeded('Restaurante');
 
   DailyIncomeController(this._logger, this._repository) {
     _load();
   }
 
   Stream<List<DailyIncome>> get incomes => _incomes.stream;
+  Stream<String> get selectedBranch => _selectedBranch.stream;
+
+  void filterByBranch(String branch) {
+    _selectedBranch.add(branch);
+  }
 
   void _load() {
     _logger.info('Loading incomes');
-    _repository.getAll().listen(
-      (data) {
+    Rx.combineLatest2<List<DailyIncome>, String, List<DailyIncome>>(
+      _repository.getAll(),
+      _selectedBranch.stream,
+      (data, selectedBranch) {
         data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
-        _incomes.add(data);
+        if (selectedBranch == 'All') {
+          return data;
+        } else {
+          return data
+              .where((income) => income.branch == selectedBranch)
+              .toList();
+        }
+      },
+    ).listen(
+      (filteredData) {
+        _incomes.add(filteredData);
       },
       onError: (err) {
         _logger.severe('Error loading incomes: $err');

@@ -5,6 +5,7 @@ import '../../../controllers/daily_income_controller.dart';
 import '../../../models/daily_income.dart';
 import '../../../setup/get_it_setup.dart';
 import '../../widgets/app_stream_builder.dart';
+import 'widgets/branch_filter.dart';
 import 'widgets/daily_income_add_button.dart';
 import 'widgets/daily_income_list.dart';
 
@@ -24,13 +25,20 @@ class DailyIncomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Ingresos diarios')),
-      body: AppStreamBuilder<List<DailyIncome>>(
-        stream: _controller.incomes,
-        onData: (incomes) {
-          _logger.info(
-              'DailyIncomePage: Received daily incomes data [${incomes.length}]');
-          return DailyIncomeList(incomes: incomes);
-        },
+      body: Column(
+        children: [
+          BranchFilter(),
+          Expanded(
+            child: AppStreamBuilder<List<DailyIncome>>(
+              stream: _controller.incomes,
+              onData: (incomes) {
+                _logger.info(
+                    'DailyIncomePage: Received daily incomes data [${incomes.length}]');
+                return DailyIncomeList(incomes: incomes);
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: const DailyIncomeAddButton(),
     );
