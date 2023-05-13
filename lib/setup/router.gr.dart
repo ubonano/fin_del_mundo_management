@@ -33,9 +33,11 @@ abstract class $AppRouter extends _i3.RootStackRouter {
       );
     },
     DailyIncomeRoute.name: (routeData) {
+      final args = routeData.argsAs<DailyIncomeRouteArgs>(
+          orElse: () => const DailyIncomeRouteArgs());
       return _i3.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.DailyIncomePage(),
+        child: _i2.DailyIncomePage(key: args.key),
       );
     },
   };
@@ -81,14 +83,29 @@ class DailyIncomeFormRouteArgs {
 
 /// generated route for
 /// [_i2.DailyIncomePage]
-class DailyIncomeRoute extends _i3.PageRouteInfo<void> {
-  const DailyIncomeRoute({List<_i3.PageRouteInfo>? children})
-      : super(
+class DailyIncomeRoute extends _i3.PageRouteInfo<DailyIncomeRouteArgs> {
+  DailyIncomeRoute({
+    _i4.Key? key,
+    List<_i3.PageRouteInfo>? children,
+  }) : super(
           DailyIncomeRoute.name,
+          args: DailyIncomeRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'DailyIncomeRoute';
 
-  static const _i3.PageInfo<void> page = _i3.PageInfo<void>(name);
+  static const _i3.PageInfo<DailyIncomeRouteArgs> page =
+      _i3.PageInfo<DailyIncomeRouteArgs>(name);
+}
+
+class DailyIncomeRouteArgs {
+  const DailyIncomeRouteArgs({this.key});
+
+  final _i4.Key? key;
+
+  @override
+  String toString() {
+    return 'DailyIncomeRouteArgs{key: $key}';
+  }
 }
