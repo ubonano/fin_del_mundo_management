@@ -8,6 +8,7 @@ import '../../widgets/app_stream_builder.dart';
 import 'widgets/branch_filter.dart';
 import 'widgets/daily_income_add_button.dart';
 import 'widgets/daily_income_list.dart';
+import 'widgets/total_income_display.dart';
 
 @RoutePage()
 class DailyIncomePage extends StatelessWidget {
@@ -27,7 +28,14 @@ class DailyIncomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ingresos diarios')),
       body: Column(
         children: [
-          BranchFilter(),
+          Row(
+            children: [
+              Expanded(
+                child: BranchFilter(),
+              ),
+              TotalIncomeDisplay(controller: _controller),
+            ],
+          ),
           Expanded(
             child: AppStreamBuilder<List<DailyIncome>>(
               stream: _controller.incomes,
