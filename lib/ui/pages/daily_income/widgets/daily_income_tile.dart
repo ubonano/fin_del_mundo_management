@@ -6,7 +6,7 @@ import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../../setup/router.gr.dart';
-import '../../../widgets/app_order_delete_dialog.dart';
+import '../../../widgets/app_dialog_confirm.dart';
 
 class DailyIncomeTile extends StatefulWidget {
   final DailyIncome income;
@@ -51,7 +51,7 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
   void _onDeletePressed() {
     _logger.info('Delete button pressed for daily income: ${widget.income.id}');
 
-    AppDialog.showDelete(
+    AppDialogConfirm.showDeleteDialyIncome(
       context,
       onPressed: () {
         _logger.info('Deleting daily income: ${widget.income.id}');
