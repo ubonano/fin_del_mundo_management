@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
@@ -21,8 +22,11 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   late StackRouter? router;
   final _controller = getIt<DailyIncomeController>();
 
-  late final TextEditingController _dateController =
-      TextEditingController(text: widget.income?.date.toIso8601String() ?? '');
+  late final TextEditingController _dateController = TextEditingController(
+      text: widget.income?.date != null
+          ? DateFormat('yyyy-MM-dd').format(widget.income!.date)
+          : '');
+
   late final TextEditingController _branchController =
       TextEditingController(text: widget.income?.branch ?? '');
   late final TextEditingController _cashController = TextEditingController(
@@ -102,7 +106,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   Widget _submitButton() {
     return ElevatedButton(
       onPressed: _submit,
-      child: const Text('Submit'),
+      child: const Text('Enviar'),
     );
   }
 
