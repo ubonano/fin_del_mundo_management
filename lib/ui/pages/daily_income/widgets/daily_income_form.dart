@@ -6,6 +6,7 @@ import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_fields.dart';
+import 'branch_field.dart';
 
 class DailyIncomeForm extends StatefulWidget {
   final DailyIncome? income;
@@ -26,9 +27,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       text: widget.income?.date != null
           ? DateFormat('yyyy-MM-dd').format(widget.income!.date)
           : '');
-
-  late final TextEditingController _branchController =
-      TextEditingController(text: widget.income?.branch ?? '');
+  late String? _branch = widget.income?.branch ?? '';
   late final TextEditingController _cashController = TextEditingController(
       text: widget.income?.paymentMethods['cash'].toString() ?? '');
   late final TextEditingController _cardsController = TextEditingController(
@@ -74,7 +73,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
           modifiedAt: DateTime.now(),
           createdAt: widget.income?.createdAt ?? DateTime.now(),
           date: DateTime.parse(_dateController.text),
-          branch: _branchController.text,
+          branch: _branch!,
           total: widget.income?.total ?? 0.0,
           paymentMethods: {
             'cash': double.parse(_cashController.text),
@@ -126,11 +125,12 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Widget _branchField() {
-    return AppFormFields.text(
-      labelText: 'Sucursal',
-      required: true,
-      controller: _branchController,
-      onFieldSubmitted: (value) => _submit(),
+    return BranchField(
+      initialValue: _branch,
+      onChanged: (value) {
+        _branch = value;
+        setState(() {});
+      },
     );
   }
 
@@ -182,7 +182,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     _logger.info('Disposing DailyIncomeForm');
 
     _dateController.dispose();
-    _branchController.dispose();
     _cashController.dispose();
     _cardsController.dispose();
     _mercadoPagoController.dispose();
