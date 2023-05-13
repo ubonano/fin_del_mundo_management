@@ -24,6 +24,7 @@ class DailyIncomeController {
 
   void _load() {
     _logger.info('Loading incomes');
+
     Rx.combineLatest2<List<DailyIncome>, String, List<DailyIncome>>(
       _repository.getAll(),
       _selectedBranch.stream,
