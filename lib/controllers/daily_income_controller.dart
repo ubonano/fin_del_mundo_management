@@ -19,7 +19,10 @@ class DailyIncomeController {
   void _load() {
     _logger.info('Loading incomes');
     _repository.getAll().listen(
-      (data) => _incomes.add(data),
+      (data) {
+        data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
+        _incomes.add(data);
+      },
       onError: (err) {
         _logger.severe('Error loading incomes: $err');
         _incomes.addError(err);
