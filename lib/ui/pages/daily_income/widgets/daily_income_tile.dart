@@ -2,26 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
-import '../../../../setup/get_it_setup.dart';
 import '../../../../setup/router.gr.dart';
-import '../../../widgets/app_dialog_confirm.dart';
+import 'daily_income_delete_icon_button.dart';
 
 class DailyIncomeTile extends StatefulWidget {
   final DailyIncome income;
 
-  const DailyIncomeTile({
-    Key? key,
-    required this.income,
-  }) : super(key: key);
+  const DailyIncomeTile({Key? key, required this.income}) : super(key: key);
 
   @override
   State<DailyIncomeTile> createState() => _DailyIncomeTileState();
 }
 
 class _DailyIncomeTileState extends State<DailyIncomeTile> {
-  final _controller = getIt<DailyIncomeController>();
   final _logger = Logger('DailyIncomeTile');
   late StackRouter? router;
 
@@ -41,36 +35,7 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
         _logger.info('Tile pressed for daily income: ${widget.income.id}');
         router?.push(DailyIncomeFormRoute(income: widget.income));
       },
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: _onDeletePressed,
-      ),
-    );
-  }
-
-  void _onDeletePressed() {
-    _logger.info('Delete button pressed for daily income: ${widget.income.id}');
-
-    AppDialogConfirm.showDeleteDialyIncome(
-      context,
-      onPressed: () {
-        _logger.info('Deleting daily income: ${widget.income.id}');
-        try {
-          _controller.delete(widget.income);
-          router?.pop();
-          _logger.info('Daily income deleted successfully');
-        } catch (e) {
-          _logger.severe('Error deleting daily income: ${e.toString()}');
-          _showSnackbar('An error occurred');
-        }
-      },
-    );
-  }
-
-  void _showSnackbar(String message) {
-    _logger.info('Showing snackbar with message: $message');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      trailing: DailyIncomeDeleteIconButton(income: widget.income),
     );
   }
 }

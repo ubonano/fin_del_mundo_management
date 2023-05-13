@@ -17,9 +17,9 @@ class DailyIncomeForm extends StatefulWidget {
 
 class _DailyIncomeFormState extends State<DailyIncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _logger = Logger('DailyIncomeForm');
   late StackRouter? router;
   final _controller = getIt<DailyIncomeController>();
-  final _logger = Logger('DailyIncomeForm');
 
   late final TextEditingController _dateController =
       TextEditingController(text: widget.income?.date.toIso8601String() ?? '');
@@ -99,6 +99,13 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     }
   }
 
+  Widget _submitButton() {
+    return ElevatedButton(
+      onPressed: _submit,
+      child: const Text('Submit'),
+    );
+  }
+
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
@@ -163,13 +170,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       labelText: 'Faltante',
       controller: _shortageController,
       onFieldSubmitted: (value) => _submit(),
-    );
-  }
-
-  Widget _submitButton() {
-    return ElevatedButton(
-      onPressed: _submit,
-      child: const Text('Submit'),
     );
   }
 
