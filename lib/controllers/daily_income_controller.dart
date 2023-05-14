@@ -28,14 +28,17 @@ class DailyIncomeController {
   Stream<String> get selectedYear => _selectedYear.stream;
 
   void filterByBranch(String branch) {
+    _logger.info('Changing branch filter to $branch');
     _selectedBranch.add(branch);
   }
 
   void filterByMonth(String month) {
+    _logger.info('Changing month filter to $month');
     _selectedMonth.add(month);
   }
 
   void filterByYear(String year) {
+    _logger.info('Changing year filter to $year');
     _selectedYear.add(year);
   }
 
