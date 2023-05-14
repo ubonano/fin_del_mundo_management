@@ -27,6 +27,27 @@ class FirestoreDailyIncomeRepository implements DailyIncomeRepository {
   }
 
   @override
+  Stream<List<DailyIncome>> getByMonthAndYear(int month, int year) {
+    _logger.info(
+        'FirestoreDailyIncomeRepository: Starting to fetch daily incomes for month: $month and year: $year');
+
+    final startDate = DateTime(year, month);
+    final endDate = DateTime(year, month + 1);
+
+    return _collection
+        .where('date', isGreaterThanOrEqualTo: startDate)
+        .where('date', isLessThan: endDate)
+        .snapshots()
+        .map((query) {
+      final incomes =
+          query.docs.map((doc) => DailyIncome.fromDocument(doc)).toList();
+      _logger.info(
+          'FirestoreDailyIncomeRepository: Finished fetching daily incomes for month: $month and year: $year');
+      return incomes;
+    });
+  }
+
+  @override
   Future<void> add(DailyIncome income) {
     _logger
         .info('FirestoreDailyIncomeRepository: Starting to add a daily income');
