@@ -15,14 +15,19 @@ class TotalIncomeDisplay extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: AppStreamBuilder<List<DailyIncome>>(
-        stream: controller.incomes,
-        onData: (incomes) {
-          final totalIncome = incomes
-              .map((income) => income.total)
-              .reduce((value, element) => value + element);
-          return Text('Total: \$${totalIncome.toStringAsFixed(2)}');
-        },
-      ),
+          stream: controller.incomes,
+          onData: (incomes) {
+            String ret = '';
+            if (incomes.isEmpty) {
+              ret = '0';
+            } else {
+              final totalIncome = incomes
+                  .map((income) => income.total)
+                  .reduce((value, element) => value + element);
+              ret = totalIncome.toStringAsFixed(2);
+            }
+            return Text('Total: $ret');
+          }),
     );
   }
 }
