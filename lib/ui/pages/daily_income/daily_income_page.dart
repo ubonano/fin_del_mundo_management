@@ -35,7 +35,7 @@ class DailyIncomePage extends StatelessWidget {
           DailyIncomeList(),
         ],
       ),
-      floatingActionButton: const DailyIncomeAddButton(),
+      floatingActionButton: DailyIncomeAddButton(),
     );
   }
 }

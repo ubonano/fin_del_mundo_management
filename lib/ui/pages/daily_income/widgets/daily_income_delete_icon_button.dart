@@ -28,6 +28,7 @@ class _DailyIncomeDeleteIconButtonState
 
   @override
   Widget build(BuildContext context) {
+    _logger.info('Building DailyIncomeDeleteIconButton');
     router = AutoRouter.of(context);
 
     return IconButton(

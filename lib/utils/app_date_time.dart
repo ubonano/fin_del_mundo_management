@@ -41,4 +41,12 @@ class AppDateTime {
 
     return months;
   }
+
+  static List<String> generateYears() {
+    final currentYear = DateTime.now().year;
+    return List<String>.generate(
+      11,
+      (index) => (currentYear - 5 + index).toString(),
+    );
+  }
 }
