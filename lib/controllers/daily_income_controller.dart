@@ -1,8 +1,8 @@
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 import '../models/daily_income.dart';
+import '../utils/app_date_time.dart';
 import '../utils/interfaces/daily_income_repository.dart';
 
 class DailyIncomeController {
@@ -12,7 +12,8 @@ class DailyIncomeController {
 
   final _incomes = BehaviorSubject<List<DailyIncome>>();
   final _selectedBranch = BehaviorSubject<String>.seeded('Restaurante');
-  late final _selectedMonth = BehaviorSubject<String>.seeded(_currentMonth());
+  late final _selectedMonth =
+      BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
 
   DailyIncomeController(this._logger, this._repository) {
     initializeDateFormatting('es_ES', null);
@@ -34,31 +35,34 @@ class DailyIncomeController {
   void _load() {
     _logger.info('Loading incomes');
 
-    Rx.combineLatest3<List<DailyIncome>, String, String, List<DailyIncome>>(
-      _repository.getAll(),
-      _selectedBranch.stream,
-      _selectedMonth.stream,
-      (data, selectedBranch, selectedMonth) {
-        data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
+    _selectedMonth.stream.listen((selectedMonth) {
+      final monthNumber = AppDateTime.monthNameToNumber(selectedMonth);
+      final currentYear = DateTime.now().year;
 
-        return data.where((income) {
-          bool matchesBranch =
-              selectedBranch == 'All' || income.branch == selectedBranch;
-          bool matchesMonth =
-              DateFormat.MMMM('es_ES').format(income.date) == selectedMonth;
+      Rx.combineLatest2<List<DailyIncome>, String, List<DailyIncome>>(
+        _repository.getByMonthAndYear(monthNumber, currentYear),
+        _selectedBranch.stream,
+        (data, selectedBranch) {
+          data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
 
-          return matchesBranch && matchesMonth;
-        }).toList();
-      },
-    ).listen(
-      (filteredData) {
-        _incomes.add(filteredData);
-      },
-      onError: (err) {
-        _logger.severe('Error loading incomes: $err');
-        _incomes.addError(err);
-      },
-    );
+          if (selectedBranch == 'All') {
+            return data;
+          } else {
+            return data
+                .where((income) => income.branch == selectedBranch)
+                .toList();
+          }
+        },
+      ).listen(
+        (filteredData) {
+          _incomes.add(filteredData);
+        },
+        onError: (err) {
+          _logger.severe('Error loading incomes: $err');
+          _incomes.addError(err);
+        },
+      );
+    });
     _logger.info('Incomes loaded');
   }
 
@@ -107,25 +111,6 @@ class DailyIncomeController {
       _logger.severe('Error deleting income with ID: ${income.id}: $e');
       rethrow;
     }
-  }
-
-  //TODO llevar estos metodos a una clase aparte.
-  //
-  static String _currentMonth() {
-    DateTime now = DateTime.now();
-    return DateFormat.MMMM('es_ES').format(now);
-  }
-
-  List<String> generateAllMonths() {
-    final months = <String>[];
-
-    for (int i = 1; i <= 12; i++) {
-      final date = DateTime(DateTime.now().year, i);
-      final monthName = DateFormat.MMMM('es_ES').format(date);
-      months.add(monthName);
-    }
-
-    return months;
   }
 
   void dispose() {

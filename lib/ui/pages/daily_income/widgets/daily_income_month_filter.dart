@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../setup/get_it_setup.dart';
+import '../../../../utils/app_date_time.dart';
 import '../../../widgets/app_stream_builder.dart';
 
 class DailyIncomeMonthFilter extends StatelessWidget {
@@ -10,8 +11,6 @@ class DailyIncomeMonthFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final months = _controller.generateAllMonths();
-
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -29,7 +28,8 @@ class DailyIncomeMonthFilter extends StatelessWidget {
                       _controller.filterByMonth(newValue);
                     }
                   },
-                  items: months.map<DropdownMenuItem<String>>(
+                  items: AppDateTime.generateAllMonths()
+                      .map<DropdownMenuItem<String>>(
                     (String value) {
                       return DropdownMenuItem<String>(
                         value: value,
