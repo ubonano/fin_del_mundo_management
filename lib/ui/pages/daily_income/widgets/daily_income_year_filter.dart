@@ -35,17 +35,13 @@ class DailyIncomeYearFilter extends StatelessWidget {
 
     return AppStreamBuilder<String>(
       stream: _controller.selectedYear,
-      onData: (year) => _dropdown(year),
-    );
-  }
-
-  DropdownButton<String> _dropdown(String year) {
-    _logger.info('Building Year Dropdown Button');
-
-    return DropdownButton<String>(
-      value: year,
-      onChanged: (newValue) => _onChanged(newValue),
-      items: _yearItems(),
+      onData: (year) => DropdownButton<String>(
+        value: year,
+        onChanged: (newValue) => _onChanged(newValue),
+        items: AppDateTime.generateYears()
+            .map<DropdownMenuItem<String>>((value) => _yearDropdownItem(value))
+            .toList(),
+      ),
     );
   }
 
@@ -55,16 +51,6 @@ class DailyIncomeYearFilter extends StatelessWidget {
     if (newValue != null) {
       _controller.filterByYear(newValue);
     }
-  }
-
-  List<DropdownMenuItem<String>> _yearItems() {
-    _logger.info('Generating Year Dropdown Items');
-
-    return AppDateTime.generateYears()
-        .map<DropdownMenuItem<String>>(
-          (value) => _yearDropdownItem(value),
-        )
-        .toList();
   }
 
   DropdownMenuItem<String> _yearDropdownItem(String value) {

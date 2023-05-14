@@ -43,8 +43,7 @@ class DailyIncomeMonthFilter extends StatelessWidget {
       },
       items: AppDateTime.generateAllMonths()
           .map<DropdownMenuItem<String>>(
-            (String value) => _buildDropdownMenuItem(value),
-          )
+              (String value) => _buildDropdownMenuItem(value))
           .toList(),
     );
   }
