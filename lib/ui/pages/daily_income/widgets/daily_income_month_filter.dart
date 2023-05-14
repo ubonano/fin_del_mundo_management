@@ -1,40 +1,42 @@
 import 'package:flutter/material.dart';
-
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_stream_builder.dart';
 
-class BranchFilter extends StatelessWidget {
+class DailyIncomeMonthFilter extends StatelessWidget {
   final _controller = getIt<DailyIncomeController>();
 
-  BranchFilter({Key? key}) : super(key: key);
+  DailyIncomeMonthFilter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final months = _controller.generateAllMonths();
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            const Text('Sucursal'),
+            const Text('Mes'),
             const SizedBox(width: 10),
             AppStreamBuilder<String>(
-              stream: _controller.selectedBranch,
-              onData: (branch) {
+              stream: _controller.selectedMonth,
+              onData: (month) {
                 return DropdownButton<String>(
-                  value: branch,
+                  value: month,
                   onChanged: (String? newValue) {
                     if (newValue != null) {
-                      _controller.filterByBranch(newValue);
+                      _controller.filterByMonth(newValue);
                     }
                   },
-                  items: <String>['All', 'Restaurante', 'Discoteca']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                  items: months.map<DropdownMenuItem<String>>(
+                    (String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
                 );
               },
             ),
