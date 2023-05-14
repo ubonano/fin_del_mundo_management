@@ -5,6 +5,7 @@ import 'setup/firebase_options.dart';
 import 'setup/get_it_setup.dart';
 import 'setup/logger_setup.dart';
 import 'setup/router.dart';
+import 'setup/setup_emulator.dart';
 import 'utils/faker/income_daily_faker.dart';
 
 Future<void> main() async {
@@ -13,6 +14,8 @@ Future<void> main() async {
   setupLogger();
   setupServiceLocator();
   // generateIncomes();
+
+  setupEmulator(useEmulator: true);
 
   runApp(MyApp());
 }

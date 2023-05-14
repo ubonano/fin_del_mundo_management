@@ -30,9 +30,7 @@ class DailyIncomePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(
-                child: BranchFilter(),
-              ),
+              Expanded(child: BranchFilter()),
               TotalIncomeDisplay(controller: _controller),
             ],
           ),
