@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
+import '../../../../utils/app_formaters.dart';
 import '../../../widgets/app_stream_builder.dart';
 
-class TotalIncomeDisplay extends StatelessWidget {
+class DailyIncomeTotalDisplay extends StatelessWidget {
   final _controller = getIt<DailyIncomeController>();
 
-  TotalIncomeDisplay({Key? key}) : super(key: key);
+  DailyIncomeTotalDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,9 @@ class TotalIncomeDisplay extends StatelessWidget {
             final totalIncome = incomes
                 .map((income) => income.total)
                 .reduce((value, element) => value + element);
-            ret = totalIncome.toStringAsFixed(2);
+            ret = AppFormaters.getFormattedTotal(totalIncome);
           }
-          return Text('Total: $ret');
+          return Text('Total: \$$ret');
         },
       ),
     );

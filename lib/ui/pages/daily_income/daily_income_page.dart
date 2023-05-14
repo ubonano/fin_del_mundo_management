@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 import 'widgets/branch_filter.dart';
 import 'widgets/daily_income_add_button.dart';
 import 'widgets/daily_income_list.dart';
-import 'widgets/total_income_display.dart';
+import 'widgets/daily_income_total_display.dart';
 
 @RoutePage()
 class DailyIncomePage extends StatelessWidget {
@@ -22,7 +22,7 @@ class DailyIncomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ingresos diarios')),
       body: Column(
         children: [
-          Row(children: [BranchFilter(), TotalIncomeDisplay()]),
+          Row(children: [BranchFilter(), DailyIncomeTotalDisplay()]),
           DailyIncomeList(),
         ],
       ),
