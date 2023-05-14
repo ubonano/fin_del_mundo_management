@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_month_filter.dart';
+import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_year_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'widgets/daily_income_branch_filter.dart';
@@ -27,6 +28,7 @@ class DailyIncomePage extends StatelessWidget {
             children: [
               DailyIncomeBranchFilter(),
               DailyIncomeMonthFilter(),
+              DailyIncomeYearFilter(),
               DailyIncomeTotalDisplay(),
             ],
           ),

@@ -14,6 +14,8 @@ class DailyIncomeController {
   final _selectedBranch = BehaviorSubject<String>.seeded('Restaurante');
   late final _selectedMonth =
       BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
+  final _selectedYear =
+      BehaviorSubject<String>.seeded(DateTime.now().year.toString());
 
   DailyIncomeController(this._logger, this._repository) {
     initializeDateFormatting('es_ES', null);
@@ -23,6 +25,7 @@ class DailyIncomeController {
   Stream<List<DailyIncome>> get incomes => _incomes.stream;
   Stream<String> get selectedBranch => _selectedBranch.stream;
   Stream<String> get selectedMonth => _selectedMonth.stream;
+  Stream<String> get selectedYear => _selectedYear.stream;
 
   void filterByBranch(String branch) {
     _selectedBranch.add(branch);
@@ -32,12 +35,21 @@ class DailyIncomeController {
     _selectedMonth.add(month);
   }
 
+  void filterByYear(String year) {
+    _selectedYear.add(year);
+  }
+
   void _load() {
     _logger.info('Loading incomes');
 
-    _selectedMonth.stream.listen((selectedMonth) {
-      final monthNumber = AppDateTime.monthNameToNumber(selectedMonth);
-      final currentYear = DateTime.now().year;
+    Rx.combineLatest2<String, String, Map<String, String>>(
+      _selectedMonth.stream,
+      _selectedYear.stream,
+      (selectedMonth, selectedYear) =>
+          {'month': selectedMonth, 'year': selectedYear},
+    ).listen((selected) {
+      final monthNumber = AppDateTime.monthNameToNumber(selected['month']!);
+      final currentYear = int.parse(selected['year']!);
 
       Rx.combineLatest2<List<DailyIncome>, String, List<DailyIncome>>(
         _repository.getByMonthAndYear(monthNumber, currentYear),

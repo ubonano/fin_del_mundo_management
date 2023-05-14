@@ -26,6 +26,10 @@ class AppDateTime {
     return DateFormat.MMMM('es_ES').format(now);
   }
 
+  static int currentYear() {
+    return DateTime.now().year;
+  }
+
   static List<String> generateAllMonths() {
     final months = <String>[];
 
