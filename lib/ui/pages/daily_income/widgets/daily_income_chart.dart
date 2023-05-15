@@ -28,7 +28,7 @@ class DailyIncomeChart extends StatelessWidget {
             charts.Series(
                 id: 'Ingresos Diarios',
                 domainFn: (dailyIncome, _) =>
-                    DateFormat('MM-dd').format(dailyIncome.date),
+                    DateFormat('dd').format(dailyIncome.date),
                 measureFn: (dailyIncome, _) => dailyIncome.total,
                 data: dailyIncomesForMonth,
                 fillColorFn: (dailyIncome, _) =>

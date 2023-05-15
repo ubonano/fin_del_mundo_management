@@ -111,8 +111,8 @@ class DailyIncomeController {
   }
 
   List<DailyIncome> fillDailyIncomesForMonth(List<DailyIncome> incomes) {
-    final year = int.parse(_selectedYear.value!);
-    final month = AppDateTime.monthNameToNumber(_selectedMonth.value!);
+    final year = int.parse(_selectedYear.value);
+    final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
 
     int daysInMonth = DateTime(year, month + 1, 0).day;
 
@@ -135,7 +135,7 @@ class DailyIncomeController {
       );
       dailyIncomesForMonth.add(incomeForCurrentDate);
     }
-    print(dailyIncomesForMonth);
+
     return dailyIncomesForMonth;
   }
 
