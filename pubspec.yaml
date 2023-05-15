@@ -43,6 +43,7 @@ dependencies:
   http:
   faker:
   charts_flutter:
+  fl_chart:
 
 
   # The following adds the Cupertino Icons font to your application.
