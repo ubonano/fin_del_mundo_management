@@ -47,31 +47,34 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     _logger.info('Building DailyIncomeForm');
     router = AutoRouter.of(context);
 
-    return Form(
-      key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          Row(
-            children: [
-              _dateField(),
-              const SizedBox(width: 20),
-              _branchField(),
-            ],
-          ),
-          _cashField(),
-          _cardsField(),
-          _mpField(),
-          Row(
-            children: [
-              _surplusField(),
-              const SizedBox(width: 20),
-              _shortageField(),
-            ],
-          ),
-          _totalField(),
-          _submitButton(),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 100),
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: <Widget>[
+            Row(
+              children: [
+                _dateField(),
+                const SizedBox(width: 20),
+                _branchField(),
+              ],
+            ),
+            _cashField(),
+            _cardsField(),
+            _mpField(),
+            Row(
+              children: [
+                _surplusField(),
+                const SizedBox(width: 20),
+                _shortageField(),
+              ],
+            ),
+            _totalField(),
+            _submitButton(),
+          ],
+        ),
       ),
     );
   }
