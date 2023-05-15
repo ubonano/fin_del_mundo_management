@@ -10,6 +10,7 @@ class AppFormFields {
     bool obscureText = false,
     bool required = false,
     bool enabled = true,
+    Function(String)? onChanged,
   }) {
     return _AppTextField(
       controller: controller,
@@ -18,6 +19,7 @@ class AppFormFields {
       obscureText: obscureText,
       enabled: enabled,
       validator: (value) => AppValidators.text(value, required: required),
+      onChanged: onChanged,
     );
   }
 
@@ -28,6 +30,7 @@ class AppFormFields {
     bool obscureText = false,
     bool required = false,
     bool enabled = true,
+    Function(String)? onChanged,
   }) {
     return _AppTextField(
       controller: controller,
@@ -36,6 +39,7 @@ class AppFormFields {
       obscureText: obscureText,
       keyboardType: TextInputType.number,
       enabled: enabled,
+      onChanged: onChanged,
       validator: (value) => AppValidators.number(value, required: required),
     );
   }
@@ -68,15 +72,17 @@ class _AppTextField extends StatelessWidget {
   final bool enabled;
   final FormFieldValidator<String>? validator;
   final void Function(String)? onFieldSubmitted;
+  final Function(String)? onChanged;
 
   const _AppTextField({
     required this.controller,
     required this.labelText,
-    this.keyboardType,
-    this.obscureText = false,
     this.onFieldSubmitted,
+    this.keyboardType,
     this.validator,
+    this.obscureText = false,
     this.enabled = true,
+    this.onChanged,
   });
 
   @override
@@ -90,6 +96,7 @@ class _AppTextField extends StatelessWidget {
         obscureText: obscureText,
         enabled: enabled,
         validator: validator,
+        onChanged: onChanged,
         decoration: InputDecoration(
           labelText: labelText,
           border: const OutlineInputBorder(),

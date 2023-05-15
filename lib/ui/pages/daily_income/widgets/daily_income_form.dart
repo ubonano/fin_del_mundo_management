@@ -23,6 +23,8 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   late StackRouter? router;
   final _controller = getIt<DailyIncomeController>();
 
+  late final TextEditingController _totalController =
+      TextEditingController(text: widget.income?.total.toString() ?? '0');
   late final TextEditingController _dateController = TextEditingController(
       text: widget.income?.date != null
           ? DateFormat('yyyy-MM-dd').format(widget.income!.date)
@@ -50,20 +52,41 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       child: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          _dateField(),
-          _branchField(),
+          Row(
+            children: [
+              _dateField(),
+              const SizedBox(width: 20),
+              _branchField(),
+            ],
+          ),
           _cashField(),
           _cardsField(),
           _mpField(),
           _surplusField(),
           _shortageField(),
+          _totalField(),
           _submitButton(),
         ],
       ),
     );
   }
 
-  void _submit() {
+  double _calculateTotal() {
+    double cash = double.tryParse(_cashController.text) ?? 0;
+    double cards = double.tryParse(_cardsController.text) ?? 0;
+    double mercadoPago = double.tryParse(_mercadoPagoController.text) ?? 0;
+    double surplus = double.tryParse(_surplusController.text) ?? 0;
+    double shortage = double.tryParse(_shortageController.text) ?? 0;
+
+    return cash + cards + mercadoPago + surplus - shortage;
+  }
+
+  void _updateTotal() {
+    double total = _calculateTotal();
+    _totalController.text = total.toString();
+  }
+
+  Future<void> _submit() async {
     _logger.info('Submitting form');
 
     if (_formKey.currentState!.validate()) {
@@ -85,10 +108,10 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
         );
 
         if (widget.income == null) {
-          _controller.add(income);
+          await _controller.add(income);
           _showSnackbar('Ingreso diario guardado');
         } else {
-          _controller.update(income);
+          await _controller.update(income);
           _showSnackbar('Ingreso diario actualizado');
         }
 
@@ -97,7 +120,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
         router?.pop();
       } catch (e) {
         _logger.severe('Error occurred while submitting form', e);
-        _showSnackbar('Ocurrio un error');
+        _showSnackbar('Ocurrio un error: $e');
       }
     }
   }
@@ -116,21 +139,25 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Widget _dateField() {
-    return AppFormFields.date(
-      labelText: 'Fecha',
-      required: true,
-      controller: _dateController,
-      onFieldSubmitted: (value) => _submit(),
+    return Expanded(
+      child: AppFormFields.date(
+        labelText: 'Fecha',
+        required: true,
+        controller: _dateController,
+        onFieldSubmitted: (value) => _submit(),
+      ),
     );
   }
 
   Widget _branchField() {
-    return DailyIncomeBranchField(
-      initialValue: _branch,
-      onChanged: (value) {
-        _branch = value;
-        setState(() {});
-      },
+    return Expanded(
+      child: DailyIncomeBranchField(
+        initialValue: _branch,
+        onChanged: (value) {
+          _branch = value;
+          setState(() {});
+        },
+      ),
     );
   }
 
@@ -140,6 +167,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       required: true,
       controller: _cashController,
       onFieldSubmitted: (value) => _submit(),
+      onChanged: (value) => _updateTotal(),
     );
   }
 
@@ -149,6 +177,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       required: true,
       controller: _cardsController,
       onFieldSubmitted: (value) => _submit(),
+      onChanged: (value) => _updateTotal(),
     );
   }
 
@@ -158,6 +187,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       required: true,
       controller: _mercadoPagoController,
       onFieldSubmitted: (value) => _submit(),
+      onChanged: (value) => _updateTotal(),
     );
   }
 
@@ -166,6 +196,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       labelText: 'Sobrante',
       controller: _surplusController,
       onFieldSubmitted: (value) => _submit(),
+      onChanged: (value) => _updateTotal(),
     );
   }
 
@@ -174,6 +205,18 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       labelText: 'Faltante',
       controller: _shortageController,
       onFieldSubmitted: (value) => _submit(),
+      onChanged: (value) => _updateTotal(),
+    );
+  }
+
+  Widget _totalField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child: AppFormFields.number(
+        labelText: 'Total',
+        enabled: false, // make it read-only
+        controller: _totalController,
+      ),
     );
   }
 
@@ -187,6 +230,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     _mercadoPagoController.dispose();
     _surplusController.dispose();
     _shortageController.dispose();
+    _totalController.dispose();
     super.dispose();
   }
 }
