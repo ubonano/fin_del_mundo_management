@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_chart.dart';
 import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_month_filter.dart';
+import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_payment_methods_charts.dart';
 import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_year_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -25,16 +26,37 @@ class DailyIncomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ingresos diarios')),
       body: Column(
         children: [
-          Row(
-            children: [
-              DailyIncomeBranchFilter(),
-              DailyIncomeMonthFilter(),
-              DailyIncomeYearFilter(),
-              DailyIncomeTotalDisplay(),
-            ],
+          Expanded(
+            flex: 1,
+            child: Row(
+              children: [
+                DailyIncomeBranchFilter(),
+                DailyIncomeMonthFilter(),
+                DailyIncomeYearFilter(),
+                DailyIncomeTotalDisplay(),
+              ],
+            ),
           ),
-          DailyIncomeChart(),
-          DailyIncomeList(),
+          Expanded(
+            flex: 9,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Expanded(flex: 1, child: DailyIncomeChart()),
+                      Expanded(
+                        flex: 1,
+                        child: DailyIncomePaymentMethodsPieChart(),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(flex: 1, child: DailyIncomeList()),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: DailyIncomeAddButton(),
