@@ -90,7 +90,8 @@ class DailyIncomeController {
 
       if (existingIncomes.isNotEmpty) {
         _logger.warning('Income for this date and branch already exists');
-        throw Exception('El ingreso diario para esta fecha y sucursal ya existe');
+        throw Exception(
+            'El ingreso diario para esta fecha y sucursal ya existe');
       }
 
       await _repository.add(
@@ -107,6 +108,35 @@ class DailyIncomeController {
       _logger.severe('Error adding income: $e');
       rethrow;
     }
+  }
+
+  List<DailyIncome> fillDailyIncomesForMonth(List<DailyIncome> incomes) {
+    final year = int.parse(_selectedYear.value!);
+    final month = AppDateTime.monthNameToNumber(_selectedMonth.value!);
+
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+
+    List<DailyIncome> dailyIncomesForMonth = [];
+    for (int i = 1; i <= daysInMonth; i++) {
+      DateTime currentDate = DateTime(year, month, i);
+
+      var incomeForCurrentDate = incomes.firstWhere(
+        (income) => income.date.day == currentDate.day,
+        orElse: () => DailyIncome(
+          date: currentDate,
+          total: 0,
+          branch: '',
+          createdAt: DateTime.now(),
+          modifiedAt: DateTime.now(),
+          paymentMethods: {},
+          shortage: 0,
+          surplus: 0,
+        ),
+      );
+      dailyIncomesForMonth.add(incomeForCurrentDate);
+    }
+    print(dailyIncomesForMonth);
+    return dailyIncomesForMonth;
   }
 
   Future<void> update(DailyIncome income) async {
