@@ -16,13 +16,11 @@ class DailyIncomeChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.info('Building DailyIncomeChart');
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: AppStreamBuilder(
-          stream: _controller.incomes,
-          onData: (incomes) => _buildBarChart(_getSeries()),
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: AppStreamBuilder(
+        stream: _controller.incomes,
+        onData: (incomes) => _buildBarChart(_getSeries()),
       ),
     );
   }

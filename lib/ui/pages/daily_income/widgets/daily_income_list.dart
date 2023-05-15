@@ -16,23 +16,20 @@ class DailyIncomeList extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.info('Building DailyIncomeList');
 
-    return Expanded(
-      child: AppStreamBuilder<List<DailyIncome>>(
-        stream: _controller.incomes,
-        onData: (incomes) {
-          _logger
-              .info('Receive DailyIncomeList with ${incomes.length} incomes');
-          return ListView.builder(
-            itemCount: incomes.length,
-            itemBuilder: (context, index) {
-              final income = incomes[index];
-              _logger
-                  .info('Building DailyIncomeTile for income id: ${income.id}');
-              return DailyIncomeTile(income: income);
-            },
-          );
-        },
-      ),
+    return AppStreamBuilder<List<DailyIncome>>(
+      stream: _controller.incomes,
+      onData: (incomes) {
+        _logger.info('Receive DailyIncomeList with ${incomes.length} incomes');
+        return ListView.builder(
+          itemCount: incomes.length,
+          itemBuilder: (context, index) {
+            final income = incomes[index];
+            _logger
+                .info('Building DailyIncomeTile for income id: ${income.id}');
+            return DailyIncomeTile(income: income);
+          },
+        );
+      },
     );
   }
 }
