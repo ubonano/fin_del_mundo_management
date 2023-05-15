@@ -18,38 +18,41 @@ class DailyIncomeChart extends StatelessWidget {
     _logger.info('Building DailyIncomeChart');
 
     return Expanded(
-      child: AppStreamBuilder(
-        stream: _controller.incomes,
-        onData: (incomes) {
-          List<DailyIncome> dailyIncomesForMonth =
-              _controller.fillDailyIncomesForMonth(incomes);
-
-          List<charts.Series<DailyIncome, String>> series = [
-            charts.Series(
-                id: 'Ingresos Diarios',
-                domainFn: (dailyIncome, _) =>
-                    DateFormat('dd').format(dailyIncome.date),
-                measureFn: (dailyIncome, _) => dailyIncome.total,
-                data: dailyIncomesForMonth,
-                fillColorFn: (dailyIncome, _) =>
-                    charts.MaterialPalette.blue.shadeDefault),
-          ];
-
-          return charts.BarChart(
-            series,
-            animate: true,
-            barGroupingType: charts.BarGroupingType.grouped,
-            domainAxis: const charts.OrdinalAxisSpec(
-              renderSpec: charts.SmallTickRendererSpec(
-                labelStyle: charts.TextStyleSpec(fontSize: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: AppStreamBuilder(
+          stream: _controller.incomes,
+          onData: (incomes) {
+            List<DailyIncome> dailyIncomesForMonth =
+                _controller.fillDailyIncomesForMonth(incomes);
+      
+            List<charts.Series<DailyIncome, String>> series = [
+              charts.Series(
+                  id: 'Ingresos Diarios',
+                  domainFn: (dailyIncome, _) =>
+                      DateFormat('dd').format(dailyIncome.date),
+                  measureFn: (dailyIncome, _) => dailyIncome.total,
+                  data: dailyIncomesForMonth,
+                  fillColorFn: (dailyIncome, _) =>
+                      charts.MaterialPalette.blue.shadeDefault),
+            ];
+      
+            return charts.BarChart(
+              series,
+              animate: true,
+              barGroupingType: charts.BarGroupingType.grouped,
+              domainAxis: const charts.OrdinalAxisSpec(
+                renderSpec: charts.SmallTickRendererSpec(
+                  labelStyle: charts.TextStyleSpec(fontSize: 10),
+                ),
               ),
-            ),
-            behaviors: [
-              charts.SlidingViewport(),
-              charts.PanAndZoomBehavior(),
-            ],
-          );
-        },
+              behaviors: [
+                charts.SlidingViewport(),
+                charts.PanAndZoomBehavior(),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
