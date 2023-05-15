@@ -84,6 +84,15 @@ class DailyIncomeController {
   Future<void> add(DailyIncome income) async {
     _logger.info('Adding income');
     try {
+      List<DailyIncome> existingIncomes = await _repository
+          .getByDateAndBranch(income.date, income.branch)
+          .first;
+
+      if (existingIncomes.isNotEmpty) {
+        _logger.warning('Income for this date and branch already exists');
+        throw Exception('El ingreso diario para esta fecha y sucursal ya existe');
+      }
+
       await _repository.add(
         income.copyWith(
           createdBy: 'notImplemented',
@@ -103,6 +112,15 @@ class DailyIncomeController {
   Future<void> update(DailyIncome income) async {
     _logger.info('Updating income with ID: ${income.id}');
     try {
+      List<DailyIncome> existingIncomes = await _repository
+          .getByDateAndBranch(income.date, income.branch)
+          .first;
+      if (existingIncomes.isNotEmpty && existingIncomes[0].id != income.id) {
+        _logger
+            .warning('Another income for this date and branch already exists');
+        throw Exception(
+            'Another income for this date and branch already exists');
+      }
       await _repository.update(
         income.copyWith(
           modifiedBy: 'notImplemented',
