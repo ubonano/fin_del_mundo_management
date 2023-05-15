@@ -8,6 +8,8 @@ import 'setup/router.dart';
 import 'setup/setup_emulator.dart';
 import 'utils/faker/income_daily_faker.dart';
 
+const bool useEmulator = true;
+
 Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -15,7 +17,7 @@ Future<void> main() async {
   setupServiceLocator();
   // generateIncomes();
 
-  setupEmulator(useEmulator: true);
+  setupEmulator(useEmulator: useEmulator);
 
   runApp(MyApp());
 }
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Fin del Mundo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.purple),
+      theme:
+          ThemeData(primarySwatch: useEmulator ? Colors.amber : Colors.purple),
       routerConfig: _appRouter.config(),
     );
   }
