@@ -62,8 +62,13 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
           _cashField(),
           _cardsField(),
           _mpField(),
-          _surplusField(),
-          _shortageField(),
+          Row(
+            children: [
+              _surplusField(),
+              const SizedBox(width: 20),
+              _shortageField(),
+            ],
+          ),
           _totalField(),
           _submitButton(),
         ],
@@ -192,20 +197,24 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Widget _surplusField() {
-    return AppFormFields.number(
-      labelText: 'Sobrante',
-      controller: _surplusController,
-      onFieldSubmitted: (value) => _submit(),
-      onChanged: (value) => _updateTotal(),
+    return Expanded(
+      child: AppFormFields.number(
+        labelText: 'Sobrante',
+        controller: _surplusController,
+        onFieldSubmitted: (value) => _submit(),
+        onChanged: (value) => _updateTotal(),
+      ),
     );
   }
 
   Widget _shortageField() {
-    return AppFormFields.number(
-      labelText: 'Faltante',
-      controller: _shortageController,
-      onFieldSubmitted: (value) => _submit(),
-      onChanged: (value) => _updateTotal(),
+    return Expanded(
+      child: AppFormFields.number(
+        labelText: 'Faltante',
+        controller: _shortageController,
+        onFieldSubmitted: (value) => _submit(),
+        onChanged: (value) => _updateTotal(),
+      ),
     );
   }
 
