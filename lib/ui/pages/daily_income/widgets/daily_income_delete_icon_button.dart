@@ -22,7 +22,7 @@ class DailyIncomeDeleteIconButton extends StatefulWidget {
 
 class _DailyIncomeDeleteIconButtonState
     extends State<DailyIncomeDeleteIconButton> {
-  final _logger = Logger('DailyIncomeTile');
+  final _logger = Logger('DailyIncomeDeleteIconButton');
   final _controller = getIt<DailyIncomeController>();
   late StackRouter? router;
 

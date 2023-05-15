@@ -6,7 +6,7 @@ import 'widgets/daily_income_form.dart';
 
 @RoutePage()
 class DailyIncomeFormPage extends StatelessWidget {
-  final _logger = Logger('DailyIncomePage');
+  final _logger = Logger('DailyIncomeFormPage');
   final DailyIncome? income;
 
   DailyIncomeFormPage({Key? key, this.income}) : super(key: key);

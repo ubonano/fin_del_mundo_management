@@ -8,7 +8,7 @@ import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
 
 class DailyIncomeChart extends StatelessWidget {
-  final Logger _logger = Logger('DailyIncomeList');
+  final Logger _logger = Logger('DailyIncomeChart');
   final DailyIncomeController _controller = getIt<DailyIncomeController>();
 
   DailyIncomeChart({Key? key}) : super(key: key);
