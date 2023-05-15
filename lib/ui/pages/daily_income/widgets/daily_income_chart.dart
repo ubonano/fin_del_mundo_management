@@ -8,52 +8,54 @@ import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
 
 class DailyIncomeChart extends StatelessWidget {
-  final _logger = Logger('DailyIncomeList');
-  final _controller = getIt<DailyIncomeController>();
+  final Logger _logger = Logger('DailyIncomeList');
+  final DailyIncomeController _controller = getIt<DailyIncomeController>();
 
-  DailyIncomeChart({super.key});
+  DailyIncomeChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     _logger.info('Building DailyIncomeChart');
-
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: AppStreamBuilder(
           stream: _controller.incomes,
-          onData: (incomes) {
-            List<DailyIncome> dailyIncomesForMonth =
-                _controller.fillDailyIncomesForMonth(incomes);
-      
-            List<charts.Series<DailyIncome, String>> series = [
-              charts.Series(
-                  id: 'Ingresos Diarios',
-                  domainFn: (dailyIncome, _) =>
-                      DateFormat('dd').format(dailyIncome.date),
-                  measureFn: (dailyIncome, _) => dailyIncome.total,
-                  data: dailyIncomesForMonth,
-                  fillColorFn: (dailyIncome, _) =>
-                      charts.MaterialPalette.blue.shadeDefault),
-            ];
-      
-            return charts.BarChart(
-              series,
-              animate: true,
-              barGroupingType: charts.BarGroupingType.grouped,
-              domainAxis: const charts.OrdinalAxisSpec(
-                renderSpec: charts.SmallTickRendererSpec(
-                  labelStyle: charts.TextStyleSpec(fontSize: 10),
-                ),
-              ),
-              behaviors: [
-                charts.SlidingViewport(),
-                charts.PanAndZoomBehavior(),
-              ],
-            );
-          },
+          onData: (incomes) => _buildBarChart(_getSeries()),
         ),
       ),
+    );
+  }
+
+  List<charts.Series<DailyIncome, String>> _getSeries() {
+    _logger.info('Gettin series');
+    return [
+      charts.Series(
+        id: 'Ingresos Diarios',
+        domainFn: (dailyIncome, _) => DateFormat('dd').format(dailyIncome.date),
+        measureFn: (dailyIncome, _) => dailyIncome.total,
+        data: _controller.fillDailyIncomesForCurrentMonth(),
+        fillColorFn: (dailyIncome, _) =>
+            charts.MaterialPalette.blue.shadeDefault,
+      ),
+    ];
+  }
+
+  Widget _buildBarChart(List<charts.Series<DailyIncome, String>> series) {
+    _logger.info('Building Chart');
+    return charts.BarChart(
+      series,
+      animate: true,
+      barGroupingType: charts.BarGroupingType.grouped,
+      domainAxis: const charts.OrdinalAxisSpec(
+        renderSpec: charts.SmallTickRendererSpec(
+          labelStyle: charts.TextStyleSpec(fontSize: 10),
+        ),
+      ),
+      behaviors: [
+        charts.SlidingViewport(),
+        charts.PanAndZoomBehavior(),
+      ],
     );
   }
 }

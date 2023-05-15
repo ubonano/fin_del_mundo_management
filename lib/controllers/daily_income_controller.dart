@@ -110,17 +110,18 @@ class DailyIncomeController {
     }
   }
 
-  List<DailyIncome> fillDailyIncomesForMonth(List<DailyIncome> incomes) {
+  List<DailyIncome> fillDailyIncomesForCurrentMonth() {
     final year = int.parse(_selectedYear.value);
     final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
 
     int daysInMonth = DateTime(year, month + 1, 0).day;
 
     List<DailyIncome> dailyIncomesForMonth = [];
+
     for (int i = 1; i <= daysInMonth; i++) {
       DateTime currentDate = DateTime(year, month, i);
 
-      var incomeForCurrentDate = incomes.firstWhere(
+      var incomeForCurrentDate = _incomes.value.firstWhere(
         (income) => income.date.day == currentDate.day,
         orElse: () => DailyIncome(
           date: currentDate,
