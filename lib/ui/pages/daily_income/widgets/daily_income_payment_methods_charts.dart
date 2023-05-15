@@ -44,13 +44,12 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
                     (e) => PieChartSectionData(
                       value: e.value,
                       title:
-                          '${e.key}: \n\$${AppFormaters.getFormattedTotal(e.value)}', // Show total in title
+                          '${e.key}: \n\$${AppFormaters.getFormattedTotal(e.value)}',
                       color: _getColorByMethod(e.key),
                       radius: 60,
-                      showTitle: true, // Show title when hovering
-                      titleStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16), // Style the title as desired
+                      showTitle: true,
+                      titleStyle:
+                          const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   )
                   .toList();
