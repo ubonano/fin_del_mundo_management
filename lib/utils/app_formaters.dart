@@ -6,7 +6,7 @@ extension CapExtension on String {
 
 class AppFormaters {
   static String getFormattedDate(DateTime dateTime) {
-    var formattedDate = DateFormat('EEEE dd-MM-yyyy', 'es_ES').format(dateTime);
+    var formattedDate = DateFormat('EEEE dd', 'es_ES').format(dateTime);
     var day = formattedDate.split(' ')[0].inCaps;
     var date = formattedDate.split(' ').sublist(1).join(' ');
 

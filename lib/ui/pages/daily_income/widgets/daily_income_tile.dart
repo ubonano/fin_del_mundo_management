@@ -33,9 +33,8 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
     _logger.info('Building DailyIncomeTile for income id: ${widget.income.id}');
 
     return ListTile(
-      title: Text(
-          '${AppFormaters.getFormattedDate(widget.income.date)} - \$${AppFormaters.getFormattedTotal(widget.income.total)}'),
-      subtitle: Text(widget.income.branch),
+      title: Text('\$${AppFormaters.getFormattedTotal(widget.income.total)}'),
+      subtitle: Text(AppFormaters.getFormattedDate(widget.income.date)),
       // onTap: () {
       //   _logger.info('Tile pressed for daily income: ${widget.income.id}');
       //   router?.push(DailyIncomeFormRoute(income: widget.income));
