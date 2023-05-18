@@ -18,8 +18,6 @@ class DailyIncomeBranchFilter extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            const Text('Sucursal'),
-            const SizedBox(width: 10),
             AppStreamBuilder<String>(
               stream: _controller.selectedBranch,
               onData: (branch) => _buildDropdownButton(branch),

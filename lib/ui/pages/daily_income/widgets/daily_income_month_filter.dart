@@ -19,8 +19,6 @@ class DailyIncomeMonthFilter extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            const Text('Mes'),
-            const SizedBox(width: 10),
             AppStreamBuilder<String>(
               stream: _controller.selectedMonth,
               onData: (month) => _buildDropdownButton(month),

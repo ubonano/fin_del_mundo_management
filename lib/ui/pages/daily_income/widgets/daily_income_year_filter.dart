@@ -21,8 +21,6 @@ class DailyIncomeYearFilter extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            const Text('Año'),
-            const SizedBox(width: 10),
             _buildDropdown(),
           ],
         ),

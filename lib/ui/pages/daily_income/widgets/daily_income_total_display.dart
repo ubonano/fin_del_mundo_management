@@ -20,7 +20,7 @@ class DailyIncomeTotalDisplay extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: AppStreamBuilder<List<DailyIncome>>(
         stream: _controller.incomes,
-        onData: (incomes) => Text('Total: \$${_calculateTotalIncome(incomes)}'),
+        onData: (incomes) => Text('\$${_calculateTotalIncome(incomes)}'),
       ),
     );
   }
