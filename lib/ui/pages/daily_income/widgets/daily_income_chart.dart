@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
 import 'package:fin_del_mundo_management/ui/widgets/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,11 +17,22 @@ class DailyIncomeChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.info('Building DailyIncomeChart');
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: AppStreamBuilder(
-        stream: _controller.incomes,
-        onData: (incomes) => _buildBarChart(_getSeries()),
+    return AppBackgound(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Ingresos diarios',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: AppStreamBuilder(
+              stream: _controller.incomes,
+              onData: (incomes) => _buildBarChart(_getSeries()),
+            ),
+          ),
+        ],
       ),
     );
   }

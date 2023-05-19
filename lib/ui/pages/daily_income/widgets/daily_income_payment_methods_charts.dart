@@ -1,3 +1,4 @@
+import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:logging/logging.dart';
@@ -18,56 +19,67 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.info('Building PaymentMethodsPieChart');
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: AppStreamBuilder<List<DailyIncome>>(
-        stream: _controller.incomes,
-        onData: (incomes) {
-          Map<String, double> paymentMethodsTotals = {};
+    return AppBackgound(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Medios de pago',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: AppStreamBuilder<List<DailyIncome>>(
+              stream: _controller.incomes,
+              onData: (incomes) {
+                Map<String, double> paymentMethodsTotals = {};
 
-          for (var income in incomes) {
-            income.paymentMethods.forEach(
-              (method, total) {
-                method = _getLabelByMethod(method);
-                paymentMethodsTotals.update(
-                  method,
-                  (value) => value + total,
-                  ifAbsent: () => total,
+                for (var income in incomes) {
+                  income.paymentMethods.forEach(
+                    (method, total) {
+                      method = _getLabelByMethod(method);
+                      paymentMethodsTotals.update(
+                        method,
+                        (value) => value + total,
+                        ifAbsent: () => total,
+                      );
+                    },
+                  );
+                }
+
+                List<PieChartSectionData> pieChartSectionDataList =
+                    paymentMethodsTotals.entries
+                        .map(
+                          (e) => PieChartSectionData(
+                            value: e.value,
+                            title:
+                                '${e.key}: \n\$${AppFormaters.getFormattedTotal(e.value)}',
+                            color: _getColorByMethod(e.key),
+                            radius: 60,
+                            showTitle: true,
+                            titleStyle: const TextStyle(
+                                color: Colors.black, fontSize: 16),
+                          ),
+                        )
+                        .toList();
+
+                return PieChart(
+                  PieChartData(
+                    sections: pieChartSectionDataList,
+                    pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent touchEvent,
+                          PieTouchResponse? touchResponse) {
+                        if (touchEvent is FlLongPressEnd) {
+                          // Handle touch events here
+                        }
+                      },
+                    ),
+                  ),
                 );
               },
-            );
-          }
-
-          List<PieChartSectionData> pieChartSectionDataList =
-              paymentMethodsTotals.entries
-                  .map(
-                    (e) => PieChartSectionData(
-                      value: e.value,
-                      title:
-                          '${e.key}: \n\$${AppFormaters.getFormattedTotal(e.value)}',
-                      color: _getColorByMethod(e.key),
-                      radius: 60,
-                      showTitle: true,
-                      titleStyle:
-                          const TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                  )
-                  .toList();
-
-          return PieChart(
-            PieChartData(
-              sections: pieChartSectionDataList,
-              pieTouchData: PieTouchData(
-                touchCallback:
-                    (FlTouchEvent touchEvent, PieTouchResponse? touchResponse) {
-                  if (touchEvent is FlLongPressEnd) {
-                    // Handle touch events here
-                  }
-                },
-              ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -45,7 +45,10 @@ class DailyIncomePage extends StatelessWidget {
                   flex: 1,
                   child: Column(
                     children: [
-                      Expanded(flex: 1, child: DailyIncomeChart()),
+                      Expanded(
+                        flex: 1,
+                        child: DailyIncomeChart(),
+                      ),
                       Expanded(
                         flex: 1,
                         child: DailyIncomePaymentMethodsPieChart(),
@@ -59,19 +62,20 @@ class DailyIncomePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: Text(
-                            'Total de ingresos',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        const Text(
+                          'Total de ingresos',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 15.0, bottom: 30, left: 15, right: 15),
+                            top: 15.0,
+                            bottom: 30,
+                            left: 15,
+                            right: 15,
+                          ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
