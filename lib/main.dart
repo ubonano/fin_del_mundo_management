@@ -32,8 +32,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Fin del Mundo',
       debugShowCheckedModeBanner: false,
-      theme:
-          ThemeData(primarySwatch: useEmulator ? Colors.amber : Colors.purple),
+      theme: ThemeData(
+        primarySwatch: useEmulator ? Colors.amber : Colors.purple,
+        scaffoldBackgroundColor: const Color(0xffF2EFFA),
+      ),
       routerConfig: _appRouter.config(),
     );
   }
