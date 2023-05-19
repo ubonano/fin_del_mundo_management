@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
-import 'daily_income_tile.dart';
+import 'daily_income_tile/daily_income_tile.dart';
 
 class DailyIncomeList extends StatelessWidget {
   final _logger = Logger('DailyIncomeList');
