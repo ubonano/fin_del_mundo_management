@@ -16,11 +16,15 @@ class DailyIncomeTotalDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.info('Building DailyIncomeTotalDisplay');
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: AppStreamBuilder<List<DailyIncome>>(
-        stream: _controller.incomes,
-        onData: (incomes) => Text('\$${_calculateTotalIncome(incomes)}'),
+    return AppStreamBuilder<List<DailyIncome>>(
+      stream: _controller.incomes,
+      onData: (incomes) => Text(
+        '\$${_calculateTotalIncome(incomes)}',
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff8278A1),
+        ),
       ),
     );
   }

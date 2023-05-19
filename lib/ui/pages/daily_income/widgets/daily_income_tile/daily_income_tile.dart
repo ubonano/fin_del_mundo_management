@@ -45,7 +45,8 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: DailyIncomeInfo(income: widget.income)),
+          DailyIncomeInfo(income: widget.income),
+          const Spacer(),
           PaymentMethodsWidgets(income: widget.income),
           AppActionsButton(
             onEdit: _onSelectEdit,

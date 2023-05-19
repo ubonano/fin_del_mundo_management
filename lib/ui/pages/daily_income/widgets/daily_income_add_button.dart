@@ -11,9 +11,17 @@ class DailyIncomeAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.info('Building DailyIncomeAddButton');
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
+    return ElevatedButton.icon(
       onPressed: () => _navigateToIncomeForm(context),
+      icon: const Icon(Icons.add, color: Colors.white, size: 18),
+      label: const Text(
+        'Nuevo ingreso',
+        style: TextStyle(color: Colors.white, fontSize: 14),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff5E27FA),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      ),
     );
   }
 

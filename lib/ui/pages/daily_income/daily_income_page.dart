@@ -34,7 +34,6 @@ class DailyIncomePage extends StatelessWidget {
                 DailyIncomeBranchFilter(),
                 DailyIncomeMonthFilter(),
                 DailyIncomeYearFilter(),
-                DailyIncomeTotalDisplay(),
               ],
             ),
           ),
@@ -56,14 +55,42 @@ class DailyIncomePage extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: AppBackgound(child: DailyIncomeList()),
+                  child: AppBackgound(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Text(
+                            'Total de ingresos',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 15.0, bottom: 30, left: 15, right: 15),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              DailyIncomeTotalDisplay(),
+                              const Spacer(),
+                              DailyIncomeAddButton(),
+                            ],
+                          ),
+                        ),
+                        Expanded(child: DailyIncomeList()),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ],
       ),
-      floatingActionButton: DailyIncomeAddButton(),
     );
   }
 }

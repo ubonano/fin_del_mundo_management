@@ -7,16 +7,14 @@ class AppBackgound extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.only(top: 25, bottom: 25, left: 25, right: 25),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: child,
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(top: 25, bottom: 25, left: 25, right: 25),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
       ),
+      child: child,
     );
   }
 }
