@@ -5,6 +5,7 @@ import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_inc
 import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_year_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import '../../widgets/app_background.dart';
 import 'widgets/daily_income_branch_filter.dart';
 import 'widgets/daily_income_add_button.dart';
 import 'widgets/daily_income_list.dart';
@@ -53,7 +54,10 @@ class DailyIncomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(flex: 1, child: DailyIncomeList()),
+                Expanded(
+                  flex: 1,
+                  child: AppBackgound(child: DailyIncomeList()),
+                ),
               ],
             ),
           ),
