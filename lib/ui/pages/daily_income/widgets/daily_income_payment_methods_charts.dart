@@ -8,6 +8,7 @@ import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../../utils/app_formaters.dart';
 import '../../../widgets/app_stream_builder.dart';
+import 'daily_income_payment_methods_chart.dart/payment_method_details.dart';
 
 class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   final Logger _logger = Logger('PaymentMethodsPieChart');
@@ -47,34 +48,33 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
                   );
                 }
 
-                List<PieChartSectionData> pieChartSectionDataList =
-                    paymentMethodsTotals.entries
-                        .map(
-                          (e) => PieChartSectionData(
-                            value: e.value,
-                            title:
-                                '${e.key}: \n\$${AppFormaters.getFormattedTotal(e.value)}',
-                            color: _getColorByMethod(e.key),
-                            radius: 60,
-                            showTitle: true,
-                            titleStyle: const TextStyle(
-                                color: Colors.black, fontSize: 16),
+                return Row(
+                  children: [
+                    Expanded(
+                      child: PieChart(
+                        PieChartData(
+                          sections:
+                              _buildPieChartSections(paymentMethodsTotals),
+                          pieTouchData: PieTouchData(
+                            touchCallback: (FlTouchEvent touchEvent,
+                                PieTouchResponse? touchResponse) {
+                              if (touchEvent is FlLongPressEnd) {
+                                // Handle touch events here
+                              }
+                            },
                           ),
-                        )
-                        .toList();
-
-                return PieChart(
-                  PieChartData(
-                    sections: pieChartSectionDataList,
-                    pieTouchData: PieTouchData(
-                      touchCallback: (FlTouchEvent touchEvent,
-                          PieTouchResponse? touchResponse) {
-                        if (touchEvent is FlLongPressEnd) {
-                          // Handle touch events here
-                        }
-                      },
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children:
+                            _buildPaymentMethodDetails(paymentMethodsTotals),
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
@@ -85,28 +85,52 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   }
 
   Color _getColorByMethod(String method) {
-    switch (method) {
-      case 'Efectivo':
-        return Colors.green;
-      case 'Tarjetas':
-        return Colors.orange;
-      case 'Mercado Pago':
-        return Colors.lightBlue;
-      default:
-        return Colors.grey;
-    }
+    Map<String, Color> methodsColors = {
+      'Efectivo': Colors.green,
+      'Tarjetas': Colors.orange,
+      'Mercado Pago': Colors.lightBlue,
+      'paymentMethodNotImplemented*': Colors.grey,
+    };
+
+    return methodsColors[method] ?? Colors.grey;
   }
 
   String _getLabelByMethod(String method) {
-    switch (method) {
-      case 'cash':
-        return 'Efectivo';
-      case 'cards':
-        return 'Tarjetas';
-      case 'mercadoPago':
-        return 'Mercado Pago';
-      default:
-        return 'paymentMethodNotImplemented*';
-    }
+    Map<String, String> methodsLabels = {
+      'cash': 'Efectivo',
+      'cards': 'Tarjetas',
+      'mercadoPago': 'Mercado Pago',
+    };
+
+    return methodsLabels[method] ?? 'paymentMethodNotImplemented*';
+  }
+
+  List<PieChartSectionData> _buildPieChartSections(
+      Map<String, double> paymentMethodsTotals) {
+    return paymentMethodsTotals.entries
+        .map(
+          (e) => PieChartSectionData(
+            value: e.value,
+            color: _getColorByMethod(e.key),
+            radius: 60,
+            showTitle: false,
+          ),
+        )
+        .toList();
+  }
+
+  List<Widget> _buildPaymentMethodDetails(
+      Map<String, double> paymentMethodsTotals) {
+    double total = paymentMethodsTotals.values.fold(0, (a, b) => a + b);
+
+    return paymentMethodsTotals.entries.map((e) {
+      double percentage = (e.value / total) * 100;
+      return PaymentMethodDetails(
+        color: _getColorByMethod(e.key),
+        method: e.key,
+        percentage: percentage,
+        total: AppFormaters.getFormattedTotal(e.value),
+      );
+    }).toList();
   }
 }

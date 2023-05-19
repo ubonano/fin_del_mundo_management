@@ -14,7 +14,7 @@ class AppFormaters {
   }
 
   static String getFormattedTotal(dynamic total) {
-    final formatter = NumberFormat('#,###.00', 'es_AR');
+    final formatter = NumberFormat('#,###', 'es_AR');
     return formatter.format(total);
   }
 }
