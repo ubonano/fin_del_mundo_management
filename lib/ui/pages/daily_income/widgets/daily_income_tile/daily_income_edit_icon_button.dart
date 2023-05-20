@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import '../../../../models/daily_income.dart';
-import '../../../../setup/router.gr.dart';
+import '../../../../../models/daily_income.dart';
+import '../../../../../setup/router.gr.dart';
 
 class DailyIncomeEditIconButton extends StatefulWidget {
   final DailyIncome income;
