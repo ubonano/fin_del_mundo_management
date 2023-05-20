@@ -4,9 +4,9 @@ import 'package:fin_del_mundo_management/ui/widgets/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-import '../../../../controllers/daily_income_controller.dart';
-import '../../../../models/daily_income.dart';
-import '../../../../setup/get_it_setup.dart';
+import '../../../../../controllers/daily_income_controller.dart';
+import '../../../../../models/daily_income.dart';
+import '../../../../../setup/get_it_setup.dart';
 
 class DailyIncomeChart extends StatelessWidget {
   final Logger _logger = Logger('DailyIncomeChart');
