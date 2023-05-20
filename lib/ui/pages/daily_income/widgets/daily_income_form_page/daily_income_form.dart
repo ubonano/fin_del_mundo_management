@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 import '../../../../../controllers/daily_income_controller.dart';
 import '../../../../../models/daily_income.dart';
 import '../../../../../setup/get_it_setup.dart';
-import '../../../../widgets/app_form_fields.dart';
+import '../../../../widgets/app_form_field.dart';
 import 'daily_income_branch_field.dart';
 
 class DailyIncomeForm extends StatefulWidget {
@@ -145,7 +145,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   Widget _dateField() {
     return Expanded(
-      child: AppFormFields.date(
+      child: AppFormField.date(
         labelText: 'Fecha',
         required: true,
         controller: _dateController,
@@ -167,7 +167,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Widget _cashField() {
-    return AppFormFields.number(
+    return AppFormField.number(
       labelText: 'Efectivo',
       required: true,
       controller: _cashController,
@@ -177,7 +177,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Widget _cardsField() {
-    return AppFormFields.number(
+    return AppFormField.number(
       labelText: 'Tarjetas',
       required: true,
       controller: _cardsController,
@@ -187,7 +187,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Widget _mpField() {
-    return AppFormFields.number(
+    return AppFormField.number(
       labelText: 'Mercado Pago',
       required: true,
       controller: _mercadoPagoController,
@@ -198,7 +198,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   Widget _surplusField() {
     return Expanded(
-      child: AppFormFields.number(
+      child: AppFormField.number(
         labelText: 'Sobrante',
         controller: _surplusController,
         onFieldSubmitted: (value) => _submit(),
@@ -209,7 +209,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   Widget _shortageField() {
     return Expanded(
-      child: AppFormFields.number(
+      child: AppFormField.number(
         labelText: 'Faltante',
         controller: _shortageController,
         onFieldSubmitted: (value) => _submit(),
@@ -221,7 +221,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   Widget _totalField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40),
-      child: AppFormFields.number(
+      child: AppFormField.number(
         labelText: 'Total',
         enabled: false, // make it read-only
         controller: _totalController,

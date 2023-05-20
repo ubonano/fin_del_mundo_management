@@ -1,8 +1,6 @@
 import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:logging/logging.dart';
-
 import '../../../../../controllers/daily_income_controller.dart';
 import '../../../../../models/daily_income.dart';
 import '../../../../../setup/get_it_setup.dart';
@@ -11,15 +9,12 @@ import '../../../../widgets/app_stream_builder.dart';
 import 'payment_method_details.dart';
 
 class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
-  final Logger _logger = Logger('PaymentMethodsPieChart');
   final _controller = getIt<DailyIncomeController>();
 
   DailyIncomePaymentMethodsPieChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    _logger.info('Building PaymentMethodsPieChart');
-
     return AppBackgound(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

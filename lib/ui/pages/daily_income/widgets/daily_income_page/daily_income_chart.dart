@@ -3,20 +3,17 @@ import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
 import 'package:fin_del_mundo_management/ui/widgets/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logging/logging.dart';
 import '../../../../../controllers/daily_income_controller.dart';
 import '../../../../../models/daily_income.dart';
 import '../../../../../setup/get_it_setup.dart';
 
 class DailyIncomeChart extends StatelessWidget {
-  final Logger _logger = Logger('DailyIncomeChart');
   final DailyIncomeController _controller = getIt<DailyIncomeController>();
 
   DailyIncomeChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    _logger.info('Building DailyIncomeChart');
     return AppBackgound(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +35,6 @@ class DailyIncomeChart extends StatelessWidget {
   }
 
   List<charts.Series<DailyIncome, String>> _getSeries() {
-    _logger.info('Gettin series');
     return [
       charts.Series(
         id: 'Ingresos Diarios',
@@ -52,7 +48,6 @@ class DailyIncomeChart extends StatelessWidget {
   }
 
   Widget _buildBarChart(List<charts.Series<DailyIncome, String>> series) {
-    _logger.info('Building Chart');
     return charts.BarChart(
       series,
       animate: true,

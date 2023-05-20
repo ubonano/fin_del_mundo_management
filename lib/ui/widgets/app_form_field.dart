@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/app_validators.dart';
 
-class AppFormFields {
+class AppFormField {
   static Widget text({
     required TextEditingController controller,
     required String labelText,
