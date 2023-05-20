@@ -6,7 +6,7 @@ import '../../../../../controllers/daily_income_controller.dart';
 import '../../../../../models/daily_income.dart';
 import '../../../../../setup/get_it_setup.dart';
 import '../../../../widgets/app_form_fields.dart';
-import '../daily_income_page/daily_income_branch_field.dart';
+import 'daily_income_branch_field.dart';
 
 class DailyIncomeForm extends StatefulWidget {
   final DailyIncome? income;
