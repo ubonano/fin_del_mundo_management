@@ -19,6 +19,14 @@ class DailyIncomePage extends StatelessWidget {
 
   late final StackRouter? router;
 
+  Widget _buildFilterContainer(Widget child) {
+    return AppBackgound(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      margin: const EdgeInsets.only(left: 25, top: 25),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _logger.info('DailyIncomePage: Building DailyIncomePage');
@@ -31,24 +39,9 @@ class DailyIncomePage extends StatelessWidget {
             flex: 1,
             child: Row(
               children: [
-                AppBackgound(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  margin: const EdgeInsets.only(left: 25, top: 25),
-                  child: DailyIncomeBranchFilter(),
-                ),
-                AppBackgound(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  margin: const EdgeInsets.only(left: 25, top: 25),
-                  child: DailyIncomeMonthFilter(),
-                ),
-                AppBackgound(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  margin: const EdgeInsets.only(left: 25, top: 25),
-                  child: DailyIncomeYearFilter(),
-                ),
+                _buildFilterContainer(DailyIncomeBranchFilter()),
+                _buildFilterContainer(DailyIncomeMonthFilter()),
+                _buildFilterContainer(DailyIncomeYearFilter()),
               ],
             ),
           ),
@@ -85,12 +78,8 @@ class DailyIncomePage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                            top: 15.0,
-                            bottom: 30,
-                            left: 15,
-                            right: 15,
-                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 22.5),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
