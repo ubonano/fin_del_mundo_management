@@ -19,14 +19,6 @@ class DailyIncomePage extends StatelessWidget {
 
   late final StackRouter? router;
 
-  Widget _buildFilterContainer(Widget child) {
-    return AppBackgound(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-      margin: const EdgeInsets.only(left: 25, top: 25),
-      child: child,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     _logger.info('DailyIncomePage: Building DailyIncomePage');
@@ -99,6 +91,14 @@ class DailyIncomePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFilterContainer(Widget child) {
+    return AppBackgound(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      margin: const EdgeInsets.only(left: 25, top: 25),
+      child: child,
     );
   }
 }
