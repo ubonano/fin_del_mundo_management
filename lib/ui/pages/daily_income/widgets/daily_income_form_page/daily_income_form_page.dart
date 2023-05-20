@@ -22,7 +22,7 @@ class DailyIncomeFormPage extends StatelessWidget {
             : 'Actualizar ingreso diario'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 400, vertical: 80),
+        padding: const EdgeInsets.symmetric(horizontal: 400, vertical: 70),
         child: AppBackgound(child: DailyIncomeForm(income: income)),
       ),
     );
