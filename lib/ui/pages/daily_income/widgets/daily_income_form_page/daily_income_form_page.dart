@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import '../../../../../../models/daily_income.dart';
@@ -20,7 +21,10 @@ class DailyIncomeFormPage extends StatelessWidget {
             ? 'Registrar ingreso diario'
             : 'Actualizar ingreso diario'),
       ),
-      body: DailyIncomeForm(income: income),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 400, vertical: 80),
+        child: AppBackgound(child: DailyIncomeForm(income: income)),
+      ),
     );
   }
 }
