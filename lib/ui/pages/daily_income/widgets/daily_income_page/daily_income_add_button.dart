@@ -1,18 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import '../../../../../setup/router.gr.dart';
 
 class DailyIncomeAddButton extends StatelessWidget {
-  DailyIncomeAddButton({Key? key}) : super(key: key);
-
-  final _logger = Logger('DailyIncomeAddButton');
+  const DailyIncomeAddButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    _logger.info('Building DailyIncomeAddButton');
+    final router = AutoRouter.of(context);
+
     return ElevatedButton.icon(
-      onPressed: () => _navigateToIncomeForm(context),
+      onPressed: () => router.push(DailyIncomeFormRoute()),
       icon: const Icon(Icons.add, color: Colors.white, size: 18),
       label: const Text(
         'Nuevo ingreso',
@@ -23,11 +21,5 @@ class DailyIncomeAddButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
     );
-  }
-
-  void _navigateToIncomeForm(BuildContext context) {
-    _logger.info('Navigating to DailyIncomeFormRoute');
-    final router = AutoRouter.of(context);
-    router.push(DailyIncomeFormRoute());
   }
 }
