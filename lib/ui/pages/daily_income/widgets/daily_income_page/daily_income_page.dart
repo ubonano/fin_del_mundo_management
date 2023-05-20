@@ -31,14 +31,29 @@ class DailyIncomePage extends StatelessWidget {
             flex: 1,
             child: Row(
               children: [
-                DailyIncomeBranchFilter(),
-                DailyIncomeMonthFilter(),
-                DailyIncomeYearFilter(),
+                AppBackgound(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  margin: const EdgeInsets.only(left: 25, top: 25),
+                  child: DailyIncomeBranchFilter(),
+                ),
+                AppBackgound(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  margin: const EdgeInsets.only(left: 25, top: 25),
+                  child: DailyIncomeMonthFilter(),
+                ),
+                AppBackgound(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  margin: const EdgeInsets.only(left: 25, top: 25),
+                  child: DailyIncomeYearFilter(),
+                ),
               ],
             ),
           ),
           Expanded(
-            flex: 9,
+            flex: 10,
             child: Row(
               children: [
                 Expanded(
