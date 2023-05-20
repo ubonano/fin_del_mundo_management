@@ -15,17 +15,12 @@ class DailyIncomeInfo extends StatelessWidget {
       children: [
         Text(
           '\$${AppFormaters.getFormattedTotal(income.total)}',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
         ),
         const SizedBox(height: 5),
         Text(
           AppFormaters.getFormattedDate(income.date),
-          style: const TextStyle(
-            fontSize: 10.0,
-          ),
+          style: const TextStyle(fontSize: 10.0),
         ),
       ],
     );

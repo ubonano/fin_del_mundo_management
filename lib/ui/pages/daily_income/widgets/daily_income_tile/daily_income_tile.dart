@@ -10,7 +10,7 @@ import '../../../../../setup/router.gr.dart';
 import '../../../../widgets/app_actions_buttons.dart';
 import '../../../../widgets/app_dialog_confirm.dart';
 import 'daily_income_info.dart';
-import 'payment_methods_widget.dart';
+import 'daily_income_payment_methods_widget.dart';
 
 class DailyIncomeTile extends StatefulWidget {
   final DailyIncome income;
@@ -31,7 +31,6 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
   void initState() {
     initializeDateFormatting('es_ES', null);
     super.initState();
-    _logger.info('DailyIncomeTile created for income id: ${widget.income.id}');
   }
 
   @override
@@ -41,60 +40,54 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       margin: const EdgeInsets.all(8),
-      decoration: _buildContainerDecoration(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          DailyIncomeInfo(income: widget.income),
-          const Spacer(),
-          PaymentMethodsWidgets(income: widget.income),
-          AppActionsButton(
-            onEdit: _onSelectEdit,
-            onDelete: _onSelectDelete,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 0.45,
+            blurRadius: 6,
           ),
         ],
       ),
+      child: _buildTile(),
     );
   }
 
-  BoxDecoration _buildContainerDecoration() {
-    return BoxDecoration(
-      color: Colors.white,
-      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
-          spreadRadius: 0.45,
-          blurRadius: 6,
+  Widget _buildTile() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        DailyIncomeInfo(income: widget.income),
+        const Spacer(),
+        DailyIncomePaymentMethodsWidgets(income: widget.income),
+        AppActionsButton(
+          onEdit: _onSelectEdit,
+          onDelete: _onSelectDelete,
         ),
       ],
     );
   }
 
   void _onSelectEdit() {
-    _logger
-        .info('Edit button pressed for daily income:    ${widget.income.id}');
     router?.push(DailyIncomeFormRoute(income: widget.income));
   }
 
-  void _deleteIncome() {
-    _logger.info('Deleting daily income: ${widget.income.id}');
-    try {
-      _controller.delete(widget.income);
-      router?.pop();
-      _logger.info('Daily income deleted successfully');
-    } catch (e) {
-      _logger.severe('Error deleting daily income: ${e.toString()}');
-      _showSnackbar('An error occurred');
-    }
-  }
-
   void _onSelectDelete() {
-    _logger.info('Delete button pressed for daily income: ${widget.income.id}');
     AppDialogConfirm.showDeleteDialyIncome(
       context,
       onPressed: () => _deleteIncome(),
     );
+  }
+
+  void _deleteIncome() {
+    try {
+      _controller.delete(widget.income);
+      router?.pop();
+    } catch (e) {
+      _showSnackbar('Ocurrio un error...');
+    }
   }
 
   void _showSnackbar(String message) {
