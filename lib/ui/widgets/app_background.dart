@@ -31,3 +31,16 @@ class AppBackgound extends StatelessWidget {
     );
   }
 }
+
+class AppBackgroundTitle extends StatelessWidget {
+  final String title;
+  const AppBackgroundTitle({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    );
+  }
+}

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../../controllers/daily_income_controller.dart';
-import '../../../../../../models/daily_income.dart';
-import '../../../../../../setup/get_it_setup.dart';
-import '../../../../../../utils/app_formaters.dart';
-import '../../../../../widgets/app_stream_builder.dart';
+import '../../../../../../../../controllers/daily_income_controller.dart';
+import '../../../../../../../../models/daily_income.dart';
+import '../../../../../../../../setup/get_it_setup.dart';
+import '../../../../../../../../utils/app_formaters.dart';
+import '../../../../../../../widgets/app_stream_builder.dart';
 
 class DailyIncomeTotalDisplay extends StatelessWidget {
   final _controller = getIt<DailyIncomeController>();

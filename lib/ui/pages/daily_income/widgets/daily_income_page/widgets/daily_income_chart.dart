@@ -19,10 +19,7 @@ class DailyIncomeChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Ingresos diarios',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          const AppBackgroundTitle(title: 'Ingresos diarios'),
           const SizedBox(height: 12),
           Expanded(
             child: AppStreamBuilder(
