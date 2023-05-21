@@ -19,7 +19,7 @@ class DailyIncomeForm extends StatefulWidget {
 
 class _DailyIncomeFormState extends State<DailyIncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _logger = Logger('DailyIncomeForm');
+
   late StackRouter? router;
   final _controller = getIt<DailyIncomeController>();
 
@@ -44,7 +44,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   @override
   Widget build(BuildContext context) {
-    _logger.info('Building DailyIncomeForm');
     router = AutoRouter.of(context);
 
     return Form(
@@ -92,8 +91,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   }
 
   Future<void> _submit() async {
-    _logger.info('Submitting form');
-
     if (_formKey.currentState!.validate()) {
       try {
         final income = DailyIncome(
@@ -120,11 +117,8 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
           _showSnackbar('Ingreso diario actualizado');
         }
 
-        _logger.info('Form submitted successfully');
-
         router?.pop();
       } catch (e) {
-        _logger.severe('Error occurred while submitting form', e);
         _showSnackbar('Ocurrio un error: $e');
       }
     }
@@ -223,7 +217,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       padding: const EdgeInsets.symmetric(vertical: 40),
       child: AppFormField.number(
         labelText: 'Total',
-        enabled: false, // make it read-only
+        enabled: false,
         controller: _totalController,
       ),
     );
@@ -231,8 +225,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   @override
   void dispose() {
-    _logger.info('Disposing DailyIncomeForm');
-
     _dateController.dispose();
     _cashController.dispose();
     _cardsController.dispose();
