@@ -4,6 +4,7 @@ class AppBackgound extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
   final EdgeInsets margin;
+  final double? width, height;
 
   const AppBackgound({
     super.key,
@@ -11,6 +12,8 @@ class AppBackgound extends StatelessWidget {
     this.padding = const EdgeInsets.all(20),
     this.margin =
         const EdgeInsets.only(top: 25, bottom: 25, left: 25, right: 25),
+    this.width,
+    this.height,
   });
 
   @override
@@ -18,6 +21,8 @@ class AppBackgound extends StatelessWidget {
     return Container(
       padding: padding,
       margin: margin,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),

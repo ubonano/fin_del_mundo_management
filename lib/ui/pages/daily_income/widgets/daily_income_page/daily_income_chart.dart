@@ -15,6 +15,7 @@ class DailyIncomeChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBackgound(
+      height: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

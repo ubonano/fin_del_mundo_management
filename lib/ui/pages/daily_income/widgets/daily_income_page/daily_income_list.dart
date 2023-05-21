@@ -12,15 +12,17 @@ class DailyIncomeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppStreamBuilder<List<DailyIncome>>(
-      stream: _controller.incomes,
-      onData: (incomes) {
-        return ListView.builder(
-          itemCount: incomes.length,
-          itemBuilder: (context, index) =>
-              DailyIncomeTile(income: incomes[index]),
-        );
-      },
+    return Expanded(
+      child: AppStreamBuilder<List<DailyIncome>>(
+        stream: _controller.incomes,
+        onData: (incomes) {
+          return ListView.builder(
+            itemCount: incomes.length,
+            itemBuilder: (context, index) =>
+                DailyIncomeTile(income: incomes[index]),
+          );
+        },
+      ),
     );
   }
 }

@@ -16,6 +16,7 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBackgound(
+      height: 250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
