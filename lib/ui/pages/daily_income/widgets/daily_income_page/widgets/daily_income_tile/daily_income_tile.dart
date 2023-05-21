@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 
-import '../../../../../controllers/daily_income_controller.dart';
-import '../../../../../models/daily_income.dart';
-import '../../../../../setup/get_it_setup.dart';
-import '../../../../../setup/router.gr.dart';
-import '../../../../widgets/app_actions_buttons.dart';
-import '../../../../widgets/app_dialog_confirm.dart';
+import '../../../../../../../controllers/daily_income_controller.dart';
+import '../../../../../../../models/daily_income.dart';
+import '../../../../../../../setup/get_it_setup.dart';
+import '../../../../../../../setup/router.gr.dart';
+import '../../../../../../widgets/app_actions_buttons.dart';
+import '../../../../../../widgets/app_dialog_confirm.dart';
 import 'daily_income_info.dart';
 import 'daily_income_payment_methods_widget.dart';
 

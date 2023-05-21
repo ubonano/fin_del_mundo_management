@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../widgets/app_background.dart';
+import '../../../../../widgets/app_background.dart';
 
 import 'daily_income_add_button.dart';
 import 'daily_income_list.dart';
