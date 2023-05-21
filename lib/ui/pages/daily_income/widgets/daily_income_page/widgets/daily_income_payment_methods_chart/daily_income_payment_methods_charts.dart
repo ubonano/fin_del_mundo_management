@@ -6,7 +6,7 @@ import '../../../../../../../models/daily_income.dart';
 import '../../../../../../../setup/get_it_setup.dart';
 import '../../../../../../../utils/app_formaters.dart';
 import '../../../../../../widgets/app_stream_builder.dart';
-import 'payment_method_details.dart';
+import 'widgets/daily_income_payment_method_details.dart';
 
 class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   final _controller = getIt<DailyIncomeController>();
@@ -121,7 +121,7 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
 
     return paymentMethodsTotals.entries.map((e) {
       double percentage = (e.value / total) * 100;
-      return PaymentMethodDetails(
+      return DailyIncomePaymentMethodDetails(
         color: _getColorByMethod(e.key),
         method: e.key,
         percentage: percentage,

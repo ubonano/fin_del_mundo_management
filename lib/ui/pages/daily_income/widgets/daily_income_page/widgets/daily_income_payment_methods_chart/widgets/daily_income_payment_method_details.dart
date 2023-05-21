@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class PaymentMethodDetails extends StatelessWidget {
+class DailyIncomePaymentMethodDetails extends StatelessWidget {
   final Color color;
   final String method;
   final double percentage;
   final String total;
 
-  const PaymentMethodDetails({
+  const DailyIncomePaymentMethodDetails({
     super.key,
     required this.color,
     required this.method,
