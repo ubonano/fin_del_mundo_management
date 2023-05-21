@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../../../setup/router.gr.dart';
+import '../../../../../../setup/router.gr.dart';
 
 class DailyIncomeAddButton extends StatelessWidget {
   const DailyIncomeAddButton({Key? key}) : super(key: key);

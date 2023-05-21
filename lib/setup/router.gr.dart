@@ -10,9 +10,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i3;
 import 'package:fin_del_mundo_management/models/daily_income.dart' as _i5;
-import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_form_page/daily_income_form_page.dart'
+import 'package:fin_del_mundo_management/ui/daily_income/daily_income_form_page/daily_income_form_page.dart'
     as _i1;
-import 'package:fin_del_mundo_management/ui/pages/daily_income/widgets/daily_income_page/daily_income_page.dart'
+import 'package:fin_del_mundo_management/ui/daily_income/daily_income_page/daily_income_page.dart'
     as _i2;
 import 'package:flutter/material.dart' as _i4;
 
