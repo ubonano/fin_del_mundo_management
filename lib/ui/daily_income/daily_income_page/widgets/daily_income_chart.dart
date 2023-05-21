@@ -32,19 +32,6 @@ class DailyIncomeChart extends StatelessWidget {
     );
   }
 
-  List<charts.Series<DailyIncome, String>> _getSeries() {
-    return [
-      charts.Series(
-        id: 'Ingresos Diarios',
-        domainFn: (dailyIncome, _) => DateFormat('dd').format(dailyIncome.date),
-        measureFn: (dailyIncome, _) => dailyIncome.total,
-        data: _controller.fillDailyIncomesForCurrentMonth(),
-        fillColorFn: (dailyIncome, _) =>
-            charts.MaterialPalette.blue.shadeDefault,
-      ),
-    ];
-  }
-
   Widget _buildBarChart(List<charts.Series<DailyIncome, String>> series) {
     return charts.BarChart(
       series,
@@ -60,5 +47,18 @@ class DailyIncomeChart extends StatelessWidget {
         charts.PanAndZoomBehavior(),
       ],
     );
+  }
+
+  List<charts.Series<DailyIncome, String>> _getSeries() {
+    return [
+      charts.Series(
+        id: 'Ingresos Diarios',
+        domainFn: (dailyIncome, _) => DateFormat('dd').format(dailyIncome.date),
+        measureFn: (dailyIncome, _) => dailyIncome.total,
+        data: _controller.fillDailyIncomesForCurrentMonth(),
+        fillColorFn: (dailyIncome, _) =>
+            charts.MaterialPalette.blue.shadeDefault,
+      ),
+    ];
   }
 }

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logging/logging.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';

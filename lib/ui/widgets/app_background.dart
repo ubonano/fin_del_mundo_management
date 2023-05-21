@@ -38,9 +38,12 @@ class AppBackgroundTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

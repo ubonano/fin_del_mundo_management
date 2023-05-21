@@ -2,6 +2,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 import '../models/daily_income.dart';
+import '../models/payment_methods.dart';
 import '../utils/app_date_time.dart';
 import '../utils/interfaces/daily_income_repository.dart';
 
@@ -175,6 +176,24 @@ class DailyIncomeController {
       _logger.severe('Error deleting income with ID: ${income.id}: $e');
       rethrow;
     }
+  }
+
+  Map<PaymentMethod, double> calculatePaymentMethodTotals() {
+    Map<PaymentMethod, double> paymentMethodsTotals = {};
+
+    for (var income in _incomes.value) {
+      income.paymentMethods.forEach(
+        (method, total) {
+          var paymentMethod = PaymentMethod(id: '', name: method);
+          paymentMethodsTotals.update(
+            paymentMethod,
+            (value) => value + total,
+            ifAbsent: () => total,
+          );
+        },
+      );
+    }
+    return paymentMethodsTotals;
   }
 
   void dispose() {

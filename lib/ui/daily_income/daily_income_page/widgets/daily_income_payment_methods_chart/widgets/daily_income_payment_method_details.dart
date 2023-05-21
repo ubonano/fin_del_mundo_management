@@ -1,17 +1,18 @@
+import 'package:fin_del_mundo_management/models/payment_methods.dart';
 import 'package:flutter/material.dart';
 
 class DailyIncomePaymentMethodDetails extends StatelessWidget {
-  final Color color;
-  final String method;
   final double percentage;
   final String total;
+  final PaymentMethod paymentMethod;
 
   const DailyIncomePaymentMethodDetails({
     super.key,
-    required this.color,
-    required this.method,
+    // required this.color,
+    // required this.method,
     required this.percentage,
     required this.total,
+    required this.paymentMethod,
   });
 
   @override
@@ -19,11 +20,11 @@ class DailyIncomePaymentMethodDetails extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.circle, size: 16, color: color),
+        Icon(Icons.circle, size: 16, color: paymentMethod.getColor()),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            method,
+            paymentMethod.name,
             style: const TextStyle(color: Colors.black),
           ),
         ),
