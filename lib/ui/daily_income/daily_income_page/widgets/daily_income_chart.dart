@@ -1,11 +1,11 @@
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
-import 'package:fin_del_mundo_management/ui/widgets/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
+import '../../../widgets/app_background.dart';
+import '../../../widgets/app_stream_builder.dart';
 
 class DailyIncomeChart extends StatelessWidget {
   final DailyIncomeController _controller = getIt<DailyIncomeController>();
@@ -45,20 +45,38 @@ class DailyIncomeChart extends StatelessWidget {
           charts.SlidingViewport(),
           charts.PanAndZoomBehavior(),
         ],
+        defaultRenderer: charts.BarRendererConfig(
+          groupingType: charts.BarGroupingType.grouped,
+        ),
+        customSeriesRenderers: [
+          charts.LineRendererConfig(
+            customRendererId: 'customLine',
+          ),
+        ],
       ),
     );
   }
 
   List<charts.Series<DailyIncome, String>> _getSeries() {
+    final dailyIncomes = _controller.fillDailyIncomesForCurrentMonth();
+    final dailyAverages = _controller.calculateDailyAverage(dailyIncomes);
+
     return [
-      charts.Series(
+      charts.Series<DailyIncome, String>(
         id: 'Ingresos Diarios',
         domainFn: (dailyIncome, _) => DateFormat('dd').format(dailyIncome.date),
         measureFn: (dailyIncome, _) => dailyIncome.total,
-        data: _controller.fillDailyIncomesForCurrentMonth(),
+        data: dailyIncomes,
         fillColorFn: (dailyIncome, _) =>
-            charts.MaterialPalette.blue.shadeDefault,
+            charts.MaterialPalette.purple.shadeDefault,
       ),
+      charts.Series<DailyIncome, String>(
+        id: 'Promedio Diario',
+        domainFn: (dailyIncome, i) => DateFormat('dd').format(dailyIncome.date),
+        measureFn: (_, i) => dailyAverages[i!],
+        data: dailyIncomes,
+        colorFn: (_, __) => charts.MaterialPalette.lime.shadeDefault,
+      )..setAttribute(charts.rendererIdKey, 'customLine'),
     ];
   }
 }

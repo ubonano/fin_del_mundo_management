@@ -118,6 +118,18 @@ class DailyIncomeController {
     }
   }
 
+  List<double> calculateDailyAverage(List<DailyIncome> dailyIncomes) {
+    var cumulativeSum = 0.0;
+    var dailyAverages = <double>[];
+
+    for (var i = 0; i < dailyIncomes.length; i++) {
+      cumulativeSum += dailyIncomes[i].total;
+      dailyAverages.add(cumulativeSum / (i + 1));
+    }
+
+    return dailyAverages;
+  }
+
   List<DailyIncome> fillDailyIncomesForCurrentMonth() {
     final year = int.parse(_selectedYear.value);
     final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
