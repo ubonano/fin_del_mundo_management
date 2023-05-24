@@ -13,7 +13,7 @@ class DailyIncomeInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '\$${AppFormaters.getFormattedTotal(income.total)}',
+          '\$ ${AppFormaters.getFormattedTotal(income.total)}',
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
         ),
         const SizedBox(height: 5),

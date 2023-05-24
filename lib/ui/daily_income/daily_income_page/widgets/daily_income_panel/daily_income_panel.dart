@@ -20,19 +20,23 @@ class DailyIncomePanel extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 22.5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DailyIncomeTotalDisplay(),
-                  const DailyIncomeAddButton(),
-                ],
-              ),
+              child: _buildTop(),
             ),
             DailyIncomeList(),
           ],
         ),
       ),
+    );
+  }
+
+  Row _buildTop() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        DailyIncomeTotalDisplay(),
+        const DailyIncomeAddButton(),
+      ],
     );
   }
 }

@@ -17,16 +17,14 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBackgound(
-      height: 250,
+      height: 290,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const AppBackgroundTitle(title: 'Medios de pago'),
-          Expanded(
-            child: AppStreamBuilder<List<DailyIncome>>(
-              stream: _controller.incomes,
-              onData: _buildChart,
-            ),
+          AppStreamBuilder<List<DailyIncome>>(
+            stream: _controller.incomes,
+            onData: _buildChart,
           ),
         ],
       ),
@@ -34,31 +32,33 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
   }
 
   Widget _buildChart(List<DailyIncome> incomes) {
-    return Row(
-      children: [
-        Expanded(
-          child: PieChart(
-            PieChartData(
-              sections: _buildPieChartSections(),
-              pieTouchData: PieTouchData(
-                touchCallback:
-                    (FlTouchEvent touchEvent, PieTouchResponse? touchResponse) {
-                  if (touchEvent is FlLongPressEnd) {
-                    // Handle touch events here
-                  }
-                },
+    return Expanded(
+      child: Row(
+        children: [
+          Expanded(
+            child: PieChart(
+              PieChartData(
+                sections: _buildPieChartSections(),
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent touchEvent,
+                      PieTouchResponse? touchResponse) {
+                    if (touchEvent is FlLongPressEnd) {
+                      // Handle touch events here
+                    }
+                  },
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: _buildPaymentMethodDetails(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: _buildPaymentMethodDetails(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -80,13 +80,16 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
     final paymentMethodsTotals = _controller.calculatePaymentMethodTotals();
     double total = paymentMethodsTotals.values.fold(0, (a, b) => a + b);
 
-    return paymentMethodsTotals.entries.map((e) {
-      double percentage = (e.value / total) * 100;
-      return DailyIncomePaymentMethodDetails(
-        paymentMethod: e.key,
-        percentage: percentage,
-        total: AppFormaters.getFormattedTotal(e.value),
-      );
-    }).toList();
+    return paymentMethodsTotals.entries.map(
+      (e) {
+        double percentage = (e.value / total) * 100;
+
+        return DailyIncomePaymentMethodDetails(
+          paymentMethod: e.key,
+          percentage: percentage,
+          total: AppFormaters.getFormattedTotal(e.value),
+        );
+      },
+    ).toList();
   }
 }

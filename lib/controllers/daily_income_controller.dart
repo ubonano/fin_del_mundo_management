@@ -17,6 +17,7 @@ class DailyIncomeController {
       BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
   final _selectedYear =
       BehaviorSubject<String>.seeded(DateTime.now().year.toString());
+  final _totalDailyIncome = BehaviorSubject<double>.seeded(0);
 
   DailyIncomeController(this._logger, this._repository) {
     initializeDateFormatting('es_ES', null);
@@ -27,6 +28,7 @@ class DailyIncomeController {
   Stream<String> get selectedBranch => _selectedBranch.stream;
   Stream<String> get selectedMonth => _selectedMonth.stream;
   Stream<String> get selectedYear => _selectedYear.stream;
+  Stream<double> get totalDailyIncome => _totalDailyIncome.stream;
 
   void filterByBranch(String branch) {
     _logger.info('Changing branch filter to $branch');
@@ -46,31 +48,36 @@ class DailyIncomeController {
   void _load() {
     _logger.info('Loading incomes');
 
-    Rx.combineLatest2<String, String, Map<String, String>>(
+    Rx.combineLatest3<String, String, String, Map<String, String>>(
       _selectedMonth.stream,
       _selectedYear.stream,
-      (selectedMonth, selectedYear) =>
-          {'month': selectedMonth, 'year': selectedYear},
+      _selectedBranch.stream,
+      (selectedMonth, selectedYear, selectedBranch) => {
+        'month': selectedMonth,
+        'year': selectedYear,
+        'branch': selectedBranch
+      },
     ).listen((selected) {
       final monthNumber = AppDateTime.monthNameToNumber(selected['month']!);
       final currentYear = int.parse(selected['year']!);
+      final branch = selected['branch'];
 
-      Rx.combineLatest2<List<DailyIncome>, String, List<DailyIncome>>(
-        _repository.getByMonthAndYear(monthNumber, currentYear),
-        _selectedBranch.stream,
-        (data, selectedBranch) {
+      _repository.getByMonthAndYear(monthNumber, currentYear).listen(
+        (data) {
           data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
 
-          if (selectedBranch == 'All') {
-            return data;
+          List<DailyIncome> filteredData;
+
+          if (branch == 'All') {
+            filteredData = data;
           } else {
-            return data
-                .where((income) => income.branch == selectedBranch)
-                .toList();
+            filteredData =
+                data.where((income) => income.branch == branch).toList();
           }
-        },
-      ).listen(
-        (filteredData) {
+
+          _totalDailyIncome.add(filteredData.fold(
+              0, (previousValue, income) => previousValue + income.total));
+
           _incomes.add(filteredData);
         },
         onError: (err) {
@@ -199,5 +206,9 @@ class DailyIncomeController {
   void dispose() {
     _logger.info('Disposing DailyIncomeController');
     _incomes.close();
+    _selectedBranch.close();
+    _selectedYear.close();
+    _selectedMonth.close();
+    _totalDailyIncome.close();
   }
 }

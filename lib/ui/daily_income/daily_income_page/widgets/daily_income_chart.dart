@@ -15,17 +15,15 @@ class DailyIncomeChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBackgound(
-      height: 300,
+      height: 290,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const AppBackgroundTitle(title: 'Ingresos diarios'),
           const SizedBox(height: 12),
-          Expanded(
-            child: AppStreamBuilder(
-              stream: _controller.incomes,
-              onData: (incomes) => _buildBarChart(_getSeries()),
-            ),
+          AppStreamBuilder(
+            stream: _controller.incomes,
+            onData: (incomes) => _buildBarChart(_getSeries()),
           ),
         ],
       ),
@@ -33,19 +31,21 @@ class DailyIncomeChart extends StatelessWidget {
   }
 
   Widget _buildBarChart(List<charts.Series<DailyIncome, String>> series) {
-    return charts.BarChart(
-      series,
-      animate: true,
-      barGroupingType: charts.BarGroupingType.grouped,
-      domainAxis: const charts.OrdinalAxisSpec(
-        renderSpec: charts.SmallTickRendererSpec(
-          labelStyle: charts.TextStyleSpec(fontSize: 10),
+    return Expanded(
+      child: charts.BarChart(
+        series,
+        animate: true,
+        barGroupingType: charts.BarGroupingType.grouped,
+        domainAxis: const charts.OrdinalAxisSpec(
+          renderSpec: charts.SmallTickRendererSpec(
+            labelStyle: charts.TextStyleSpec(fontSize: 10),
+          ),
         ),
+        behaviors: [
+          charts.SlidingViewport(),
+          charts.PanAndZoomBehavior(),
+        ],
       ),
-      behaviors: [
-        charts.SlidingViewport(),
-        charts.PanAndZoomBehavior(),
-      ],
     );
   }
 

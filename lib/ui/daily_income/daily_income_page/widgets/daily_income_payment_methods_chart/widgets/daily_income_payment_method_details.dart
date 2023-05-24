@@ -8,8 +8,6 @@ class DailyIncomePaymentMethodDetails extends StatelessWidget {
 
   const DailyIncomePaymentMethodDetails({
     super.key,
-    // required this.color,
-    // required this.method,
     required this.percentage,
     required this.total,
     required this.paymentMethod,
@@ -24,7 +22,7 @@ class DailyIncomePaymentMethodDetails extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            paymentMethod.name,
+            paymentMethod.getLabel(),
             style: const TextStyle(color: Colors.black),
           ),
         ),

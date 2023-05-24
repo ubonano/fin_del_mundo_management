@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../../controllers/daily_income_controller.dart';
-import '../../../../../../models/daily_income.dart';
 import '../../../../../../setup/get_it_setup.dart';
 import '../../../../../../utils/app_formaters.dart';
 import '../../../../../widgets/app_stream_builder.dart';
@@ -12,10 +11,10 @@ class DailyIncomeTotalDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppStreamBuilder<List<DailyIncome>>(
-      stream: _controller.incomes,
-      onData: (incomes) => Text(
-        '\$${_calculateTotalIncome(incomes)}',
+    return AppStreamBuilder<double>(
+      stream: _controller.totalDailyIncome,
+      onData: (data) => Text(
+        '\$ ${AppFormaters.getFormattedTotal(data)}',
         style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -23,16 +22,5 @@ class DailyIncomeTotalDisplay extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _calculateTotalIncome(List<DailyIncome> incomes) {
-    if (incomes.isEmpty) {
-      return '0';
-    } else {
-      final totalIncome = incomes
-          .map((income) => income.total)
-          .reduce((value, element) => value + element);
-      return AppFormaters.getFormattedTotal(totalIncome);
-    }
   }
 }

@@ -1,42 +1,24 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:logging/logging.dart';
-
-import '../../../../../../../../../controllers/daily_income_controller.dart';
 import '../../../../../../../../../models/daily_income.dart';
-import '../../../../../../../../../setup/get_it_setup.dart';
-import '../../../../../../../../../setup/router.gr.dart';
 import '../../../../../../../../widgets/app_actions_buttons.dart';
 import '../../../../../../../../widgets/app_dialog_confirm.dart';
 import 'widgets/daily_income_info.dart';
 import 'widgets/daily_income_payment_methods_widget.dart';
 
-class DailyIncomeTile extends StatefulWidget {
+class DailyIncomeTile extends StatelessWidget {
   final DailyIncome income;
+  final Function(DailyIncome) onEdit;
+  final Function(DailyIncome) onDelete;
 
-  const DailyIncomeTile({Key? key, required this.income}) : super(key: key);
-
-  @override
-  State<DailyIncomeTile> createState() => _DailyIncomeTileState();
-}
-
-class _DailyIncomeTileState extends State<DailyIncomeTile> {
-  final _logger = Logger('DailyIncomeTile');
-  final _controller = getIt<DailyIncomeController>();
-
-  StackRouter? get router => AutoRouter.of(context);
-
-  @override
-  void initState() {
-    initializeDateFormatting('es_ES', null);
-    super.initState();
-  }
+  const DailyIncomeTile({
+    Key? key,
+    required this.income,
+    required this.onEdit,
+    required this.onDelete,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    _logger.info('Building DailyIncomeTile for income id: ${widget.income.id}');
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       margin: const EdgeInsets.all(8),
@@ -51,48 +33,25 @@ class _DailyIncomeTileState extends State<DailyIncomeTile> {
           ),
         ],
       ),
-      child: _buildTile(),
+      child: _buildTile(context),
     );
   }
 
-  Widget _buildTile() {
+  Widget _buildTile(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        DailyIncomeInfo(income: widget.income),
+        DailyIncomeInfo(income: income),
         const Spacer(),
-        DailyIncomePaymentMethodsWidgets(income: widget.income),
+        DailyIncomePaymentMethodsWidgets(income: income),
         AppActionsButton(
-          onEdit: _onSelectEdit,
-          onDelete: _onSelectDelete,
+          onEdit: () => onEdit(income),
+          onDelete: () => AppDialogConfirm.showDeleteDialyIncome(
+            context,
+            onPressed: () => onDelete(income),
+          ),
         ),
       ],
-    );
-  }
-
-  void _onSelectEdit() {
-    router?.push(DailyIncomeFormRoute(income: widget.income));
-  }
-
-  void _onSelectDelete() {
-    AppDialogConfirm.showDeleteDialyIncome(
-      context,
-      onPressed: () => _deleteIncome(),
-    );
-  }
-
-  void _deleteIncome() {
-    try {
-      _controller.delete(widget.income);
-      router?.pop();
-    } catch (e) {
-      _showSnackbar('Ocurrio un error...');
-    }
-  }
-
-  void _showSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
     );
   }
 }
