@@ -1,21 +1,21 @@
 import 'package:fin_del_mundo_management/utils/app_validators.dart';
 import 'package:flutter/material.dart';
 
-class DailyIncomeBranchField extends StatefulWidget {
+class AppBranchField extends StatefulWidget {
   final Function(String?) onChanged;
   final String? initialValue;
 
-  const DailyIncomeBranchField({
+  const AppBranchField({
     Key? key,
     required this.onChanged,
     this.initialValue,
   }) : super(key: key);
 
   @override
-  _DailyIncomeBranchFieldState createState() => _DailyIncomeBranchFieldState();
+  _AppBranchFieldState createState() => _AppBranchFieldState();
 }
 
-class _DailyIncomeBranchFieldState extends State<DailyIncomeBranchField> {
+class _AppBranchFieldState extends State<AppBranchField> {
   final List<String> _branches = ['Restaurante', 'Discoteca'];
   String? _selectedBranch;
 

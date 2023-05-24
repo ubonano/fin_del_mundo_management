@@ -5,7 +5,7 @@ import '../../../../controllers/daily_income_controller.dart';
 import '../../../../models/daily_income.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_field.dart';
-import 'daily_income_branch_field.dart';
+import '../../../widgets/app_branch_field.dart';
 
 class DailyIncomeForm extends StatefulWidget {
   final DailyIncome? income;
@@ -131,7 +131,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   Widget _branchField() {
     return Expanded(
-      child: DailyIncomeBranchField(
+      child: AppBranchField(
         initialValue: _branch,
         onChanged: (value) {
           _branch = value;

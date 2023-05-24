@@ -23,17 +23,17 @@ class DailyIncomeChart extends StatelessWidget {
           const SizedBox(height: 12),
           AppStreamBuilder(
             stream: _controller.incomes,
-            onData: (incomes) => _buildBarChart(_getSeries()),
+            onData: (incomes) => _buildBarChart(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBarChart(List<charts.Series<DailyIncome, String>> series) {
+  Widget _buildBarChart() {
     return Expanded(
       child: charts.BarChart(
-        series,
+        _getSeries(),
         animate: true,
         barGroupingType: charts.BarGroupingType.grouped,
         domainAxis: const charts.OrdinalAxisSpec(
