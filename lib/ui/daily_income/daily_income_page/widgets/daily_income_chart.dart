@@ -59,7 +59,6 @@ class DailyIncomeChart extends StatelessWidget {
 
   List<charts.Series<DailyIncome, String>> _getSeries() {
     final dailyIncomes = _controller.fillDailyIncomesForCurrentMonth();
-    final dailyAverages = _controller.calculateDailyAverage(dailyIncomes);
 
     return [
       charts.Series<DailyIncome, String>(
@@ -70,13 +69,6 @@ class DailyIncomeChart extends StatelessWidget {
         fillColorFn: (dailyIncome, _) =>
             charts.MaterialPalette.purple.shadeDefault,
       ),
-      charts.Series<DailyIncome, String>(
-        id: 'Promedio Diario',
-        domainFn: (dailyIncome, i) => DateFormat('dd').format(dailyIncome.date),
-        measureFn: (_, i) => dailyAverages[i!],
-        data: dailyIncomes,
-        colorFn: (_, __) => charts.MaterialPalette.lime.shadeDefault,
-      )..setAttribute(charts.rendererIdKey, 'customLine'),
     ];
   }
 }

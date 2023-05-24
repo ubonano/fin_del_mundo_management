@@ -22,7 +22,7 @@ class DailyIncomePanel extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 22.5),
               child: _buildTop(),
             ),
-            DailyIncomeList(),
+            const DailyIncomeList(),
           ],
         ),
       ),

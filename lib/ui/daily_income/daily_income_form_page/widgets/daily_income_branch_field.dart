@@ -45,16 +45,14 @@ class _DailyIncomeBranchFieldState extends State<DailyIncomeBranchField> {
         isDense: true,
       ),
       value: _selectedBranch,
-      onChanged: (value) {
-        _updateSelectedBranch(value);
-        widget.onChanged(value);
-      },
-      items: _buildDropdownMenuItems(),
       validator: AppValidators.text,
+      items: _buildDropdownMenuItems(),
+      onChanged: _onChanged,
     );
   }
 
-  void _updateSelectedBranch(String? value) {
+  void _onChanged(String? value) {
+    widget.onChanged(value);
     setState(() {
       _selectedBranch = value;
     });

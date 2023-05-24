@@ -19,11 +19,10 @@ class DailyIncomeForm extends StatefulWidget {
 class _DailyIncomeFormState extends State<DailyIncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late StackRouter? router;
+  StackRouter get router => AutoRouter.of(context);
+
   final _controller = getIt<DailyIncomeController>();
 
-  late final TextEditingController _totalController =
-      TextEditingController(text: widget.income?.total.toString() ?? '0');
   late final TextEditingController _dateController = TextEditingController(
       text: widget.income?.date != null
           ? DateFormat('yyyy-MM-dd').format(widget.income!.date)
@@ -40,11 +39,11 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
       TextEditingController(text: widget.income?.surplus.toString() ?? '');
   late final TextEditingController _shortageController =
       TextEditingController(text: widget.income?.shortage.toString() ?? '');
+  late final TextEditingController _totalController =
+      TextEditingController(text: widget.income?.total.toString() ?? '0');
 
   @override
   Widget build(BuildContext context) {
-    router = AutoRouter.of(context);
-
     return Form(
       key: _formKey,
       child: ListView(
@@ -74,39 +73,17 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     );
   }
 
-  double _calculateTotal() {
-    double cash = double.tryParse(_cashController.text) ?? 0;
-    double cards = double.tryParse(_cardsController.text) ?? 0;
-    double mercadoPago = double.tryParse(_mercadoPagoController.text) ?? 0;
-    double surplus = double.tryParse(_surplusController.text) ?? 0;
-    double shortage = double.tryParse(_shortageController.text) ?? 0;
-
-    return cash + cards + mercadoPago + surplus - shortage;
-  }
-
-  void _updateTotal() {
-    double total = _calculateTotal();
-    _totalController.text = total.toString();
+  Widget _submitButton() {
+    return ElevatedButton(
+      onPressed: _submit,
+      child: const Text('Enviar'),
+    );
   }
 
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final income = DailyIncome(
-          id: widget.income?.id ?? '',
-          modifiedAt: DateTime.now(),
-          createdAt: widget.income?.createdAt ?? DateTime.now(),
-          date: DateTime.parse(_dateController.text),
-          branch: _branch!,
-          total: widget.income?.total ?? 0.0,
-          paymentMethods: {
-            'cash': double.parse(_cashController.text),
-            'cards': double.parse(_cardsController.text),
-            'mercadoPago': double.parse(_mercadoPagoController.text),
-          },
-          surplus: double.parse(_surplusController.text),
-          shortage: double.parse(_shortageController.text),
-        );
+        final income = _getDailyIncomeToSave();
 
         if (widget.income == null) {
           await _controller.add(income);
@@ -116,23 +93,28 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
           _showSnackbar('Ingreso diario actualizado');
         }
 
-        router?.pop();
+        router.pop();
       } catch (e) {
         _showSnackbar('Ocurrio un error: $e');
       }
     }
   }
 
-  Widget _submitButton() {
-    return ElevatedButton(
-      onPressed: _submit,
-      child: const Text('Enviar'),
-    );
-  }
-
-  void _showSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+  DailyIncome _getDailyIncomeToSave() {
+    return DailyIncome(
+      id: widget.income?.id ?? '',
+      modifiedAt: DateTime.now(),
+      createdAt: widget.income?.createdAt ?? DateTime.now(),
+      date: DateTime.parse(_dateController.text),
+      branch: _branch!,
+      total: widget.income?.total ?? 0.0,
+      paymentMethods: {
+        'cash': double.parse(_cashController.text),
+        'cards': double.parse(_cardsController.text),
+        'mercadoPago': double.parse(_mercadoPagoController.text),
+      },
+      surplus: double.parse(_surplusController.text),
+      shortage: double.parse(_shortageController.text),
     );
   }
 
@@ -211,6 +193,21 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     );
   }
 
+  void _updateTotal() {
+    double total = _calculateTotal();
+    _totalController.text = total.toString();
+  }
+
+  double _calculateTotal() {
+    double cash = double.tryParse(_cashController.text) ?? 0;
+    double cards = double.tryParse(_cardsController.text) ?? 0;
+    double mercadoPago = double.tryParse(_mercadoPagoController.text) ?? 0;
+    double surplus = double.tryParse(_surplusController.text) ?? 0;
+    double shortage = double.tryParse(_shortageController.text) ?? 0;
+
+    return cash + cards + mercadoPago + surplus - shortage;
+  }
+
   Widget _totalField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40),
@@ -219,6 +216,12 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
         enabled: false,
         controller: _totalController,
       ),
+    );
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
     );
   }
 

@@ -22,8 +22,8 @@ class DailyIncome {
     required this.modifiedAt,
     required this.date,
     required this.paymentMethods,
-    required this.surplus,
-    required this.shortage,
+    @Deprecated('No se utilizara mas') required this.surplus,
+    @Deprecated('No se utilizara mas') required this.shortage,
     required this.branch,
   });
 
