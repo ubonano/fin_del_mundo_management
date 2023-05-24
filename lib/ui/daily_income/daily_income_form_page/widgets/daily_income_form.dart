@@ -113,8 +113,10 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
         'cards': double.parse(_cardsController.text),
         'mercadoPago': double.parse(_mercadoPagoController.text),
       },
-      surplus: double.parse(_surplusController.text),
-      shortage: double.parse(_shortageController.text),
+      surplus: double.parse(
+          _surplusController.text != '' ? _surplusController.text : '0'),
+      shortage: double.parse(
+          _shortageController.text != '' ? _shortageController.text : '0'),
     );
   }
 
@@ -178,6 +180,8 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
         controller: _surplusController,
         onFieldSubmitted: (value) => _submit(),
         onChanged: (value) => _updateTotal(),
+        enabled: false,
+        required: false,
       ),
     );
   }
@@ -189,6 +193,8 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
         controller: _shortageController,
         onFieldSubmitted: (value) => _submit(),
         onChanged: (value) => _updateTotal(),
+        enabled: false,
+        required: false,
       ),
     );
   }

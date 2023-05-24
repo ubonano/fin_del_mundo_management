@@ -22,9 +22,11 @@ class AppValidators {
   static String? number(String? value, {bool required = true}) {
     if (_isEmptyOrNull(value, required)) {
       return 'Por favor, complete el campo';
+    } else if (value == null || value.isEmpty) {
+      value = '0';
     }
 
-    if (double.tryParse(value!) == null) {
+    if (double.tryParse(value) == null) {
       return 'Por favor, ingresa un número válido';
     }
     return null;
