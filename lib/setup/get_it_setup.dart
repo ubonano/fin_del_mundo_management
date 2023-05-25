@@ -8,15 +8,18 @@ import '../controllers/collection_methods_controller.dart';
 import '../controllers/daily_income_controller.dart';
 import '../controllers/employee_controller.dart';
 import '../controllers/payment_category.dart';
+import '../controllers/payment_method_controller.dart';
 import '../repositories/firestore_branch_repository.dart';
 import '../repositories/firestore_collection_method_repository.dart';
 import '../repositories/firestore_daily_income_repository.dart';
 import '../repositories/firestore_employee_repository.dart';
 import '../repositories/firestore_payment_category_repository.dart';
+import '../repositories/firestore_payment_method.dart';
 import '../utils/interfaces/branch_repository.dart';
 import '../utils/interfaces/daily_income_repository.dart';
 import '../utils/interfaces/employee_repository.dart';
 import '../utils/interfaces/payment_category_repository.dart';
+import '../utils/interfaces/payment_method.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -28,6 +31,7 @@ void setupServiceLocator() {
   _setupBranchInstance();
   _setupEmployeeInstance();
   _setupPaymentCategoryInstance();
+  _setupPaymentMethodInstance();
 }
 
 void _setupDailyIncomeInstances() {
@@ -106,6 +110,22 @@ void _setupPaymentCategoryInstance() {
     () => PaymentCategoryController(
       Logger('PaymentCategoryController'),
       getIt<PaymentCategoryRepository>(),
+    ),
+  );
+}
+
+void _setupPaymentMethodInstance() {
+  getIt.registerLazySingleton<PaymentMethodRepository>(
+    () => FirestorePaymentMethodRepository(
+      Logger('FirestorePaymentMethodRepository'),
+      _firebaseFirestore,
+    ),
+  );
+
+  getIt.registerLazySingleton<PaymentMethodController>(
+    () => PaymentMethodController(
+      Logger('PaymentMethodController'),
+      getIt<PaymentMethodRepository>(),
     ),
   );
 }
