@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'app_background.dart';
 import 'app_stream_builder.dart';
 
-class AppDropdownButton extends StatelessWidget {
-  final List<String> items;
-  final Stream<String> streamData;
-
-  final void Function(String?)? onChanged;
+class AppDropdownButton<T> extends StatelessWidget {
+  final List<T> items;
+  final Stream<T> streamDataSelected;
+  final void Function(T?)? onChanged;
 
   const AppDropdownButton({
     Key? key,
-    required this.streamData,
+    required this.streamDataSelected,
     required this.onChanged,
     required this.items,
   }) : super(key: key);
@@ -21,26 +20,25 @@ class AppDropdownButton extends StatelessWidget {
     return AppBackgound(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       margin: const EdgeInsets.only(left: 25, top: 25),
-      child: AppStreamBuilder<String>(
-        stream: streamData,
+      child: AppStreamBuilder<T>(
+        stream: streamDataSelected,
         onData: (value) => _buildDropdownButton(value),
       ),
     );
   }
 
-  DropdownButton<String> _buildDropdownButton(String month) {
-    return DropdownButton<String>(
-      value: month,
+  DropdownButton<T> _buildDropdownButton(T value) {
+    return DropdownButton<T>(
+      value: value,
       onChanged: onChanged,
       underline: const SizedBox.shrink(),
       items: items
-          .map<DropdownMenuItem<String>>(
-              (value) => _buildDropdownMenuItem(value))
+          .map<DropdownMenuItem<T>>((value) => _buildDropdownMenuItem(value))
           .toList(),
     );
   }
 
-  DropdownMenuItem<String> _buildDropdownMenuItem(String value) {
-    return DropdownMenuItem<String>(value: value, child: Text(value));
+  DropdownMenuItem<T> _buildDropdownMenuItem(T value) {
+    return DropdownMenuItem<T>(value: value, child: Text(value.toString()));
   }
 }

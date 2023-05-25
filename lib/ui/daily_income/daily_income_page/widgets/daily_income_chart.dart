@@ -8,7 +8,7 @@ import '../../../widgets/app_background.dart';
 import '../../../widgets/app_stream_builder.dart';
 
 class DailyIncomeChart extends StatelessWidget {
-  final DailyIncomeController _controller = getIt<DailyIncomeController>();
+  final _controller = getIt<DailyIncomeController>();
 
   DailyIncomeChart({Key? key}) : super(key: key);
 

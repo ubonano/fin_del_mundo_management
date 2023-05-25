@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
 import '../../../../controllers/daily_income_controller.dart';
+import '../../../../modules/branch/widgets/branch_dropdown.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../../utils/app_date_time.dart';
 import '../../../widgets/app_dropdown_button.dart';
 
 class DailyIncomeFilters extends StatelessWidget {
-  final _controller = getIt<DailyIncomeController>();
+  final _dailyIncomeController = getIt<DailyIncomeController>();
 
   DailyIncomeFilters({super.key});
 
@@ -16,18 +16,20 @@ class DailyIncomeFilters extends StatelessWidget {
       children: [
         AppDropdownButton(
           items: AppDateTime.generateYears(),
-          streamData: _controller.selectedYear,
-          onChanged: (newValue) => _controller.filterByYear(newValue!),
+          streamDataSelected: _dailyIncomeController.selectedYear,
+          onChanged: (newValue) =>
+              _dailyIncomeController.filterByYear(newValue!),
         ),
         AppDropdownButton(
           items: AppDateTime.generateAllMonths(),
-          streamData: _controller.selectedMonth,
-          onChanged: (newValue) => _controller.filterByMonth(newValue!),
+          streamDataSelected: _dailyIncomeController.selectedMonth,
+          onChanged: (newValue) =>
+              _dailyIncomeController.filterByMonth(newValue!),
         ),
-        AppDropdownButton(
-          items: const <String>['All', 'Restaurante', 'Discoteca'],
-          streamData: _controller.selectedBranch,
-          onChanged: (newValue) => _controller.filterByBranch(newValue!),
+        BranchDropdown(
+          streamDataSelected: _dailyIncomeController.selectedBranch,
+          onChanged: (newValue) =>
+              _dailyIncomeController.filterByBranch(newValue!),
         ),
       ],
     );

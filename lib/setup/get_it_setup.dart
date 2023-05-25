@@ -3,7 +3,7 @@ import 'package:fin_del_mundo_management/utils/interfaces/collection_method_repo
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
-import '../controllers/branch_controller.dart';
+import '../modules/branch/branch_controller.dart';
 import '../controllers/collection_methods_controller.dart';
 import '../controllers/daily_income_controller.dart';
 import '../controllers/employee_controller.dart';
@@ -12,7 +12,7 @@ import '../controllers/payment_controller.dart';
 import '../controllers/payment_method_controller.dart';
 import '../controllers/provider_controller.dart';
 import '../controllers/user_controller.dart';
-import '../repositories/firestore_branch_repository.dart';
+import '../modules/branch/branch_firestore_repository.dart';
 import '../repositories/firestore_collection_method_repository.dart';
 import '../repositories/firestore_daily_income_repository.dart';
 import '../repositories/firestore_employee_repository.dart';
@@ -21,7 +21,7 @@ import '../repositories/firestore_payment_method_repository.dart';
 import '../repositories/firestore_payment_repository.dart';
 import '../repositories/firestore_provider_repository.dart';
 import '../repositories/firestore_user_repository.dart';
-import '../utils/interfaces/branch_repository.dart';
+import '../modules/branch/branch_repository.dart';
 import '../utils/interfaces/daily_income_repository.dart';
 import '../utils/interfaces/employee_repository.dart';
 import '../utils/interfaces/payment_category_repository.dart';
@@ -80,8 +80,7 @@ void _setupCollectionMethodInstance() {
 
 void _setupBranchInstance() {
   getIt.registerLazySingleton<BranchRepository>(
-    () => FirestoreBranchRepository(
-      Logger('FirestoreBranchRepository'),
+    () => BranchFirestoreRepository(
       _firebaseFirestore,
     ),
   );

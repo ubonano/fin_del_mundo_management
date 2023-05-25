@@ -1,8 +1,8 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
-import '../models/branch.dart';
-import '../utils/interfaces/branch_repository.dart';
+import 'branch.dart';
+import 'branch_repository.dart';
 
 class BranchController {
   final Logger _logger;
