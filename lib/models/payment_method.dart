@@ -1,11 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'user.dart';
+
 class PaymentMethod {
   final String id;
   final String name;
+  final User createdBy;
+  final DateTime createdAt;
+  final User modifiedBy;
+  final DateTime modifiedAt;
 
-  PaymentMethod({required this.id, required this.name});
+  PaymentMethod({
+    required this.id,
+    required this.name,
+    required this.createdBy,
+    required this.createdAt,
+    required this.modifiedBy,
+    required this.modifiedAt,
+  });
 
   @override
   bool operator ==(Object other) {
@@ -16,18 +29,26 @@ class PaymentMethod {
 
   @override
   int get hashCode => id.hashCode ^ name.hashCode;
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toFirestore() {
     return {
-      'id': id,
       'name': name,
+      'createdBy': createdBy.toFirestore(),
+      'createdAt': Timestamp.fromDate(createdAt),
+      'modifiedBy': modifiedBy.toFirestore(),
+      'modifiedAt': Timestamp.fromDate(modifiedAt),
     };
   }
 
-  factory PaymentMethod.fromDocument(DocumentSnapshot doc) {
+  factory PaymentMethod.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+
     return PaymentMethod(
       id: doc.id,
       name: data['name'],
+      createdBy: User.fromFirestore(data['createdBy']),
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      modifiedBy: User.fromFirestore(data['modifiedBy']),
+      modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
     );
   }
 

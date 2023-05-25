@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
-
 import '../models/employee.dart';
 import '../utils/interfaces/employee_repository.dart';
 

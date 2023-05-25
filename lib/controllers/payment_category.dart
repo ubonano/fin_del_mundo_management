@@ -1,6 +1,5 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
-
 import '../models/payment_category.dart';
 import '../utils/interfaces/payment_category_repository.dart';
 
