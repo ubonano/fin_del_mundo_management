@@ -6,7 +6,6 @@ import 'setup/get_it_setup.dart';
 import 'setup/logger_setup.dart';
 import 'setup/router.dart';
 import 'setup/setup_emulator.dart';
-import 'utils/faker/income_daily_faker.dart';
 
 const bool useEmulator = true;
 
@@ -15,7 +14,6 @@ Future<void> main() async {
 
   setupLogger();
   setupServiceLocator();
-  // generateIncomes();
 
   setupEmulator(useEmulator: useEmulator);
 
