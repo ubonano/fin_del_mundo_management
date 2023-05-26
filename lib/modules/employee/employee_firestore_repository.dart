@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
-import '../models/employee.dart';
-import '../utils/interfaces/employee_repository.dart';
+import 'employee.dart';
+import 'employee_repository.dart';
 
-class FirestoreEmployeeRepository implements EmployeeRepository {
+class EmployeeFirestoreRepository implements EmployeeRepository {
   final Logger _logger;
   final CollectionReference _collection;
 
-  FirestoreEmployeeRepository(this._logger, FirebaseFirestore instance)
+  EmployeeFirestoreRepository(this._logger, FirebaseFirestore instance)
       : _collection = instance.collection('employees');
 
   @override
