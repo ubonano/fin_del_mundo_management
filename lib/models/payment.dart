@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../modules/branch/branch.dart';
-import 'payment_category.dart';
-import 'payment_method.dart';
+import '../modules/payment_category/payment_category.dart';
+import '../modules/payment_method/payment_method.dart';
 import 'user.dart';
 
 class Payment {

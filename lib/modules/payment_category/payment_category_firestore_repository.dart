@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fin_del_mundo_management/models/payment_category.dart';
+import 'package:fin_del_mundo_management/modules/payment_category/payment_category.dart';
 import 'package:logging/logging.dart';
-import '../utils/interfaces/payment_category_repository.dart';
+import 'payment_category_repository.dart';
 
-class FirestorePaymentCategoryRepository implements PaymentCategoryRepository {
+class PaymentCategoryFirestoreRepository implements PaymentCategoryRepository {
   final Logger _logger;
   final CollectionReference _collection;
 
-  FirestorePaymentCategoryRepository(this._logger, FirebaseFirestore instance)
+  PaymentCategoryFirestoreRepository(this._logger, FirebaseFirestore instance)
       : _collection = instance.collection('paymentCategories');
 
   @override

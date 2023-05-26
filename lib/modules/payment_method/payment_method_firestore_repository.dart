@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
-import '../models/payment_method.dart';
-import '../utils/interfaces/payment_method.dart';
+import 'payment_method.dart';
+import 'payment_method_repository.dart';
 
-class FirestorePaymentMethodRepository implements PaymentMethodRepository {
+class PaymentMethodFirestoreRepository implements PaymentMethodRepository {
   final Logger _logger;
   final CollectionReference _collection;
 
-  FirestorePaymentMethodRepository(this._logger, FirebaseFirestore instance)
+  PaymentMethodFirestoreRepository(this._logger, FirebaseFirestore instance)
       : _collection = instance.collection('paymentMethods');
 
   @override

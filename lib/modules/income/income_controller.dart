@@ -4,7 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 import 'income.dart';
-import '../../models/payment_method.dart';
+import '../payment_method/payment_method.dart';
 import '../../utils/app_date_time.dart';
 import 'income_repository.dart';
 

@@ -1,4 +1,4 @@
-import 'package:fin_del_mundo_management/models/payment_method.dart';
+import 'package:fin_del_mundo_management/modules/payment_method/payment_method.dart';
 import 'package:flutter/material.dart';
 
 class DailyIncomePaymentMethodDetails extends StatelessWidget {

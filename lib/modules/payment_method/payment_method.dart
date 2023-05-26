@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'user.dart';
+import '../../models/user.dart';
 
 class PaymentMethod {
   final String id;
