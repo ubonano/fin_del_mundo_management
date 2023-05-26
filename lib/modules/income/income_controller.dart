@@ -1,5 +1,5 @@
 import 'package:fin_del_mundo_management/modules/branch/branch.dart';
-import 'package:fin_del_mundo_management/models/user.dart';
+import 'package:fin_del_mundo_management/modules/user/user.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';

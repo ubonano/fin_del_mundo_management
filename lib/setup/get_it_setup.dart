@@ -11,7 +11,7 @@ import '../modules/payment_category/payment_category_controller.dart';
 import '../modules/payment/payment_controller.dart';
 import '../modules/payment_method/payment_method_controller.dart';
 import '../modules/provider/provider_controller.dart';
-import '../controllers/user_controller.dart';
+import '../modules/user/user_controller.dart';
 import '../modules/branch/branch_firestore_repository.dart';
 import '../modules/collection_method/collection_method_firestore_repository.dart';
 import '../modules/income/income_firestore_repository.dart';

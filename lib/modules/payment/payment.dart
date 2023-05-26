@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
 import '../payment_category/payment_category.dart';
 import '../payment_method/payment_method.dart';
-import '../../models/user.dart';
+import '../user/user.dart';
 
 class Payment {
   String id;

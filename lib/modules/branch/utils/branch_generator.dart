@@ -1,6 +1,6 @@
 import 'package:fin_del_mundo_management/modules/branch/branch_repository.dart';
 import '../branch.dart';
-import '../../../models/user.dart';
+import '../../user/user.dart';
 import '../../../setup/get_it_setup.dart';
 
 void branchDefaultGenerate() async {

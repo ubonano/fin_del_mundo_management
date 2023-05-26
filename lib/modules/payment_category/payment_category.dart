@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fin_del_mundo_management/models/user.dart';
+import 'package:fin_del_mundo_management/modules/user/user.dart';
 
 class PaymentCategory {
   String id;

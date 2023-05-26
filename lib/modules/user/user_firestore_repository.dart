@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
-import '../models/user.dart';
-import '../utils/interfaces/user_repository.dart';
+import 'user.dart';
+import 'user_repository.dart';
 
-class FirestoreUserRepository implements UserRepository {
+class UserFirestoreRepository implements UserRepository {
   final Logger _logger;
   final CollectionReference _collection;
 
-  FirestoreUserRepository(this._logger, FirebaseFirestore instance)
+  UserFirestoreRepository(this._logger, FirebaseFirestore instance)
       : _collection = instance.collection('users');
 
   @override

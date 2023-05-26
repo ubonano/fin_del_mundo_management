@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../../modules/income/income_controller.dart';
 import '../../../../modules/branch/branch.dart';
 import '../../../../modules/income/income.dart';
-import '../../../../models/user.dart';
+import '../../../../modules/user/user.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_field.dart';
 import '../../../../modules/branch/widgets/app_branch_field.dart';
