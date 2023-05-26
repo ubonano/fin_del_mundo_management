@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'user.dart';
+import '../../models/user.dart';
 
 class Provider {
   String id;

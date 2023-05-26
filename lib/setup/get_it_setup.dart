@@ -20,7 +20,7 @@ import '../modules/payment_category/payment_category_firestore_repository.dart';
 import '../modules/payment_method/payment_method_firestore_repository.dart';
 import '../modules/payment/payment_firestore_repository.dart';
 import '../modules/provider/provider_firestore_repository.dart';
-import '../repositories/firestore_user_repository.dart';
+import '../modules/user/user_firestore_repository.dart';
 import '../modules/branch/branch_repository.dart';
 import '../modules/income/income_repository.dart';
 import '../modules/employee/employee_repository.dart';
@@ -28,7 +28,7 @@ import '../modules/payment_category/payment_category_repository.dart';
 import '../modules/payment_method/payment_method_repository.dart';
 import '../modules/payment/payment_repository.dart';
 import '../modules/provider/provider_repository.dart';
-import '../utils/interfaces/user_repository.dart';
+import '../modules/user/user_repository.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -140,7 +140,7 @@ void _setupPaymentMethodInstance() {
 
 void _setupUserInstance() {
   getIt.registerLazySingleton<UserRepository>(
-    () => FirestoreUserRepository(
+    () => UserFirestoreRepository(
       Logger('FirestoreUserRepository'),
       _firebaseFirestore,
     ),
