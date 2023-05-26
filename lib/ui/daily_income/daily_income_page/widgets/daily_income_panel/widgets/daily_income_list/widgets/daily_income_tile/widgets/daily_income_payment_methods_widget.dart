@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../../../../models/daily_income.dart';
+import '../../../../../../../../../../modules/income/income.dart';
 
 class DailyIncomePaymentMethodsWidgets extends StatelessWidget {
-  final DailyIncome income;
+  final Income income;
 
   const DailyIncomePaymentMethodsWidgets({Key? key, required this.income})
       : super(key: key);
@@ -14,7 +14,7 @@ class DailyIncomePaymentMethodsWidgets extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: income.paymentMethods.entries.map(
+      children: income.collectionMethods.entries.map(
         (entry) {
           final percentage =
               ((entry.value / totalPayment) * 100).toStringAsFixed(2);

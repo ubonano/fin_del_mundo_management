@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../../../controllers/daily_income_controller.dart';
+import '../../../../../../modules/income/income_controller.dart';
 import '../../../../../../setup/get_it_setup.dart';
 import '../../../../../../utils/app_formaters.dart';
 import '../../../../../widgets/app_stream_builder.dart';
 
 class DailyIncomeTotalDisplay extends StatelessWidget {
-  final _controller = getIt<DailyIncomeController>();
+  final _controller = getIt<IncomeController>();
 
   DailyIncomeTotalDisplay({Key? key}) : super(key: key);
 

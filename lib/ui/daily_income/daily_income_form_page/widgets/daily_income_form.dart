@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../controllers/daily_income_controller.dart';
-import '../../../../models/daily_income.dart';
+import '../../../../modules/income/income_controller.dart';
+import '../../../../modules/branch/branch.dart';
+import '../../../../modules/income/income.dart';
+import '../../../../models/user.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_field.dart';
-import '../../../widgets/app_branch_field.dart';
+import '../../../../modules/branch/widgets/app_branch_field.dart';
 
 class DailyIncomeForm extends StatefulWidget {
-  final DailyIncome? income;
+  final Income? income;
 
   const DailyIncomeForm({Key? key, this.income}) : super(key: key);
 
@@ -21,24 +23,21 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
 
   StackRouter get router => AutoRouter.of(context);
 
-  final _controller = getIt<DailyIncomeController>();
+  final _controller = getIt<IncomeController>();
 
   late final TextEditingController _dateController = TextEditingController(
       text: widget.income?.date != null
           ? DateFormat('yyyy-MM-dd').format(widget.income!.date)
           : '');
-  late String? _branch = widget.income?.branch ?? '';
+  late Branch? _branch = widget.income?.branch;
   late final TextEditingController _cashController = TextEditingController(
-      text: widget.income?.paymentMethods['cash'].toString() ?? '');
+      text: widget.income?.collectionMethods['cash'].toString() ?? '');
   late final TextEditingController _cardsController = TextEditingController(
-      text: widget.income?.paymentMethods['cards'].toString() ?? '');
+      text: widget.income?.collectionMethods['cards'].toString() ?? '');
   late final TextEditingController _mercadoPagoController =
       TextEditingController(
-          text: widget.income?.paymentMethods['mercadoPago'].toString() ?? '');
-  late final TextEditingController _surplusController =
-      TextEditingController(text: widget.income?.surplus.toString() ?? '');
-  late final TextEditingController _shortageController =
-      TextEditingController(text: widget.income?.shortage.toString() ?? '');
+          text:
+              widget.income?.collectionMethods['mercadoPago'].toString() ?? '');
   late final TextEditingController _totalController =
       TextEditingController(text: widget.income?.total.toString() ?? '0');
 
@@ -59,13 +58,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
           _cashField(),
           _cardsField(),
           _mpField(),
-          Row(
-            children: [
-              _surplusField(),
-              const SizedBox(width: 20),
-              _shortageField(),
-            ],
-          ),
           _totalField(),
           _submitButton(),
         ],
@@ -100,23 +92,21 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     }
   }
 
-  DailyIncome _getDailyIncomeToSave() {
-    return DailyIncome(
+  Income _getDailyIncomeToSave() {
+    return Income(
       id: widget.income?.id ?? '',
-      modifiedAt: DateTime.now(),
       createdAt: widget.income?.createdAt ?? DateTime.now(),
+      createdBy: User(id: 'system', name: 'system'),
+      modifiedAt: DateTime.now(),
+      modifiedBy: User(id: 'system', name: 'system'),
       date: DateTime.parse(_dateController.text),
       branch: _branch!,
       total: widget.income?.total ?? 0.0,
-      paymentMethods: {
+      collectionMethods: {
         'cash': double.parse(_cashController.text),
         'cards': double.parse(_cardsController.text),
         'mercadoPago': double.parse(_mercadoPagoController.text),
       },
-      surplus: double.parse(
-          _surplusController.text != '' ? _surplusController.text : '0'),
-      shortage: double.parse(
-          _shortageController.text != '' ? _shortageController.text : '0'),
     );
   }
 
@@ -134,7 +124,7 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
   Widget _branchField() {
     return Expanded(
       child: AppBranchField(
-        initialValue: _branch,
+        initialValue: widget.income?.branch,
         onChanged: (value) {
           _branch = value;
           setState(() {});
@@ -173,32 +163,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     );
   }
 
-  Widget _surplusField() {
-    return Expanded(
-      child: AppFormField.number(
-        labelText: 'Sobrante',
-        controller: _surplusController,
-        onFieldSubmitted: (value) => _submit(),
-        onChanged: (value) => _updateTotal(),
-        enabled: false,
-        required: false,
-      ),
-    );
-  }
-
-  Widget _shortageField() {
-    return Expanded(
-      child: AppFormField.number(
-        labelText: 'Faltante',
-        controller: _shortageController,
-        onFieldSubmitted: (value) => _submit(),
-        onChanged: (value) => _updateTotal(),
-        enabled: false,
-        required: false,
-      ),
-    );
-  }
-
   void _updateTotal() {
     double total = _calculateTotal();
     _totalController.text = total.toString();
@@ -208,10 +172,8 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     double cash = double.tryParse(_cashController.text) ?? 0;
     double cards = double.tryParse(_cardsController.text) ?? 0;
     double mercadoPago = double.tryParse(_mercadoPagoController.text) ?? 0;
-    double surplus = double.tryParse(_surplusController.text) ?? 0;
-    double shortage = double.tryParse(_shortageController.text) ?? 0;
 
-    return cash + cards + mercadoPago + surplus - shortage;
+    return cash + cards + mercadoPago;
   }
 
   Widget _totalField() {
@@ -237,8 +199,6 @@ class _DailyIncomeFormState extends State<DailyIncomeForm> {
     _cashController.dispose();
     _cardsController.dispose();
     _mercadoPagoController.dispose();
-    _surplusController.dispose();
-    _shortageController.dispose();
     _totalController.dispose();
     super.dispose();
   }

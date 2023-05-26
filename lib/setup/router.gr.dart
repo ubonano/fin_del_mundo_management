@@ -9,7 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i3;
-import 'package:fin_del_mundo_management/models/daily_income.dart' as _i5;
+import 'package:fin_del_mundo_management/modules/income/income.dart' as _i5;
 import 'package:fin_del_mundo_management/ui/daily_income/daily_income_form_page/daily_income_form_page.dart'
     as _i1;
 import 'package:fin_del_mundo_management/ui/daily_income/daily_income_page/daily_income_page.dart'
@@ -48,7 +48,7 @@ abstract class $AppRouter extends _i3.RootStackRouter {
 class DailyIncomeFormRoute extends _i3.PageRouteInfo<DailyIncomeFormRouteArgs> {
   DailyIncomeFormRoute({
     _i4.Key? key,
-    _i5.DailyIncome? income,
+    _i5.Income? income,
     List<_i3.PageRouteInfo>? children,
   }) : super(
           DailyIncomeFormRoute.name,
@@ -73,7 +73,7 @@ class DailyIncomeFormRouteArgs {
 
   final _i4.Key? key;
 
-  final _i5.DailyIncome? income;
+  final _i5.Income? income;
 
   @override
   String toString() {

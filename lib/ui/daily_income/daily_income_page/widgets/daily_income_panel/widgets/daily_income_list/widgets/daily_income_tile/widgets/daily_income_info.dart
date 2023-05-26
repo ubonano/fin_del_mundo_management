@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../../../../models/daily_income.dart';
+import '../../../../../../../../../../modules/income/income.dart';
 import '../../../../../../../../../../utils/app_formaters.dart';
 
 class DailyIncomeInfo extends StatelessWidget {
-  final DailyIncome income;
+  final Income income;
 
   const DailyIncomeInfo({Key? key, required this.income}) : super(key: key);
 

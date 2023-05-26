@@ -1,37 +1,40 @@
+import 'package:fin_del_mundo_management/modules/branch/branch.dart';
+import 'package:fin_del_mundo_management/models/user.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
-import '../models/daily_income.dart';
-import '../models/payment_methods.dart';
-import '../utils/app_date_time.dart';
-import '../utils/interfaces/daily_income_repository.dart';
+import 'income.dart';
+import '../../models/payment_method.dart';
+import '../../utils/app_date_time.dart';
+import 'income_repository.dart';
 
-class DailyIncomeController {
+class IncomeController {
   final Logger _logger;
 
-  final DailyIncomeRepository _repository;
+  final IncomeRepository _repository;
 
-  final _incomes = BehaviorSubject<List<DailyIncome>>();
-  final _selectedBranch = BehaviorSubject<String>.seeded('Restaurante');
+  final _incomes = BehaviorSubject<List<Income>>();
+  final _selectedBranch = BehaviorSubject<Branch>.seeded(Branch.all());
+
   late final _selectedMonth =
       BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
   final _selectedYear =
       BehaviorSubject<String>.seeded(DateTime.now().year.toString());
   final _totalDailyIncome = BehaviorSubject<double>.seeded(0);
 
-  DailyIncomeController(this._logger, this._repository) {
+  IncomeController(this._logger, this._repository) {
     initializeDateFormatting('es_ES', null);
     _load();
   }
 
-  Stream<List<DailyIncome>> get incomes => _incomes.stream;
-  Stream<String> get selectedBranch => _selectedBranch.stream;
+  Stream<List<Income>> get incomes => _incomes.stream;
+  Stream<Branch> get selectedBranch => _selectedBranch.stream;
   Stream<String> get selectedMonth => _selectedMonth.stream;
   Stream<String> get selectedYear => _selectedYear.stream;
   Stream<double> get totalDailyIncome => _totalDailyIncome.stream;
 
-  void filterByBranch(String branch) {
-    _logger.info('Changing branch filter to $branch');
+  void filterByBranch(Branch branch) {
+    _logger.info('Changing branch filter to ${branch.name}');
     _selectedBranch.add(branch);
   }
 
@@ -48,7 +51,7 @@ class DailyIncomeController {
   void _load() {
     _logger.info('Loading incomes');
 
-    Rx.combineLatest3<String, String, String, Map<String, String>>(
+    Rx.combineLatest3<String, String, Branch, Map<String, dynamic>>(
       _selectedMonth.stream,
       _selectedYear.stream,
       _selectedBranch.stream,
@@ -66,9 +69,9 @@ class DailyIncomeController {
         (data) {
           data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
 
-          List<DailyIncome> filteredData;
+          List<Income> filteredData;
 
-          if (branch == 'All') {
+          if (branch.name == Branch.all().name) {
             filteredData = data;
           } else {
             filteredData =
@@ -89,10 +92,10 @@ class DailyIncomeController {
     _logger.info('Incomes loaded');
   }
 
-  Future<void> add(DailyIncome income) async {
+  Future<void> add(Income income) async {
     _logger.info('Adding income');
     try {
-      List<DailyIncome> existingIncomes = await _repository
+      List<Income> existingIncomes = await _repository
           .getByDateAndBranch(income.date, income.branch)
           .first;
 
@@ -104,8 +107,8 @@ class DailyIncomeController {
 
       await _repository.add(
         income.copyWith(
-          createdBy: 'notImplemented',
-          modifiedBy: 'notImplemented',
+          createdBy: User(id: '', name: ''),
+          modifiedBy: User(id: '', name: ''),
           createdAt: DateTime.now(),
           modifiedAt: DateTime.now(),
           total: income.calculateTotal(),
@@ -118,28 +121,38 @@ class DailyIncomeController {
     }
   }
 
-  List<DailyIncome> fillDailyIncomesForCurrentMonth() {
+  List<Income> fillDailyIncomesForCurrentMonth() {
     final year = int.parse(_selectedYear.value);
     final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
 
     int daysInMonth = DateTime(year, month + 1, 0).day;
 
-    List<DailyIncome> dailyIncomesForMonth = [];
+    List<Income> dailyIncomesForMonth = [];
 
     for (int i = 1; i <= daysInMonth; i++) {
       DateTime currentDate = DateTime(year, month, i);
 
       var incomeForCurrentDate = _incomes.value.firstWhere(
         (income) => income.date.day == currentDate.day,
-        orElse: () => DailyIncome(
+        orElse: () => Income(
+          id: '',
           date: currentDate,
           total: 0,
-          branch: '',
-          createdAt: DateTime.now(),
-          modifiedAt: DateTime.now(),
-          paymentMethods: {},
+          branch: Branch(
+            id: '',
+            name: '',
+            createdAt: DateTime.now(),
+            createdBy: User(id: '', name: ''),
+            modifiedBy: User(id: '', name: ''),
+            modifiedAt: DateTime.now(),
+          ),
+          collectionMethods: {},
           shortage: 0,
           surplus: 0,
+          createdBy: User(id: '', name: ''),
+          createdAt: DateTime.now(),
+          modifiedBy: User(id: '', name: ''),
+          modifiedAt: DateTime.now(),
         ),
       );
       dailyIncomesForMonth.add(incomeForCurrentDate);
@@ -148,10 +161,10 @@ class DailyIncomeController {
     return dailyIncomesForMonth;
   }
 
-  Future<void> update(DailyIncome income) async {
+  Future<void> update(Income income) async {
     _logger.info('Updating income with ID: ${income.id}');
     try {
-      List<DailyIncome> existingIncomes = await _repository
+      List<Income> existingIncomes = await _repository
           .getByDateAndBranch(income.date, income.branch)
           .first;
       if (existingIncomes.isNotEmpty && existingIncomes[0].id != income.id) {
@@ -162,7 +175,7 @@ class DailyIncomeController {
       }
       await _repository.update(
         income.copyWith(
-          modifiedBy: 'notImplemented',
+          modifiedBy: User(id: '', name: ''),
           modifiedAt: DateTime.now(),
           total: income.calculateTotal(),
         ),
@@ -174,7 +187,7 @@ class DailyIncomeController {
     }
   }
 
-  Future<void> delete(DailyIncome income) async {
+  Future<void> delete(Income income) async {
     _logger.info('Deleting income with ID: ${income.id}');
     try {
       await _repository.delete(income);
@@ -189,9 +202,16 @@ class DailyIncomeController {
     Map<PaymentMethod, double> paymentMethodsTotals = {};
 
     for (var income in _incomes.value) {
-      income.paymentMethods.forEach(
+      income.collectionMethods.forEach(
         (method, total) {
-          var paymentMethod = PaymentMethod(id: '', name: method);
+          var paymentMethod = PaymentMethod(
+            id: '',
+            name: method,
+            createdBy: User(id: '', name: ''),
+            createdAt: DateTime.now(),
+            modifiedBy: User(id: '', name: ''),
+            modifiedAt: DateTime.now(),
+          );
           paymentMethodsTotals.update(
             paymentMethod,
             (value) => value + total,

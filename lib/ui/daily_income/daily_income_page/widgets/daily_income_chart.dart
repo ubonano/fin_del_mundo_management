@@ -1,14 +1,14 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../controllers/daily_income_controller.dart';
-import '../../../../models/daily_income.dart';
+import '../../../../modules/income/income_controller.dart';
+import '../../../../modules/income/income.dart';
 import '../../../../setup/get_it_setup.dart';
 import '../../../widgets/app_background.dart';
 import '../../../widgets/app_stream_builder.dart';
 
 class DailyIncomeChart extends StatelessWidget {
-  final _controller = getIt<DailyIncomeController>();
+  final _controller = getIt<IncomeController>();
 
   DailyIncomeChart({Key? key}) : super(key: key);
 
@@ -57,11 +57,11 @@ class DailyIncomeChart extends StatelessWidget {
     );
   }
 
-  List<charts.Series<DailyIncome, String>> _getSeries() {
+  List<charts.Series<Income, String>> _getSeries() {
     final dailyIncomes = _controller.fillDailyIncomesForCurrentMonth();
 
     return [
-      charts.Series<DailyIncome, String>(
+      charts.Series<Income, String>(
         id: 'Ingresos Diarios',
         domainFn: (dailyIncome, _) => DateFormat('dd').format(dailyIncome.date),
         measureFn: (dailyIncome, _) => dailyIncome.total,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../../../models/daily_income.dart';
+import '../../../../../../../../../modules/income/income.dart';
 import '../../../../../../../../widgets/app_actions_buttons.dart';
 import '../../../../../../../../widgets/app_dialog_confirm.dart';
 import 'widgets/daily_income_info.dart';
 import 'widgets/daily_income_payment_methods_widget.dart';
 
 class DailyIncomeTile extends StatelessWidget {
-  final DailyIncome income;
-  final Function(DailyIncome) onEdit;
-  final Function(DailyIncome) onDelete;
+  final Income income;
+  final Function(Income) onEdit;
+  final Function(Income) onDelete;
 
   const DailyIncomeTile({
     Key? key,

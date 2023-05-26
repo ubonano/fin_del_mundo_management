@@ -1,3 +1,5 @@
+import '../modules/branch/branch.dart';
+
 class AppValidators {
   static String? date(String? value, {bool required = true}) {
     if (_isEmptyOrNull(value, required)) {
@@ -28,6 +30,13 @@ class AppValidators {
 
     if (double.tryParse(value) == null) {
       return 'Por favor, ingresa un número válido';
+    }
+    return null;
+  }
+
+  static String? branch(Branch? value, {bool required = true}) {
+    if (required && (value == null)) {
+      return 'Por favor, complete el campo';
     }
     return null;
   }

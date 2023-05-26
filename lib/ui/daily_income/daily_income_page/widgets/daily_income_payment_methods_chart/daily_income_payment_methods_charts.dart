@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../controllers/daily_income_controller.dart';
-import '../../../../../models/daily_income.dart';
+import '../../../../../modules/income/income_controller.dart';
+import '../../../../../modules/income/income.dart';
 import '../../../../../setup/get_it_setup.dart';
 import '../../../../../utils/app_formaters.dart';
 import '../../../../widgets/app_background.dart';
@@ -10,7 +10,7 @@ import '../../../../widgets/app_stream_builder.dart';
 import 'widgets/daily_income_payment_method_details.dart';
 
 class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
-  final _controller = getIt<DailyIncomeController>();
+  final _controller = getIt<IncomeController>();
 
   DailyIncomePaymentMethodsPieChart({super.key});
 
@@ -22,7 +22,7 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const AppBackgroundTitle(title: 'Medios de pago'),
-          AppStreamBuilder<List<DailyIncome>>(
+          AppStreamBuilder<List<Income>>(
             stream: _controller.incomes,
             onData: _buildChart,
           ),
@@ -31,7 +31,7 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(List<DailyIncome> incomes) {
+  Widget _buildChart(List<Income> incomes) {
     return Expanded(
       child: Row(
         children: [

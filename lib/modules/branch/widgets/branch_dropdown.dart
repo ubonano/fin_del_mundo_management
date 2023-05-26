@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../branch_controller.dart';
 import '../branch.dart';
 import '../../../setup/get_it_setup.dart';
@@ -23,6 +22,8 @@ class BranchDropdown extends StatelessWidget {
     return AppStreamBuilder<List<Branch>>(
       stream: _controller.branches,
       onData: (branches) {
+        // branches.add(Branch.all());
+
         return AppDropdownButton<Branch>(
           items: branches,
           streamDataSelected: streamDataSelected,

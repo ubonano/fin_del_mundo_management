@@ -10,6 +10,17 @@ class Branch {
   User modifiedBy;
   DateTime modifiedAt;
 
+  factory Branch.all() {
+    return Branch(
+      id: 'CEUw1jAKFc4IBG6v4mou',
+      name: 'Restaurante',
+      createdAt: DateTime.now(),
+      createdBy: User(id: '', name: ''),
+      modifiedBy: User(id: '', name: ''),
+      modifiedAt: DateTime.now(),
+    );
+  }
+
   Branch({
     required this.id,
     required this.name,
