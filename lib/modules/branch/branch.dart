@@ -15,8 +15,19 @@ class Branch {
       id: 'CEUw1jAKFc4IBG6v4mou',
       name: 'Restaurante',
       createdAt: DateTime.now(),
-      createdBy: User(id: '', name: ''),
-      modifiedBy: User(id: '', name: ''),
+      createdBy: User.empty(),
+      modifiedBy: User.empty(),
+      modifiedAt: DateTime.now(),
+    );
+  }
+
+  factory Branch.empty({required String id, required String name}) {
+    return Branch(
+      id: id,
+      name: name,
+      createdAt: DateTime.now(),
+      createdBy: User.empty(),
+      modifiedBy: User.empty(),
       modifiedAt: DateTime.now(),
     );
   }

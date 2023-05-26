@@ -6,6 +6,10 @@ class User {
 
   User({required this.id, required this.name});
 
+  factory User.empty() {
+    return User(id: 'system', name: 'System');
+  }
+
   factory User.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

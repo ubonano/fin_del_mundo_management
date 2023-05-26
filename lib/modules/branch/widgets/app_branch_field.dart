@@ -12,7 +12,7 @@ class AppBranchField extends StatefulWidget {
   const AppBranchField({
     super.key,
     required this.onChanged,
-    this.initialValue,
+    required this.initialValue,
   });
 
   @override
@@ -21,8 +21,6 @@ class AppBranchField extends StatefulWidget {
 
 class _AppBranchFieldState extends State<AppBranchField> {
   final _controller = getIt<BranchController>();
-
-  Branch? _selectedBranch;
 
   @override
   void initState() {
@@ -41,20 +39,13 @@ class _AppBranchFieldState extends State<AppBranchField> {
             filled: true,
             isDense: true,
           ),
-          value: _selectedBranch,
+          value: widget.initialValue,
           validator: AppValidators.branch,
           items: _buildDropdownMenuItems(branches),
-          onChanged: _onChanged,
+          onChanged: widget.onChanged,
         ),
       ),
     );
-  }
-
-  void _onChanged(Branch? branch) {
-    widget.onChanged(branch);
-    setState(() {
-      _selectedBranch = branch;
-    });
   }
 
   List<DropdownMenuItem<Branch>> _buildDropdownMenuItems(
