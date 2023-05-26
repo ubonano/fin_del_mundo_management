@@ -1,8 +1,8 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
-import '../models/payment.dart';
-import '../utils/interfaces/payment_repository.dart';
+import 'payment.dart';
+import 'payment_repository.dart';
 
 class PaymentController {
   final Logger _logger;
