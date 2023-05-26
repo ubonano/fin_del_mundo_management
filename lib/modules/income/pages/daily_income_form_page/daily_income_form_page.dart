@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fin_del_mundo_management/ui/widgets/app_background.dart';
+import 'package:fin_del_mundo_management/widgets/app_background.dart';
 import 'package:flutter/material.dart';
-import '../../../modules/income/income.dart';
+import '../../income.dart';
 import 'widgets/daily_income_form.dart';
 
 @RoutePage()

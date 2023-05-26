@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../modules/income/income_controller.dart';
-import '../../../../../modules/income/income.dart';
-import '../../../../../setup/get_it_setup.dart';
-import '../../../../../utils/app_formaters.dart';
-import '../../../../widgets/app_background.dart';
-import '../../../../widgets/app_stream_builder.dart';
+import '../../../../../../setup/get_it_setup.dart';
+import '../../../../../../utils/app_formaters.dart';
+import '../../../../../../widgets/app_background.dart';
+import '../../../../../../widgets/app_stream_builder.dart';
+import '../../../../income.dart';
+import '../../../../income_controller.dart';
 import 'widgets/daily_income_payment_method_details.dart';
 
 class DailyIncomePaymentMethodsPieChart extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../../../../modules/income/income.dart';
+import '../../../../../../../../../income.dart';
 
 class DailyIncomePaymentMethodsWidgets extends StatelessWidget {
   final Income income;

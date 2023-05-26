@@ -1,11 +1,12 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../modules/income/income_controller.dart';
-import '../../../../modules/income/income.dart';
-import '../../../../setup/get_it_setup.dart';
-import '../../../widgets/app_background.dart';
-import '../../../widgets/app_stream_builder.dart';
+
+import '../../../../../setup/get_it_setup.dart';
+import '../../../../../widgets/app_background.dart';
+import '../../../../../widgets/app_stream_builder.dart';
+import '../../../income.dart';
+import '../../../income_controller.dart';
 
 class DailyIncomeChart extends StatelessWidget {
   final _controller = getIt<IncomeController>();

@@ -1,4 +1,4 @@
-import 'package:fin_del_mundo_management/ui/widgets/app_stream_builder.dart';
+import 'package:fin_del_mundo_management/widgets/app_stream_builder.dart';
 import 'package:fin_del_mundo_management/utils/app_validators.dart';
 import 'package:flutter/material.dart';
 import '../branch.dart';

@@ -12,8 +12,8 @@ class Branch {
 
   factory Branch.all() {
     return Branch(
-      id: 'CEUw1jAKFc4IBG6v4mou',
-      name: 'Restaurante',
+      id: 'CEUw1jAKFc4IBG6v4mou', // 'all'
+      name: 'Restaurante', // 'Todas'
       createdAt: DateTime.now(),
       createdBy: User.empty(),
       modifiedBy: User.empty(),
@@ -62,13 +62,11 @@ class Branch {
         id: data['createdBy'],
         name: data['createdBy'],
       ),
-      // createdBy: User.fromFirestore(data['createdBy']),
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       modifiedBy: User(
         id: data['modifiedBy'],
         name: data['modifiedBy'],
       ),
-      // modifiedBy: User.fromFirestore(data['modifiedBy']),
       modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_validators.dart';
+import '../utils/app_validators.dart';
 
 class AppFormField {
   static Widget text({

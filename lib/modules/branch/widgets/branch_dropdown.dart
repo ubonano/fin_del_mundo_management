@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../branch_controller.dart';
 import '../branch.dart';
 import '../../../setup/get_it_setup.dart';
-import '../../../ui/widgets/app_dropdown_button.dart';
-import '../../../ui/widgets/app_stream_builder.dart';
+import '../../../widgets/app_dropdown_button.dart';
+import '../../../widgets/app_stream_builder.dart';
 
 class BranchDropdown extends StatelessWidget {
   final Stream<Branch> streamDataSelected;

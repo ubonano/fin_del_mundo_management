@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../modules/income/income_controller.dart';
-import '../../../../modules/branch/widgets/branch_dropdown.dart';
-import '../../../../setup/get_it_setup.dart';
-import '../../../../utils/app_date_time.dart';
-import '../../../widgets/app_dropdown_button.dart';
+
+import '../../../../../setup/get_it_setup.dart';
+import '../../../../../utils/app_date_time.dart';
+import '../../../../../widgets/app_dropdown_button.dart';
+import '../../../../branch/widgets/branch_dropdown.dart';
+import '../../../income_controller.dart';
 
 class DailyIncomeFilters extends StatelessWidget {
   final _dailyIncomeController = getIt<IncomeController>();
