@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
-import '../models/provider.dart';
-import '../utils/interfaces/provider_repository.dart';
+import '../../models/provider.dart';
+import 'provider_repository.dart';
 
-class FirestoreProviderRepository implements ProviderRepository {
+class ProviderFirestoreRepository implements ProviderRepository {
   final Logger _logger;
   final CollectionReference _collection;
 
-  FirestoreProviderRepository(this._logger, FirebaseFirestore instance)
+  ProviderFirestoreRepository(this._logger, FirebaseFirestore instance)
       : _collection = instance.collection('providers');
 
   @override
