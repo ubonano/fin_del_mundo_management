@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
-import '../models/collection_method.dart';
-import '../utils/interfaces/collection_method_repository.dart';
+import 'collection_method.dart';
+import 'collection_method_repository.dart';
 
-class FirestoreCollectionMethodRepository
+class CollectionMethodFirestoreRepository
     implements CollectionMethodRepository {
   final Logger _logger;
   final CollectionReference _collection;
 
-  FirestoreCollectionMethodRepository(this._logger, FirebaseFirestore instance)
+  CollectionMethodFirestoreRepository(this._logger, FirebaseFirestore instance)
       : _collection = instance.collection('collectionMethods');
 
   @override

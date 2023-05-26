@@ -1,4 +1,4 @@
-import '../../models/collection_method.dart';
+import 'collection_method.dart';
 
 abstract class CollectionMethodRepository {
   Stream<List<CollectionMethod>> getAll();

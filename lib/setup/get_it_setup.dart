@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fin_del_mundo_management/utils/interfaces/collection_method_repository.dart';
+import 'package:fin_del_mundo_management/modules/collection_method/collection_method_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
 import '../modules/branch/branch_controller.dart';
-import '../controllers/collection_methods_controller.dart';
+import '../modules/collection_method/collection_methods_controller.dart';
 import '../modules/income/income_controller.dart';
 import '../controllers/employee_controller.dart';
 import '../controllers/payment_category.dart';
@@ -13,7 +13,7 @@ import '../controllers/payment_method_controller.dart';
 import '../controllers/provider_controller.dart';
 import '../controllers/user_controller.dart';
 import '../modules/branch/branch_firestore_repository.dart';
-import '../repositories/firestore_collection_method_repository.dart';
+import '../modules/collection_method/collection_method_firestore_repository.dart';
 import '../modules/income/income_firestore_repository.dart';
 import '../repositories/firestore_employee_repository.dart';
 import '../repositories/firestore_payment_category_repository.dart';
@@ -61,7 +61,7 @@ void _setupDailyIncomeInstances() {
 
 void _setupCollectionMethodInstance() {
   getIt.registerLazySingleton<CollectionMethodRepository>(
-    () => FirestoreCollectionMethodRepository(
+    () => CollectionMethodFirestoreRepository(
       Logger('FirestoreCollectinMethodRepository'),
       _firebaseFirestore,
     ),

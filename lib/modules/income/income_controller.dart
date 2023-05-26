@@ -63,7 +63,7 @@ class IncomeController {
     ).listen((selected) {
       final monthNumber = AppDateTime.monthNameToNumber(selected['month']!);
       final currentYear = int.parse(selected['year']!);
-      final branch = selected['branch'];
+      final branch = selected['branch'] as Branch;
 
       _repository.getByMonthAndYear(monthNumber, currentYear).listen(
         (data) {
@@ -71,12 +71,12 @@ class IncomeController {
 
           List<Income> filteredData;
 
-          if (branch.name == Branch.all().name) {
-            filteredData = data;
-          } else {
-            filteredData =
-                data.where((income) => income.branch == branch).toList();
-          }
+          // if (branch.name == Branch.all().name) {
+          //   filteredData = data;
+          // } else {
+          filteredData =
+              data.where((income) => income.branch.id == branch.id).toList();
+          // }
 
           _totalDailyIncome.add(filteredData.fold(
               0, (previousValue, income) => previousValue + income.total));

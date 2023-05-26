@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
 import '../../models/user.dart';
 
+// Crear las carpetas para los modulos y llevar los archivos.
+//Cambiar nombre de dailyIncome
+
 class Income {
   String id;
   DateTime date;
@@ -29,22 +32,6 @@ class Income {
     this.surplus = 0.0,
     this.shortage = 0.0,
   });
-
-  factory Income.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-
-    return Income(
-      id: doc.id,
-      date: (data['date'] as Timestamp).toDate(),
-      branch: Branch.fromFirestore(data['branch']),
-      total: data['total'],
-      collectionMethods: Map<String, double>.from(data['collectionMethods']),
-      createdBy: data['createdBy'],
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
-      modifiedBy: data['modifiedBy'],
-      modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
-    );
-  }
 
   Income copyWith({
     String? id,
@@ -74,9 +61,26 @@ class Income {
     );
   }
 
+  factory Income.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+
+    return Income(
+      id: doc.id,
+      date: (data['date'] as Timestamp).toDate(),
+      branch: Branch.empty(id: data['branchId'], name: data['branchName']),
+      total: data['total'],
+      collectionMethods: Map<String, double>.from(data['collectionMethods']),
+      createdBy: User.empty(),
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      modifiedBy: User.empty(),
+      modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
+    );
+  }
+
   Map<String, dynamic> toFirestore() => {
         'date': Timestamp.fromDate(date),
         'branchId': branch.id,
+        'branchName': branch.name,
         'total': total,
         'collectionMethods': collectionMethods,
         'createdBy': createdBy.id,
