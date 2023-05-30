@@ -10,9 +10,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i3;
 import 'package:fin_del_mundo_management/modules/income/income.dart' as _i5;
-import 'package:fin_del_mundo_management/modules/income/pages/daily_income_form_page/daily_income_form_page.dart'
+import 'package:fin_del_mundo_management/modules/income/pages/income_form_page/income_form_page.dart'
     as _i1;
-import 'package:fin_del_mundo_management/modules/income/pages/daily_income_page/daily_income_page.dart'
+import 'package:fin_del_mundo_management/modules/income/pages/income_page/income_page.dart'
     as _i2;
 import 'package:flutter/material.dart' as _i4;
 
@@ -26,7 +26,7 @@ abstract class $AppRouter extends _i3.RootStackRouter {
           orElse: () => const DailyIncomeFormRouteArgs());
       return _i3.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.DailyIncomeFormPage(
+        child: _i1.IncomeFormPage(
           key: args.key,
           income: args.income,
         ),
@@ -37,14 +37,14 @@ abstract class $AppRouter extends _i3.RootStackRouter {
           orElse: () => const DailyIncomeRouteArgs());
       return _i3.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.DailyIncomePage(key: args.key),
+        child: _i2.IncomePage(key: args.key),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.DailyIncomeFormPage]
+/// [_i1.IncomeFormPage]
 class DailyIncomeFormRoute extends _i3.PageRouteInfo<DailyIncomeFormRouteArgs> {
   DailyIncomeFormRoute({
     _i4.Key? key,
@@ -82,7 +82,7 @@ class DailyIncomeFormRouteArgs {
 }
 
 /// generated route for
-/// [_i2.DailyIncomePage]
+/// [_i2.IncomePage]
 class DailyIncomeRoute extends _i3.PageRouteInfo<DailyIncomeRouteArgs> {
   DailyIncomeRoute({
     _i4.Key? key,

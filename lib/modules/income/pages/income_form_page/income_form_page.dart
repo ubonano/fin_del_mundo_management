@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fin_del_mundo_management/widgets/app_background.dart';
 import 'package:flutter/material.dart';
 import '../../income.dart';
-import 'widgets/daily_income_form.dart';
+import 'widgets/income_form.dart';
 
 @RoutePage()
-class DailyIncomeFormPage extends StatelessWidget {
+class IncomeFormPage extends StatelessWidget {
   final Income? income;
 
-  const DailyIncomeFormPage({Key? key, this.income}) : super(key: key);
+  const IncomeFormPage({Key? key, this.income}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class DailyIncomeFormPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 400, vertical: 70),
-        child: AppBackgound(child: DailyIncomeForm(income: income)),
+        child: AppBackgound(child: IncomeForm(income: income)),
       ),
     );
   }

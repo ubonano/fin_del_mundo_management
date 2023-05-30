@@ -6,10 +6,10 @@ import '../../../../../widgets/app_dropdown_button.dart';
 import '../../../../branch/widgets/branch_dropdown.dart';
 import '../../../income_controller.dart';
 
-class DailyIncomeFilters extends StatelessWidget {
+class IncomeFilters extends StatelessWidget {
   final _dailyIncomeController = getIt<IncomeController>();
 
-  DailyIncomeFilters({super.key});
+  IncomeFilters({super.key});
 
   @override
   Widget build(BuildContext context) {

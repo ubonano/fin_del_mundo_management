@@ -10,16 +10,16 @@ import '../../../../user/user.dart';
 import '../../../income.dart';
 import '../../../income_controller.dart';
 
-class DailyIncomeForm extends StatefulWidget {
+class IncomeForm extends StatefulWidget {
   final Income? income;
 
-  const DailyIncomeForm({Key? key, this.income}) : super(key: key);
+  const IncomeForm({Key? key, this.income}) : super(key: key);
 
   @override
-  _DailyIncomeFormState createState() => _DailyIncomeFormState();
+  _IncomeFormState createState() => _IncomeFormState();
 }
 
-class _DailyIncomeFormState extends State<DailyIncomeForm> {
+class _IncomeFormState extends State<IncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   StackRouter get router => AutoRouter.of(context);

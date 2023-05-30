@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../../setup/router.gr.dart';
 
-class DailyIncomeAddButton extends StatelessWidget {
-  const DailyIncomeAddButton({Key? key}) : super(key: key);
+class IncomeAddButton extends StatelessWidget {
+  const IncomeAddButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

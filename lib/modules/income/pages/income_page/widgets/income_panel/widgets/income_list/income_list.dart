@@ -5,16 +5,16 @@ import '../../../../../../../../setup/get_it_setup.dart';
 import '../../../../../../../../setup/router.gr.dart';
 import '../../../../../../income.dart';
 import '../../../../../../income_controller.dart';
-import 'widgets/daily_income_tile/daily_income_tile.dart';
+import 'widgets/income_tile/income_tile.dart';
 
-class DailyIncomeList extends StatefulWidget {
-  const DailyIncomeList({Key? key}) : super(key: key);
+class IncomeList extends StatefulWidget {
+  const IncomeList({Key? key}) : super(key: key);
 
   @override
-  State<DailyIncomeList> createState() => _DailyIncomeListState();
+  State<IncomeList> createState() => _IncomeListState();
 }
 
-class _DailyIncomeListState extends State<DailyIncomeList> {
+class _IncomeListState extends State<IncomeList> {
   final _controller = getIt<IncomeController>();
 
   StackRouter get router => AutoRouter.of(context);
@@ -27,7 +27,7 @@ class _DailyIncomeListState extends State<DailyIncomeList> {
         return Expanded(
           child: ListView.builder(
             itemCount: incomes.length,
-            itemBuilder: (context, index) => DailyIncomeTile(
+            itemBuilder: (context, index) => IncomeTile(
               income: incomes[index],
               onEdit: _onEdit,
               onDelete: _onDelete,

@@ -1,12 +1,12 @@
 import 'package:fin_del_mundo_management/modules/payment_method/payment_method.dart';
 import 'package:flutter/material.dart';
 
-class DailyIncomePaymentMethodDetails extends StatelessWidget {
+class IncomeCollectionMethodDetails extends StatelessWidget {
   final double percentage;
   final String total;
   final PaymentMethod paymentMethod;
 
-  const DailyIncomePaymentMethodDetails({
+  const IncomeCollectionMethodDetails({
     super.key,
     required this.percentage,
     required this.total,

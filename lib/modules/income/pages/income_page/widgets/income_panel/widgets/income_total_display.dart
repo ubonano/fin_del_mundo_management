@@ -5,10 +5,10 @@ import '../../../../../../../utils/app_formaters.dart';
 import '../../../../../../../widgets/app_stream_builder.dart';
 import '../../../../../income_controller.dart';
 
-class DailyIncomeTotalDisplay extends StatelessWidget {
+class IncomeTotalDisplay extends StatelessWidget {
   final _controller = getIt<IncomeController>();
 
-  DailyIncomeTotalDisplay({Key? key}) : super(key: key);
+  IncomeTotalDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

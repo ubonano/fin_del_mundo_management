@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'widgets/daily_income_chart.dart';
-import 'widgets/daily_income_filters.dart';
-import 'widgets/daily_income_panel/daily_income_panel.dart';
-import 'widgets/daily_income_payment_methods_chart/daily_income_payment_methods_charts.dart';
+import 'widgets/income_chart.dart';
+import 'widgets/income_filters.dart';
+import 'widgets/income_panel/income_panel.dart';
+import 'widgets/income_collection_methods_chart/income_collection_methods_charts.dart';
 
 @RoutePage()
-class DailyIncomePage extends StatelessWidget {
-  const DailyIncomePage({Key? key}) : super(key: key);
+class IncomePage extends StatelessWidget {
+  const IncomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +15,19 @@ class DailyIncomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Ingresos diarios')),
       body: Column(
         children: [
-          DailyIncomeFilters(),
+          IncomeFilters(),
           Expanded(
             child: Row(
               children: [
                 Expanded(
                   child: ListView(
                     children: [
-                      DailyIncomeChart(),
-                      DailyIncomePaymentMethodsPieChart(),
+                      IncomeChart(),
+                      IncomeCollectionMethodsPieChart(),
                     ],
                   ),
                 ),
-                const DailyIncomePanel(),
+                const IncomePanel(),
               ],
             ),
           ),

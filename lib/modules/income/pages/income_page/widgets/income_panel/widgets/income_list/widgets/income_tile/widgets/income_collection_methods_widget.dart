@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../../../../income.dart';
 
-class DailyIncomePaymentMethodsWidgets extends StatelessWidget {
+class IncomeCollectionMethodsWidgets extends StatelessWidget {
   final Income income;
 
-  const DailyIncomePaymentMethodsWidgets({Key? key, required this.income})
+  const IncomeCollectionMethodsWidgets({Key? key, required this.income})
       : super(key: key);
 
   @override

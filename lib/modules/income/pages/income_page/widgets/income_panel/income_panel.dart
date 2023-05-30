@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../widgets/app_background.dart';
-import 'widgets/daily_income_add_button.dart';
-import 'widgets/daily_income_list/daily_income_list.dart';
-import 'widgets/daily_income_total_display.dart';
+import 'widgets/income_add_button.dart';
+import 'widgets/income_list/income_list.dart';
+import 'widgets/income_total_display.dart';
 
-class DailyIncomePanel extends StatelessWidget {
-  const DailyIncomePanel({super.key});
+class IncomePanel extends StatelessWidget {
+  const IncomePanel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class DailyIncomePanel extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 22.5),
               child: _buildTop(),
             ),
-            const DailyIncomeList(),
+            const IncomeList(),
           ],
         ),
       ),
@@ -33,8 +33,8 @@ class DailyIncomePanel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        DailyIncomeTotalDisplay(),
-        const DailyIncomeAddButton(),
+        IncomeTotalDisplay(),
+        const IncomeAddButton(),
       ],
     );
   }

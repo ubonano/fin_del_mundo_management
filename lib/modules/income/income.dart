@@ -2,9 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
 import '../user/user.dart';
 
-// Crear las carpetas para los modulos y llevar los archivos.
-//Cambiar nombre de dailyIncome
-
 class Income {
   String id;
   DateTime date;

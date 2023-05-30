@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../../../../../../../../../utils/app_formaters.dart';
 import '../../../../../../../../../income.dart';
 
-class DailyIncomeInfo extends StatelessWidget {
+class IncomeInfo extends StatelessWidget {
   final Income income;
 
-  const DailyIncomeInfo({Key? key, required this.income}) : super(key: key);
+  const IncomeInfo({Key? key, required this.income}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -7,12 +7,12 @@ import '../../../../../../widgets/app_background.dart';
 import '../../../../../../widgets/app_stream_builder.dart';
 import '../../../../income.dart';
 import '../../../../income_controller.dart';
-import 'widgets/daily_income_payment_method_details.dart';
+import 'widgets/income_payment_method_details.dart';
 
-class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
+class IncomeCollectionMethodsPieChart extends StatelessWidget {
   final _controller = getIt<IncomeController>();
 
-  DailyIncomePaymentMethodsPieChart({super.key});
+  IncomeCollectionMethodsPieChart({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class DailyIncomePaymentMethodsPieChart extends StatelessWidget {
       (e) {
         double percentage = (e.value / total) * 100;
 
-        return DailyIncomePaymentMethodDetails(
+        return IncomeCollectionMethodDetails(
           paymentMethod: e.key,
           percentage: percentage,
           total: AppFormaters.getFormattedTotal(e.value),

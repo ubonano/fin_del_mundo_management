@@ -8,10 +8,10 @@ import '../../../../../widgets/app_stream_builder.dart';
 import '../../../income.dart';
 import '../../../income_controller.dart';
 
-class DailyIncomeChart extends StatelessWidget {
+class IncomeChart extends StatelessWidget {
   final _controller = getIt<IncomeController>();
 
-  DailyIncomeChart({Key? key}) : super(key: key);
+  IncomeChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

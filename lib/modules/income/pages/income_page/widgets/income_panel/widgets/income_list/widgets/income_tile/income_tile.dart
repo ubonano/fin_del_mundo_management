@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import '../../../../../../../../../../widgets/app_actions_buttons.dart';
 import '../../../../../../../../../../widgets/app_dialog_confirm.dart';
 import '../../../../../../../../income.dart';
-import 'widgets/daily_income_info.dart';
-import 'widgets/daily_income_payment_methods_widget.dart';
+import 'widgets/income_info.dart';
+import 'widgets/income_collection_methods_widget.dart';
 
-class DailyIncomeTile extends StatelessWidget {
+class IncomeTile extends StatelessWidget {
   final Income income;
   final Function(Income) onEdit;
   final Function(Income) onDelete;
 
-  const DailyIncomeTile({
+  const IncomeTile({
     Key? key,
     required this.income,
     required this.onEdit,
@@ -41,9 +41,9 @@ class DailyIncomeTile extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        DailyIncomeInfo(income: income),
+        IncomeInfo(income: income),
         const Spacer(),
-        DailyIncomePaymentMethodsWidgets(income: income),
+        IncomeCollectionMethodsWidgets(income: income),
         AppActionsButton(
           onEdit: () => onEdit(income),
           onDelete: () => AppDialogConfirm.showDeleteDialyIncome(
