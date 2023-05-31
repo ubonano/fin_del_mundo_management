@@ -30,10 +30,10 @@ class EmployeeController {
   }
 
   Future<void> add(Employee employee) async {
-    _logger.info('Adding employee: ${employee.fullName}...');
+    _logger.info('Adding employee: ${employee.name}...');
     try {
       await _repository.add(employee);
-      _logger.info('Added employee: ${employee.fullName}.');
+      _logger.info('Added employee: ${employee.name}.');
       _load();
     } catch (error) {
       _logger.severe('Failed to add employee: $error');

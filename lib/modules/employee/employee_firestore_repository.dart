@@ -25,7 +25,7 @@ class EmployeeFirestoreRepository implements EmployeeRepository {
 
   @override
   Future<void> add(Employee employee) async {
-    _logger.info('Adding employee: ${employee.fullName}...');
+    _logger.info('Adding employee: ${employee.name}...');
     await _collection
         .add(employee.toFirestore())
         .then((value) => _logger.info('Successfully added an employee'))
@@ -35,7 +35,7 @@ class EmployeeFirestoreRepository implements EmployeeRepository {
         throw error;
       },
     );
-    _logger.info('Added employee: ${employee.fullName}.');
+    _logger.info('Added employee: ${employee.name}.');
   }
 
   @override

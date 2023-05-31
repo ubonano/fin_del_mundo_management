@@ -1,5 +1,4 @@
 import 'package:fin_del_mundo_management/modules/branch/branch.dart';
-import 'package:fin_del_mundo_management/modules/user/user.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
@@ -106,13 +105,7 @@ class IncomeController {
       }
 
       await _repository.add(
-        income.copyWith(
-          createdBy: User(id: '', name: ''),
-          modifiedBy: User(id: '', name: ''),
-          createdAt: DateTime.now(),
-          modifiedAt: DateTime.now(),
-          total: income.calculateTotal(),
-        ),
+        income.copyWith(total: income.calculateTotal()),
       );
       _logger.info('Income added');
     } catch (e) {
@@ -141,18 +134,8 @@ class IncomeController {
           branch: Branch(
             id: '',
             name: '',
-            createdAt: DateTime.now(),
-            createdBy: User(id: '', name: ''),
-            modifiedBy: User(id: '', name: ''),
-            modifiedAt: DateTime.now(),
           ),
           collectionMethods: {},
-          shortage: 0,
-          surplus: 0,
-          createdBy: User(id: '', name: ''),
-          createdAt: DateTime.now(),
-          modifiedBy: User(id: '', name: ''),
-          modifiedAt: DateTime.now(),
         ),
       );
       dailyIncomesForMonth.add(incomeForCurrentDate);
@@ -174,11 +157,7 @@ class IncomeController {
             'Another income for this date and branch already exists');
       }
       await _repository.update(
-        income.copyWith(
-          modifiedBy: User(id: '', name: ''),
-          modifiedAt: DateTime.now(),
-          total: income.calculateTotal(),
-        ),
+        income.copyWith(total: income.calculateTotal()),
       );
       _logger.info('Income updated');
     } catch (e) {
@@ -207,10 +186,6 @@ class IncomeController {
           var paymentMethod = PaymentMethod(
             id: '',
             name: method,
-            createdBy: User(id: '', name: ''),
-            createdAt: DateTime.now(),
-            modifiedBy: User(id: '', name: ''),
-            modifiedAt: DateTime.now(),
           );
           paymentMethodsTotals.update(
             paymentMethod,

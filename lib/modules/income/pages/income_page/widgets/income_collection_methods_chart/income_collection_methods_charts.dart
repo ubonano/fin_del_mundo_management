@@ -7,7 +7,7 @@ import '../../../../../../widgets/app_background.dart';
 import '../../../../../../widgets/app_stream_builder.dart';
 import '../../../../income.dart';
 import '../../../../income_controller.dart';
-import 'widgets/income_payment_method_details.dart';
+import 'widgets/income_collection_method_details.dart';
 
 class IncomeCollectionMethodsPieChart extends StatelessWidget {
   final _controller = getIt<IncomeController>();

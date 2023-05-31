@@ -1,23 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../user/user.dart';
-
 class PaymentMethod {
   final String id;
   final String name;
-  final User createdBy;
-  final DateTime createdAt;
-  final User modifiedBy;
-  final DateTime modifiedAt;
 
   PaymentMethod({
     required this.id,
     required this.name,
-    required this.createdBy,
-    required this.createdAt,
-    required this.modifiedBy,
-    required this.modifiedAt,
   });
 
   @override
@@ -32,10 +22,6 @@ class PaymentMethod {
   Map<String, dynamic> toFirestore() {
     return {
       'name': name,
-      'createdBy': createdBy.toFirestore(),
-      'createdAt': Timestamp.fromDate(createdAt),
-      'modifiedBy': modifiedBy.toFirestore(),
-      'modifiedAt': Timestamp.fromDate(modifiedAt),
     };
   }
 
@@ -45,10 +31,6 @@ class PaymentMethod {
     return PaymentMethod(
       id: doc.id,
       name: data['name'],
-      createdBy: User.fromFirestore(data['createdBy']),
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
-      modifiedBy: User.fromFirestore(data['modifiedBy']),
-      modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
     );
   }
 

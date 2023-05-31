@@ -6,7 +6,6 @@ import '../../../../../setup/get_it_setup.dart';
 import '../../../../../widgets/app_form_field.dart';
 import '../../../../branch/branch.dart';
 import '../../../../branch/widgets/app_branch_field.dart';
-import '../../../../user/user.dart';
 import '../../../income.dart';
 import '../../../income_controller.dart';
 
@@ -96,10 +95,6 @@ class _IncomeFormState extends State<IncomeForm> {
   Income _getDailyIncomeToSave() {
     return Income(
       id: widget.income?.id ?? '',
-      createdAt: widget.income?.createdAt ?? DateTime.now(),
-      createdBy: User(id: 'system', name: 'system'),
-      modifiedAt: DateTime.now(),
-      modifiedBy: User(id: 'system', name: 'system'),
       date: DateTime.parse(_dateController.text),
       branch: _branch!,
       total: widget.income?.total ?? 0.0,

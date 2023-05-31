@@ -1,27 +1,18 @@
 import 'package:fin_del_mundo_management/modules/branch/branch_repository.dart';
 import '../branch.dart';
-import '../../user/user.dart';
 import '../../../setup/get_it_setup.dart';
 
 void branchDefaultGenerate() async {
   final branchRepository = getIt<BranchRepository>();
 
   Branch restaurantBranch = Branch(
-    id: '',
+    id: 'VHoSIo5jxIcUVbfsEVcv',
     name: 'Restaurante',
-    createdAt: DateTime.now(),
-    createdBy: User(id: 'system', name: 'System'),
-    modifiedBy: User(id: 'system', name: 'System'),
-    modifiedAt: DateTime.now(),
   );
 
   Branch nightclubBranch = Branch(
-    id: '',
+    id: 'uEdiho4VWh0PgkbojfoW',
     name: 'Discoteca',
-    createdAt: DateTime.now(),
-    createdBy: User(id: 'system', name: 'System'),
-    modifiedBy: User(id: 'system', name: 'System'),
-    modifiedAt: DateTime.now(),
   );
 
   try {

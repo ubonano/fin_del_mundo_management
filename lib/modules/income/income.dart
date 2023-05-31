@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
-import '../user/user.dart';
 
 class Income {
   String id;
@@ -8,13 +7,6 @@ class Income {
   Branch branch;
   double total;
   Map<String, double> collectionMethods;
-  User createdBy;
-  DateTime createdAt;
-  User modifiedBy;
-  DateTime modifiedAt;
-
-  final double surplus;
-  final double shortage;
 
   Income({
     required this.id,
@@ -22,20 +14,18 @@ class Income {
     required this.branch,
     required this.total,
     required this.collectionMethods,
-    required this.createdBy,
-    required this.createdAt,
-    required this.modifiedBy,
-    required this.modifiedAt,
-    this.surplus = 0.0,
-    this.shortage = 0.0,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Income && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 
   Income copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? modifiedAt,
-    User? createdBy,
-    User? modifiedBy,
     DateTime? date,
     Branch? branch,
     double? total,
@@ -45,16 +35,10 @@ class Income {
   }) {
     return Income(
       id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      modifiedAt: modifiedAt ?? this.modifiedAt,
-      createdBy: createdBy ?? this.createdBy,
-      modifiedBy: modifiedBy ?? this.modifiedBy,
       date: date ?? this.date,
       branch: branch ?? this.branch,
       total: total ?? this.total,
       collectionMethods: collectionMethods ?? this.collectionMethods,
-      surplus: surplus ?? this.surplus,
-      shortage: shortage ?? this.shortage,
     );
   }
 
@@ -64,13 +48,9 @@ class Income {
     return Income(
       id: doc.id,
       date: (data['date'] as Timestamp).toDate(),
-      branch: Branch.empty(id: data['branchId'], name: data['branchName']),
+      branch: Branch(id: data['branchId'], name: data['branchName']),
       total: data['total'],
       collectionMethods: Map<String, double>.from(data['collectionMethods']),
-      createdBy: User.empty(),
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
-      modifiedBy: User.empty(),
-      modifiedAt: (data['modifiedAt'] as Timestamp).toDate(),
     );
   }
 
@@ -78,12 +58,8 @@ class Income {
         'date': Timestamp.fromDate(date),
         'branchId': branch.id,
         'branchName': branch.name,
-        'total': total,
         'collectionMethods': collectionMethods,
-        'createdBy': createdBy.id,
-        'createdAt': Timestamp.fromDate(createdAt),
-        'modifiedBy': modifiedBy.id,
-        'modifiedAt': Timestamp.fromDate(modifiedAt),
+        'total': total,
       };
 
   double calculateTotal() => collectionMethods.values.reduce((a, b) => a + b);
