@@ -2,16 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../setup/get_it_setup.dart';
-import '../../../../../widgets/app_form_field.dart';
-import '../../../../../widgets/app_stream_builder.dart';
-import '../../../../branch/branch.dart';
-import '../../../../branch/widgets/branch_dropdown_field.dart';
-import '../../../../collection_method/collection_method.dart';
-import '../../../../collection_method/collection_method_controller.dart';
-import '../../../../collection_method/helpers/collection_item.dart';
-import '../../../income.dart';
-import '../../../income_controller.dart';
+import '../../../setup/get_it_setup.dart';
+import '../../../widgets/app_form_field.dart';
+import '../../../widgets/app_stream_builder.dart';
+import '../../branch/branch.dart';
+import '../../branch/widgets/branch_dropdown_field.dart';
+import '../../collection_method/collection_method.dart';
+import '../../collection_method/collection_method_controller.dart';
+import '../../collection_method/helpers/collection_item.dart';
+import '../income.dart';
+import '../income_controller.dart';
 
 class IncomeForm extends StatefulWidget {
   final Income? income;

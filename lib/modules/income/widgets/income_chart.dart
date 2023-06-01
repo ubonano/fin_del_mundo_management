@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import '../../../../../setup/get_it_setup.dart';
 import '../../../../../widgets/app_background.dart';
 import '../../../../../widgets/app_stream_builder.dart';
-import '../../../income.dart';
-import '../../../income_controller.dart';
+import '../income.dart';
+import '../income_controller.dart';
 
 class IncomeChart extends StatelessWidget {
   final _controller = getIt<IncomeController>();

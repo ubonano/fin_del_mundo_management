@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fin_del_mundo_management/widgets/app_stream_builder.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../../../setup/get_it_setup.dart';
-import '../../../../../../../../setup/router.gr.dart';
-import '../../../../../../income.dart';
-import '../../../../../../income_controller.dart';
+import '../../../../../../setup/get_it_setup.dart';
+import '../../../../../../setup/router.gr.dart';
+import '../../../../income.dart';
+import '../../../../income_controller.dart';
 import 'widgets/income_tile/income_tile.dart';
 
 class IncomeList extends StatefulWidget {

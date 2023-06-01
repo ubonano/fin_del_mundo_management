@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../../../../../utils/app_formaters.dart';
-import '../../../../../../../../../income.dart';
+import '../../../../../../../../../utils/app_formaters.dart';
+import '../../../../../../../income.dart';
 
 class IncomeInfo extends StatelessWidget {
   final Income income;

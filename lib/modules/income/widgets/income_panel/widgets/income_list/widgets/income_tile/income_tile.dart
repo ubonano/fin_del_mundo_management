@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../../../../widgets/app_actions_buttons.dart';
-import '../../../../../../../../../../widgets/app_dialog_confirm.dart';
-import '../../../../../../../../income.dart';
+import '../../../../../../../../widgets/app_actions_buttons.dart';
+import '../../../../../../../../widgets/app_dialog_confirm.dart';
+import '../../../../../../income.dart';
 import 'widgets/income_info.dart';
 import 'widgets/income_collection_methods_widget.dart';
 
