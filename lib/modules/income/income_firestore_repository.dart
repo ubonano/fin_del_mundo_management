@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
+import 'helpers/income_repository.dart';
 import 'income.dart';
-import 'income_repository.dart';
 
 class IncomeFirestoreRepository implements IncomeRepository {
   late final CollectionReference _collection;

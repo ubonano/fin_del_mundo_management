@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
 import 'branch.dart';
-import 'branch_repository.dart';
+import 'helpers/branch_repository.dart';
 
 class BranchController {
   final Logger _logger;

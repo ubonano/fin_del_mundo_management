@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'branch.dart';
-import 'branch_repository.dart';
+import 'helpers/branch_repository.dart';
 
 class BranchFirestoreRepository implements BranchRepository {
   late final CollectionReference _collection;

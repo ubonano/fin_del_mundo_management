@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
 import 'provider.dart';
-import 'provider_repository.dart';
+import 'helpers/provider_repository.dart';
 
 class ProviderController {
   final Logger _logger;

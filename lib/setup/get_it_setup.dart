@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fin_del_mundo_management/modules/collection_method/collection_method_repository.dart';
+import 'package:fin_del_mundo_management/modules/collection_method/helpers/collection_method_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
 import '../modules/branch/branch_controller.dart';
-import '../modules/collection_method/collection_methods_controller.dart';
+import '../modules/collection_method/collection_method_controller.dart';
 import '../modules/income/income_controller.dart';
 import '../modules/employee/employee_controller.dart';
 import '../modules/payment_category/payment_category_controller.dart';
@@ -21,14 +21,14 @@ import '../modules/payment_method/payment_method_firestore_repository.dart';
 import '../modules/payment/payment_firestore_repository.dart';
 import '../modules/provider/provider_firestore_repository.dart';
 import '../modules/user/user_firestore_repository.dart';
-import '../modules/branch/branch_repository.dart';
-import '../modules/income/income_repository.dart';
-import '../modules/employee/employee_repository.dart';
-import '../modules/payment_category/payment_category_repository.dart';
-import '../modules/payment_method/payment_method_repository.dart';
-import '../modules/payment/payment_repository.dart';
-import '../modules/provider/provider_repository.dart';
-import '../modules/user/user_repository.dart';
+import '../modules/branch/helpers/branch_repository.dart';
+import '../modules/income/helpers/income_repository.dart';
+import '../modules/employee/helpers/employee_repository.dart';
+import '../modules/payment_category/helpers/payment_category_repository.dart';
+import '../modules/payment_method/helpers/payment_method_repository.dart';
+import '../modules/payment/helpers/payment_repository.dart';
+import '../modules/provider/helpers/provider_repository.dart';
+import '../modules/user/helpers/user_repository.dart';
 
 GetIt getIt = GetIt.instance;
 

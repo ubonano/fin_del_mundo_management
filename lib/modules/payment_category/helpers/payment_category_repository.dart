@@ -1,4 +1,4 @@
-import 'payment_category.dart';
+import '../payment_category.dart';
 
 abstract class PaymentCategoryRepository {
   Stream<List<PaymentCategory>> getAll();

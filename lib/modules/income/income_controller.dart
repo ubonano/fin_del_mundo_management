@@ -1,11 +1,10 @@
 import 'package:fin_del_mundo_management/modules/branch/branch.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
+import '../collection_method/helpers/collection_item.dart';
 import 'income.dart';
 import '../../utils/app_date_time.dart';
-import 'income_repository.dart';
-import 'utils/collection_item.dart';
+import 'helpers/income_repository.dart';
 
 class IncomeController {
   final Logger _logger;
@@ -22,7 +21,6 @@ class IncomeController {
   final _totalDailyIncome = BehaviorSubject<double>.seeded(0);
 
   IncomeController(this._logger, this._repository) {
-    initializeDateFormatting('es_ES', null);
     _load();
   }
 

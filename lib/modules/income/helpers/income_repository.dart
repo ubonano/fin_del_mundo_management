@@ -1,5 +1,5 @@
-import '../branch/branch.dart';
-import 'income.dart';
+import '../../branch/branch.dart';
+import '../income.dart';
 
 abstract class IncomeRepository {
   Stream<List<Income>> getAll();

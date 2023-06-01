@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'setup/firebase_options.dart';
 import 'setup/get_it_setup.dart';
 import 'setup/logger_setup.dart';
 import 'setup/router.dart';
 import 'setup/setup_emulator.dart';
-import 'modules/branch/utils/branch_generator.dart';
+import 'modules/branch/helpers/branch_generator.dart';
 
 const bool useEmulator = true;
 
@@ -19,7 +20,7 @@ Future<void> main() async {
 
   // branchDefaultGenerate();
 
-  runApp(MyApp());
+  initializeDateFormatting('es_ES', null).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

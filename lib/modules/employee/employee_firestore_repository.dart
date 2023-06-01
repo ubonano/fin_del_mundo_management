@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 import 'employee.dart';
-import 'employee_repository.dart';
+import 'helpers/employee_repository.dart';
 
 class EmployeeFirestoreRepository implements EmployeeRepository {
   final Logger _logger;

@@ -21,7 +21,7 @@ class IncomeFormPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 400, vertical: 70),
+        padding: const EdgeInsets.symmetric(horizontal: 400, vertical: 150),
         child: AppBackgound(child: IncomeForm(income: income)),
       ),
     );

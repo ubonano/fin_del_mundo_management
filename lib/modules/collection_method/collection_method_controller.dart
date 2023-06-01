@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
 import 'collection_method.dart';
-import 'collection_method_repository.dart';
+import 'helpers/collection_method_repository.dart';
 
 class CollectionMethodController {
   final Logger _logger;

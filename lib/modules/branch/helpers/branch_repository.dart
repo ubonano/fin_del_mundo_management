@@ -1,4 +1,4 @@
-import 'branch.dart';
+import '../branch.dart';
 
 abstract class BranchRepository {
   Stream<List<Branch>> getAll();

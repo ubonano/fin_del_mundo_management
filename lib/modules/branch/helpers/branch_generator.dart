@@ -1,4 +1,4 @@
-import 'package:fin_del_mundo_management/modules/branch/branch_repository.dart';
+import 'package:fin_del_mundo_management/modules/branch/helpers/branch_repository.dart';
 import '../branch.dart';
 import '../../../setup/get_it_setup.dart';
 

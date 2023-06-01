@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
 import 'user.dart';
-import 'user_repository.dart';
+import 'helpers/user_repository.dart';
 
 class UserFirestoreRepository implements UserRepository {
   final Logger _logger;

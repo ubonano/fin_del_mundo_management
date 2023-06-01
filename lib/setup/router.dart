@@ -5,7 +5,7 @@ import 'package:fin_del_mundo_management/setup/router.gr.dart';
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: DailyIncomeRoute.page, initial: true),
-        AutoRoute(page: DailyIncomeFormRoute.page),
+        AutoRoute(page: IncomeRoute.page, initial: true),
+        AutoRoute(page: IncomeFormRoute.page),
       ];
 }

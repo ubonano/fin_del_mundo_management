@@ -1,4 +1,4 @@
-import 'user.dart';
+import '../user.dart';
 
 abstract class UserRepository {
   Stream<List<User>> getAll();

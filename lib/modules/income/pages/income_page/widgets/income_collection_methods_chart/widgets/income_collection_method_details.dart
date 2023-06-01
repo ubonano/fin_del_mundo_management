@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../utils/collection_item.dart';
+import '../../../../../../collection_method/helpers/collection_item.dart';
 
 class IncomeCollectionMethodDetails extends StatelessWidget {
   final double percentage;

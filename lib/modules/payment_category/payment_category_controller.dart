@@ -1,7 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 import 'payment_category.dart';
-import 'payment_category_repository.dart';
+import 'helpers/payment_category_repository.dart';
 
 class PaymentCategoryController {
   final Logger _logger;

@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
 import 'user.dart';
-import 'user_repository.dart';
+import 'helpers/user_repository.dart';
 
 class UserController {
   final Logger _logger;

@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
 import 'employee.dart';
-import 'employee_repository.dart';
+import 'helpers/employee_repository.dart';
 
 class EmployeeController {
   final Logger _logger;

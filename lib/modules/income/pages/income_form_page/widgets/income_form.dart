@@ -8,8 +8,8 @@ import '../../../../../widgets/app_stream_builder.dart';
 import '../../../../branch/branch.dart';
 import '../../../../branch/widgets/branch_dropdown_field.dart';
 import '../../../../collection_method/collection_method.dart';
-import '../../../../collection_method/collection_methods_controller.dart';
-import '../../../utils/collection_item.dart';
+import '../../../../collection_method/collection_method_controller.dart';
+import '../../../../collection_method/helpers/collection_item.dart';
 import '../../../income.dart';
 import '../../../income_controller.dart';
 
@@ -62,7 +62,6 @@ class _IncomeFormState extends State<IncomeForm> {
         children: [
           _buildRow(),
           _buildCollectionMethodFieldsStream(),
-          _buildTotalField(),
           _buildSubmitButton(),
         ],
       ),
@@ -75,6 +74,8 @@ class _IncomeFormState extends State<IncomeForm> {
         _dateField(),
         const SizedBox(width: 20),
         _branchField(),
+        const SizedBox(width: 20),
+        _buildTotalField(),
       ],
     );
   }
@@ -83,17 +84,6 @@ class _IncomeFormState extends State<IncomeForm> {
     return AppStreamBuilder<List<CollectionMethod>>(
       stream: _collectionMethodController.collectionMethods,
       onData: (data) => Column(children: _collectionMethodFields(data)),
-    );
-  }
-
-  Widget _buildTotalField() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 40),
-      child: AppFormField.number(
-        labelText: 'Total',
-        enabled: false,
-        controller: _totalController,
-      ),
     );
   }
 
@@ -123,6 +113,16 @@ class _IncomeFormState extends State<IncomeForm> {
           _branch = value;
           setState(() {});
         },
+      ),
+    );
+  }
+
+  Widget _buildTotalField() {
+    return Expanded(
+      child: AppFormField.number(
+        labelText: 'Total',
+        enabled: false,
+        controller: _totalController,
       ),
     );
   }

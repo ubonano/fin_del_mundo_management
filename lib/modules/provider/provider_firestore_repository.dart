@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
 import 'provider.dart';
-import 'provider_repository.dart';
+import 'helpers/provider_repository.dart';
 
 class ProviderFirestoreRepository implements ProviderRepository {
   final Logger _logger;

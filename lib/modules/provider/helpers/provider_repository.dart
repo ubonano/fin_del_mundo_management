@@ -1,4 +1,4 @@
-import 'provider.dart';
+import '../provider.dart';
 
 abstract class ProviderRepository {
   Stream<List<Provider>> getAll();

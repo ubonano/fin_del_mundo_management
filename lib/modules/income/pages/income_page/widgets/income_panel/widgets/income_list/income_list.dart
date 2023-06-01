@@ -38,7 +38,7 @@ class _IncomeListState extends State<IncomeList> {
     );
   }
 
-  _onEdit(income) => router.push(DailyIncomeFormRoute(income: income));
+  _onEdit(income) => router.push(IncomeFormRoute(income: income));
 
   _onDelete(income) {
     try {

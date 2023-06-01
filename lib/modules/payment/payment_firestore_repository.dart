@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
 import 'payment.dart';
-import 'payment_repository.dart';
+import 'helpers/payment_repository.dart';
 
 class PaymentFirestoreRepository implements PaymentRepository {
   final Logger _logger;

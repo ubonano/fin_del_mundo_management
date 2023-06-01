@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
-import 'utils/collection_item.dart';
+import '../collection_method/helpers/collection_item.dart';
 
 class Income {
   String id;

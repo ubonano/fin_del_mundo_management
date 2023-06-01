@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
 import 'collection_method.dart';
-import 'collection_method_repository.dart';
+import 'helpers/collection_method_repository.dart';
 
 class CollectionMethodFirestoreRepository
     implements CollectionMethodRepository {

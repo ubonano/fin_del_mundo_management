@@ -11,7 +11,7 @@ class IncomeAddButton extends StatelessWidget {
     final router = AutoRouter.of(context);
 
     return ElevatedButton.icon(
-      onPressed: () => router.push(DailyIncomeFormRoute()),
+      onPressed: () => router.push(IncomeFormRoute()),
       icon: const Icon(Icons.add, color: Colors.white, size: 18),
       label: const Text(
         'Nuevo ingreso',

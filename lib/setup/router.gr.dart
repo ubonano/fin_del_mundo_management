@@ -11,9 +11,9 @@
 import 'package:auto_route/auto_route.dart' as _i3;
 import 'package:fin_del_mundo_management/modules/income/income.dart' as _i5;
 import 'package:fin_del_mundo_management/modules/income/pages/income_form_page/income_form_page.dart'
-    as _i1;
-import 'package:fin_del_mundo_management/modules/income/pages/income_page/income_page.dart'
     as _i2;
+import 'package:fin_del_mundo_management/modules/income/pages/income_page/income_page.dart'
+    as _i1;
 import 'package:flutter/material.dart' as _i4;
 
 abstract class $AppRouter extends _i3.RootStackRouter {
@@ -21,52 +21,64 @@ abstract class $AppRouter extends _i3.RootStackRouter {
 
   @override
   final Map<String, _i3.PageFactory> pagesMap = {
-    DailyIncomeFormRoute.name: (routeData) {
-      final args = routeData.argsAs<DailyIncomeFormRouteArgs>(
-          orElse: () => const DailyIncomeFormRouteArgs());
+    IncomeRoute.name: (routeData) {
       return _i3.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.IncomeFormPage(
+        child: const _i1.IncomePage(),
+      );
+    },
+    IncomeFormRoute.name: (routeData) {
+      final args = routeData.argsAs<IncomeFormRouteArgs>(
+          orElse: () => const IncomeFormRouteArgs());
+      return _i3.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i2.IncomeFormPage(
           key: args.key,
           income: args.income,
         ),
-      );
-    },
-    DailyIncomeRoute.name: (routeData) {
-      final args = routeData.argsAs<DailyIncomeRouteArgs>(
-          orElse: () => const DailyIncomeRouteArgs());
-      return _i3.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i2.IncomePage(key: args.key),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.IncomeFormPage]
-class DailyIncomeFormRoute extends _i3.PageRouteInfo<DailyIncomeFormRouteArgs> {
-  DailyIncomeFormRoute({
+/// [_i1.IncomePage]
+class IncomeRoute extends _i3.PageRouteInfo<void> {
+  const IncomeRoute({List<_i3.PageRouteInfo>? children})
+      : super(
+          IncomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'IncomeRoute';
+
+  static const _i3.PageInfo<void> page = _i3.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.IncomeFormPage]
+class IncomeFormRoute extends _i3.PageRouteInfo<IncomeFormRouteArgs> {
+  IncomeFormRoute({
     _i4.Key? key,
     _i5.Income? income,
     List<_i3.PageRouteInfo>? children,
   }) : super(
-          DailyIncomeFormRoute.name,
-          args: DailyIncomeFormRouteArgs(
+          IncomeFormRoute.name,
+          args: IncomeFormRouteArgs(
             key: key,
             income: income,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'DailyIncomeFormRoute';
+  static const String name = 'IncomeFormRoute';
 
-  static const _i3.PageInfo<DailyIncomeFormRouteArgs> page =
-      _i3.PageInfo<DailyIncomeFormRouteArgs>(name);
+  static const _i3.PageInfo<IncomeFormRouteArgs> page =
+      _i3.PageInfo<IncomeFormRouteArgs>(name);
 }
 
-class DailyIncomeFormRouteArgs {
-  const DailyIncomeFormRouteArgs({
+class IncomeFormRouteArgs {
+  const IncomeFormRouteArgs({
     this.key,
     this.income,
   });
@@ -77,35 +89,6 @@ class DailyIncomeFormRouteArgs {
 
   @override
   String toString() {
-    return 'DailyIncomeFormRouteArgs{key: $key, income: $income}';
-  }
-}
-
-/// generated route for
-/// [_i2.IncomePage]
-class DailyIncomeRoute extends _i3.PageRouteInfo<DailyIncomeRouteArgs> {
-  DailyIncomeRoute({
-    _i4.Key? key,
-    List<_i3.PageRouteInfo>? children,
-  }) : super(
-          DailyIncomeRoute.name,
-          args: DailyIncomeRouteArgs(key: key),
-          initialChildren: children,
-        );
-
-  static const String name = 'DailyIncomeRoute';
-
-  static const _i3.PageInfo<DailyIncomeRouteArgs> page =
-      _i3.PageInfo<DailyIncomeRouteArgs>(name);
-}
-
-class DailyIncomeRouteArgs {
-  const DailyIncomeRouteArgs({this.key});
-
-  final _i4.Key? key;
-
-  @override
-  String toString() {
-    return 'DailyIncomeRouteArgs{key: $key}';
+    return 'IncomeFormRouteArgs{key: $key, income: $income}';
   }
 }
