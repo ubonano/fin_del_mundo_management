@@ -39,24 +39,10 @@ class _IncomeFormState extends State<IncomeForm> {
           : '');
   late Branch? _branch = widget.income?.branch;
 
-  late List<TextEditingController> _collectionMethodControllers;
+  final List<TextEditingController> _collectionMethodControllers = [];
 
   late final TextEditingController _totalController =
       TextEditingController(text: widget.income?.total.toString() ?? '0');
-
-  @override
-  void initState() {
-    super.initState();
-
-    _collectionMethodControllers = widget.income?.collectionMethodItems
-            .map(
-              (method) => TextEditingController(
-                text: method.name,
-              ),
-            )
-            .toList() ??
-        [];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +95,11 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  List<Widget> _collectionMethodFields(List<CollectionMethod> data) {
-    return data.map((item) {
-      String text;
+  List<Widget> _collectionMethodFields(
+      List<CollectionMethod> collectionMethos) {
+    String text;
+
+    return collectionMethos.map((item) {
       try {
         text = widget.income?.collectionMethodItems
                 .firstWhere((witem) => witem.name == item.name)
@@ -121,13 +109,15 @@ class _IncomeFormState extends State<IncomeForm> {
       } catch (e) {
         text = '';
       }
+
       final controller = TextEditingController(text: text);
+
       _collectionMethodControllerAndItem[item.name] = controller;
       _collectionMethodControllers.add(controller);
 
       return AppFormField.number(
         labelText: item.name,
-        required: true,
+        required: false,
         controller: controller,
         onFieldSubmitted: (value) => _submit(),
         onChanged: (value) => _updateTotal(),
@@ -175,7 +165,9 @@ class _IncomeFormState extends State<IncomeForm> {
         (controllerItem) {
           return CollectionMethodItem(
             name: controllerItem.key,
-            amount: double.parse(controllerItem.value.text),
+            amount: controllerItem.value.text != ''
+                ? double.parse(controllerItem.value.text)
+                : 0,
           );
         },
       ).toList(),

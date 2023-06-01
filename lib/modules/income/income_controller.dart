@@ -130,10 +130,7 @@ class IncomeController {
         orElse: () => Income(
           id: '',
           date: currentDate,
-          branch: Branch(
-            id: '',
-            name: '',
-          ),
+          branch: Branch(id: '', name: ''),
           collectionMethodItems: [],
         ),
       );

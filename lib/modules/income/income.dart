@@ -65,6 +65,4 @@ class Income {
             collectionMethodItems.map((item) => item.toMap()).toList(),
         'total': total,
       };
-
-  // double calculateTotal() => collectionMethods.values.reduce((a, b) => a + b);
 }

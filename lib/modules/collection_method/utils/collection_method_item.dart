@@ -26,7 +26,6 @@ class CollectionMethodItem {
     };
   }
 
-  // Aquí está el método fromMap
   factory CollectionMethodItem.fromMap(Map<String, dynamic> map) {
     return CollectionMethodItem(
       name: map['name'],
