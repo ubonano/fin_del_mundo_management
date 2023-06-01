@@ -5,21 +5,21 @@ import '../branch.dart';
 import '../branch_controller.dart';
 import '../../../setup/get_it_setup.dart';
 
-class AppBranchField extends StatefulWidget {
+class BranchDropdownField extends StatefulWidget {
   final Function(Branch?) onChanged;
   final Branch? initialValue;
 
-  const AppBranchField({
+  const BranchDropdownField({
     super.key,
     required this.onChanged,
     required this.initialValue,
   });
 
   @override
-  _AppBranchFieldState createState() => _AppBranchFieldState();
+  _BranchDropdownFieldState createState() => _BranchDropdownFieldState();
 }
 
-class _AppBranchFieldState extends State<AppBranchField> {
+class _BranchDropdownFieldState extends State<BranchDropdownField> {
   final _controller = getIt<BranchController>();
 
   @override

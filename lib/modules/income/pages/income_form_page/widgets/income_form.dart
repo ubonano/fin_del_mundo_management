@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../../../setup/get_it_setup.dart';
 import '../../../../../widgets/app_form_field.dart';
 import '../../../../branch/branch.dart';
-import '../../../../branch/widgets/app_branch_field.dart';
+import '../../../../branch/widgets/branch_dropdown_field.dart';
 import '../../../income.dart';
 import '../../../income_controller.dart';
 
@@ -119,7 +119,7 @@ class _IncomeFormState extends State<IncomeForm> {
 
   Widget _branchField() {
     return Expanded(
-      child: AppBranchField(
+      child: BranchDropdownField(
         initialValue: widget.income?.branch,
         onChanged: (value) {
           _branch = value;
