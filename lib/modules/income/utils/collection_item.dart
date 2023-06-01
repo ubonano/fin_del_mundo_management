@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CollectionMethodItem {
+class CollectionItem {
   String name;
   double amount;
 
-  CollectionMethodItem({
+  CollectionItem({
     required this.name,
     this.amount = 0.0,
   });
@@ -12,7 +12,7 @@ class CollectionMethodItem {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CollectionMethodItem &&
+      other is CollectionItem &&
           runtimeType == other.runtimeType &&
           name == other.name;
 
@@ -26,8 +26,8 @@ class CollectionMethodItem {
     };
   }
 
-  factory CollectionMethodItem.fromMap(Map<String, dynamic> map) {
-    return CollectionMethodItem(
+  factory CollectionItem.fromMap(Map<String, dynamic> map) {
+    return CollectionItem(
       name: map['name'],
       amount: map['amount'],
     );

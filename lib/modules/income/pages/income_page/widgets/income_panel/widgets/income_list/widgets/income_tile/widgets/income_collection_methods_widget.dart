@@ -14,7 +14,7 @@ class IncomeCollectionMethodsWidgets extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: income.collectionMethodItems.map(
+      children: income.collectionItems.map(
         (entry) {
           final percentage =
               ((entry.amount / totalPayment) * 100).toStringAsFixed(2);

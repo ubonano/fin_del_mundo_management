@@ -2,10 +2,10 @@ import 'package:fin_del_mundo_management/modules/branch/branch.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
-import '../collection_method/utils/collection_method_item.dart';
 import 'income.dart';
 import '../../utils/app_date_time.dart';
 import 'income_repository.dart';
+import 'utils/collection_item.dart';
 
 class IncomeController {
   final Logger _logger;
@@ -15,7 +15,7 @@ class IncomeController {
   final _incomes = BehaviorSubject<List<Income>>();
   final _selectedBranch = BehaviorSubject<Branch>.seeded(Branch.all());
 
-  late final _selectedMonth =
+  final _selectedMonth =
       BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
   final _selectedYear =
       BehaviorSubject<String>.seeded(DateTime.now().year.toString());
@@ -114,32 +114,6 @@ class IncomeController {
     }
   }
 
-  List<Income> fillDailyIncomesForCurrentMonth() {
-    final year = int.parse(_selectedYear.value);
-    final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
-
-    int daysInMonth = DateTime(year, month + 1, 0).day;
-
-    List<Income> dailyIncomesForMonth = [];
-
-    for (int i = 1; i <= daysInMonth; i++) {
-      DateTime currentDate = DateTime(year, month, i);
-
-      var incomeForCurrentDate = _incomes.value.firstWhere(
-        (income) => income.date.day == currentDate.day,
-        orElse: () => Income(
-          id: '',
-          date: currentDate,
-          branch: Branch(id: '', name: ''),
-          collectionMethodItems: [],
-        ),
-      );
-      dailyIncomesForMonth.add(incomeForCurrentDate);
-    }
-
-    return dailyIncomesForMonth;
-  }
-
   Future<void> update(Income income) async {
     _logger.info('Updating income with ID: ${income.id}');
     try {
@@ -173,11 +147,37 @@ class IncomeController {
     }
   }
 
-  Map<CollectionMethodItem, double> calculateCollectionMethodTotals() {
-    Map<CollectionMethodItem, double> collectionMethodsTotals = {};
+  List<Income> fillDailyIncomesForCurrentMonth() {
+    final year = int.parse(_selectedYear.value);
+    final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
+
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+
+    List<Income> dailyIncomesForMonth = [];
+
+    for (int i = 1; i <= daysInMonth; i++) {
+      DateTime currentDate = DateTime(year, month, i);
+
+      var incomeForCurrentDate = _incomes.value.firstWhere(
+        (income) => income.date.day == currentDate.day,
+        orElse: () => Income(
+          id: '',
+          date: currentDate,
+          branch: Branch(id: '', name: ''),
+          collectionItems: [],
+        ),
+      );
+      dailyIncomesForMonth.add(incomeForCurrentDate);
+    }
+
+    return dailyIncomesForMonth;
+  }
+
+  Map<CollectionItem, double> calculateCollectionMethodTotals() {
+    Map<CollectionItem, double> collectionMethodsTotals = {};
 
     for (var income in _incomes.value) {
-      income.collectionMethodItems.forEach(
+      income.collectionItems.forEach(
         (method) {
           collectionMethodsTotals.update(
             method,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../../../../../../collection_method/utils/collection_method_item.dart';
+import '../../../../../utils/collection_item.dart';
 
 class IncomeCollectionMethodDetails extends StatelessWidget {
   final double percentage;
   final String total;
-  final CollectionMethodItem collectionMethod;
+  final CollectionItem collectionMethod;
 
   const IncomeCollectionMethodDetails({
     super.key,

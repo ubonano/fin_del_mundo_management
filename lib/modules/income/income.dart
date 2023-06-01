@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
-import '../collection_method/utils/collection_method_item.dart';
+import 'utils/collection_item.dart';
 
 class Income {
   String id;
   DateTime date;
   Branch branch;
   double total;
-  List<CollectionMethodItem> collectionMethodItems;
+  List<CollectionItem> collectionItems;
 
   Income({
     required this.id,
     required this.date,
     required this.branch,
-    required this.collectionMethodItems,
-  }) : total = collectionMethodItems.fold(
-            0, (prev, method) => prev + method.amount);
+    required this.collectionItems,
+  }) : total = collectionItems.fold(0, (prev, method) => prev + method.amount);
 
   @override
   bool operator ==(Object other) =>
@@ -30,22 +29,21 @@ class Income {
     DateTime? date,
     Branch? branch,
     double? total,
-    List<CollectionMethodItem>? collectionMethodItems,
+    List<CollectionItem>? collectionItems,
   }) {
     return Income(
       id: id ?? this.id,
       date: date ?? this.date,
       branch: branch ?? this.branch,
-      collectionMethodItems:
-          collectionMethodItems ?? this.collectionMethodItems,
+      collectionItems: collectionItems ?? this.collectionItems,
     );
   }
 
   factory Income.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    final collectionItems = List<CollectionMethodItem>.from(
-      data['collectionMethodItems'].map(
-        (item) => CollectionMethodItem.fromMap(item as Map<String, dynamic>),
+    final collectionItems = List<CollectionItem>.from(
+      data['collectionItems'].map(
+        (item) => CollectionItem.fromMap(item as Map<String, dynamic>),
       ),
     );
 
@@ -53,7 +51,7 @@ class Income {
       id: doc.id,
       date: (data['date'] as Timestamp).toDate(),
       branch: Branch(id: data['branchId'], name: data['branchName']),
-      collectionMethodItems: collectionItems,
+      collectionItems: collectionItems,
     );
   }
 
@@ -61,8 +59,7 @@ class Income {
         'date': Timestamp.fromDate(date),
         'branchId': branch.id,
         'branchName': branch.name,
-        'collectionMethodItems':
-            collectionMethodItems.map((item) => item.toMap()).toList(),
+        'collectionItems': collectionItems.map((item) => item.toMap()).toList(),
         'total': total,
       };
 }
