@@ -1,13 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../setup/get_it_setup.dart';
-import '../../../../utils/app_formaters.dart';
-import '../../../../widgets/app_background.dart';
-import '../../../../widgets/app_stream_builder.dart';
-import '../../income.dart';
-import '../../income_controller.dart';
-import 'widgets/income_collection_method_details.dart';
+import '../../../setup/get_it_setup.dart';
+import '../../../utils/app_formaters.dart';
+import '../../../widgets/app_background.dart';
+import '../../../widgets/app_stream_builder.dart';
+import '../../collection_method/helpers/collection_item.dart';
+import '../income.dart';
+import '../income_controller.dart';
 
 class IncomeCollectionMethodsPieChart extends StatelessWidget {
   final _controller = getIt<IncomeController>();
@@ -84,12 +84,46 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
       (e) {
         double percentage = (e.value / total) * 100;
 
-        return IncomeCollectionMethodDetails(
-          collectionMethod: e.key,
+        return _buildIncomeCollectionMethodDetail(
+          collectionItem: e.key,
           percentage: percentage,
           total: AppFormaters.getFormattedTotal(e.value),
         );
       },
     ).toList();
+  }
+
+  Widget _buildIncomeCollectionMethodDetail({
+    required CollectionItem collectionItem,
+    required double percentage,
+    required String total,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(Icons.circle, size: 16, color: collectionItem.getColor()),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            collectionItem.name,
+            style: const TextStyle(color: Colors.black),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${percentage.toStringAsFixed(2)}%',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '\$$total',
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
