@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
+import '../collection_method/utils/collection_method_item.dart';
 
 class Income {
   String id;
   DateTime date;
   Branch branch;
   double total;
-  Map<String, double> collectionMethods;
+  List<CollectionMethodItem> collectionMethodItems;
 
   Income({
     required this.id,
     required this.date,
     required this.branch,
-    required this.total,
-    required this.collectionMethods,
-  });
+    required this.collectionMethodItems,
+  }) : total = collectionMethodItems.fold(
+            0, (prev, method) => prev + method.amount);
 
   @override
   bool operator ==(Object other) =>
@@ -29,28 +30,30 @@ class Income {
     DateTime? date,
     Branch? branch,
     double? total,
-    Map<String, double>? collectionMethods,
-    double? surplus,
-    double? shortage,
+    List<CollectionMethodItem>? collectionMethodItems,
   }) {
     return Income(
       id: id ?? this.id,
       date: date ?? this.date,
       branch: branch ?? this.branch,
-      total: total ?? this.total,
-      collectionMethods: collectionMethods ?? this.collectionMethods,
+      collectionMethodItems:
+          collectionMethodItems ?? this.collectionMethodItems,
     );
   }
 
   factory Income.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+    final collectionItems = List<CollectionMethodItem>.from(
+      data['collectionMethodItems'].map(
+        (item) => CollectionMethodItem.fromMap(item as Map<String, dynamic>),
+      ),
+    );
 
     return Income(
       id: doc.id,
       date: (data['date'] as Timestamp).toDate(),
       branch: Branch(id: data['branchId'], name: data['branchName']),
-      total: data['total'],
-      collectionMethods: Map<String, double>.from(data['collectionMethods']),
+      collectionMethodItems: collectionItems,
     );
   }
 
@@ -58,9 +61,10 @@ class Income {
         'date': Timestamp.fromDate(date),
         'branchId': branch.id,
         'branchName': branch.name,
-        'collectionMethods': collectionMethods,
+        'collectionMethodItems':
+            collectionMethodItems.map((item) => item.toMap()).toList(),
         'total': total,
       };
 
-  double calculateTotal() => collectionMethods.values.reduce((a, b) => a + b);
+  // double calculateTotal() => collectionMethods.values.reduce((a, b) => a + b);
 }

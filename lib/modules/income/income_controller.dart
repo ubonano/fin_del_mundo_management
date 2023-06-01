@@ -2,8 +2,8 @@ import 'package:fin_del_mundo_management/modules/branch/branch.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
+import '../collection_method/utils/collection_method_item.dart';
 import 'income.dart';
-import '../payment_method/payment_method.dart';
 import '../../utils/app_date_time.dart';
 import 'income_repository.dart';
 
@@ -105,7 +105,7 @@ class IncomeController {
       }
 
       await _repository.add(
-        income.copyWith(total: income.calculateTotal()),
+        income.copyWith(total: income.total),
       );
       _logger.info('Income added');
     } catch (e) {
@@ -130,12 +130,11 @@ class IncomeController {
         orElse: () => Income(
           id: '',
           date: currentDate,
-          total: 0,
           branch: Branch(
             id: '',
             name: '',
           ),
-          collectionMethods: {},
+          collectionMethodItems: [],
         ),
       );
       dailyIncomesForMonth.add(incomeForCurrentDate);
@@ -157,7 +156,7 @@ class IncomeController {
             'Another income for this date and branch already exists');
       }
       await _repository.update(
-        income.copyWith(total: income.calculateTotal()),
+        income.copyWith(total: income.total),
       );
       _logger.info('Income updated');
     } catch (e) {
@@ -177,25 +176,21 @@ class IncomeController {
     }
   }
 
-  Map<PaymentMethod, double> calculatePaymentMethodTotals() {
-    Map<PaymentMethod, double> paymentMethodsTotals = {};
+  Map<CollectionMethodItem, double> calculateCollectionMethodTotals() {
+    Map<CollectionMethodItem, double> collectionMethodsTotals = {};
 
     for (var income in _incomes.value) {
-      income.collectionMethods.forEach(
-        (method, total) {
-          var paymentMethod = PaymentMethod(
-            id: '',
-            name: method,
-          );
-          paymentMethodsTotals.update(
-            paymentMethod,
-            (value) => value + total,
-            ifAbsent: () => total,
+      income.collectionMethodItems.forEach(
+        (method) {
+          collectionMethodsTotals.update(
+            method,
+            (value) => value + method.amount,
+            ifAbsent: () => method.amount,
           );
         },
       );
     }
-    return paymentMethodsTotals;
+    return collectionMethodsTotals;
   }
 
   void dispose() {

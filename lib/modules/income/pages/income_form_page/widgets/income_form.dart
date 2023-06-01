@@ -4,8 +4,12 @@ import 'package:intl/intl.dart';
 
 import '../../../../../setup/get_it_setup.dart';
 import '../../../../../widgets/app_form_field.dart';
+import '../../../../../widgets/app_stream_builder.dart';
 import '../../../../branch/branch.dart';
 import '../../../../branch/widgets/branch_dropdown_field.dart';
+import '../../../../collection_method/collection_method.dart';
+import '../../../../collection_method/collection_methods_controller.dart';
+import '../../../../collection_method/utils/collection_method_item.dart';
 import '../../../income.dart';
 import '../../../income_controller.dart';
 
@@ -21,25 +25,38 @@ class IncomeForm extends StatefulWidget {
 class _IncomeFormState extends State<IncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final Map<String, TextEditingController> _collectionMethodControllerAndItem =
+      {};
+
   StackRouter get router => AutoRouter.of(context);
 
-  final _controller = getIt<IncomeController>();
+  final _incomeController = getIt<IncomeController>();
+  final _collectionMethodController = getIt<CollectionMethodController>();
 
   late final TextEditingController _dateController = TextEditingController(
       text: widget.income?.date != null
           ? DateFormat('yyyy-MM-dd').format(widget.income!.date)
           : '');
   late Branch? _branch = widget.income?.branch;
-  late final TextEditingController _cashController = TextEditingController(
-      text: widget.income?.collectionMethods['cash'].toString() ?? '');
-  late final TextEditingController _cardsController = TextEditingController(
-      text: widget.income?.collectionMethods['cards'].toString() ?? '');
-  late final TextEditingController _mercadoPagoController =
-      TextEditingController(
-          text:
-              widget.income?.collectionMethods['mercadoPago'].toString() ?? '');
+
+  late List<TextEditingController> _collectionMethodControllers;
+
   late final TextEditingController _totalController =
       TextEditingController(text: widget.income?.total.toString() ?? '0');
+
+  @override
+  void initState() {
+    super.initState();
+
+    _collectionMethodControllers = widget.income?.collectionMethodItems
+            .map(
+              (method) => TextEditingController(
+                text: method.name,
+              ),
+            )
+            .toList() ??
+        [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,54 +72,17 @@ class _IncomeFormState extends State<IncomeForm> {
               _branchField(),
             ],
           ),
-          _cashField(),
-          _cardsField(),
-          _mpField(),
+          AppStreamBuilder<List<CollectionMethod>>(
+            stream: _collectionMethodController.collectionMethods,
+            onData: (data) => Column(children: _collectionMethodFields(data)),
+          ),
           _totalField(),
-          _submitButton(),
+          ElevatedButton(
+            onPressed: _submit,
+            child: const Text('Enviar'),
+          ),
         ],
       ),
-    );
-  }
-
-  Widget _submitButton() {
-    return ElevatedButton(
-      onPressed: _submit,
-      child: const Text('Enviar'),
-    );
-  }
-
-  Future<void> _submit() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        final income = _getDailyIncomeToSave();
-
-        if (widget.income == null) {
-          await _controller.add(income);
-          _showSnackbar('Ingreso diario guardado');
-        } else {
-          await _controller.update(income);
-          _showSnackbar('Ingreso diario actualizado');
-        }
-
-        router.pop();
-      } catch (e) {
-        _showSnackbar('Ocurrio un error: $e');
-      }
-    }
-  }
-
-  Income _getDailyIncomeToSave() {
-    return Income(
-      id: widget.income?.id ?? '',
-      date: DateTime.parse(_dateController.text),
-      branch: _branch!,
-      total: widget.income?.total ?? 0.0,
-      collectionMethods: {
-        'cash': double.parse(_cashController.text),
-        'cards': double.parse(_cardsController.text),
-        'mercadoPago': double.parse(_mercadoPagoController.text),
-      },
     );
   }
 
@@ -129,47 +109,30 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  Widget _cashField() {
-    return AppFormField.number(
-      labelText: 'Efectivo',
-      required: true,
-      controller: _cashController,
-      onFieldSubmitted: (value) => _submit(),
-      onChanged: (value) => _updateTotal(),
-    );
-  }
+  List<Widget> _collectionMethodFields(List<CollectionMethod> data) {
+    return data.map((item) {
+      String text;
+      try {
+        text = widget.income?.collectionMethodItems
+                .firstWhere((witem) => witem.name == item.name)
+                .amount
+                .toString() ??
+            '';
+      } catch (e) {
+        text = '';
+      }
+      final controller = TextEditingController(text: text);
+      _collectionMethodControllerAndItem[item.name] = controller;
+      _collectionMethodControllers.add(controller);
 
-  Widget _cardsField() {
-    return AppFormField.number(
-      labelText: 'Tarjetas',
-      required: true,
-      controller: _cardsController,
-      onFieldSubmitted: (value) => _submit(),
-      onChanged: (value) => _updateTotal(),
-    );
-  }
-
-  Widget _mpField() {
-    return AppFormField.number(
-      labelText: 'Mercado Pago',
-      required: true,
-      controller: _mercadoPagoController,
-      onFieldSubmitted: (value) => _submit(),
-      onChanged: (value) => _updateTotal(),
-    );
-  }
-
-  void _updateTotal() {
-    double total = _calculateTotal();
-    _totalController.text = total.toString();
-  }
-
-  double _calculateTotal() {
-    double cash = double.tryParse(_cashController.text) ?? 0;
-    double cards = double.tryParse(_cardsController.text) ?? 0;
-    double mercadoPago = double.tryParse(_mercadoPagoController.text) ?? 0;
-
-    return cash + cards + mercadoPago;
+      return AppFormField.number(
+        labelText: item.name,
+        required: true,
+        controller: controller,
+        onFieldSubmitted: (value) => _submit(),
+        onChanged: (value) => _updateTotal(),
+      );
+    }).toList();
   }
 
   Widget _totalField() {
@@ -183,6 +146,52 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
+  Future<void> _submit() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final income = _getDailyIncomeToSave();
+
+        if (widget.income == null) {
+          await _incomeController.add(income);
+          _showSnackbar('Ingreso diario guardado');
+        } else {
+          await _incomeController.update(income);
+          _showSnackbar('Ingreso diario actualizado');
+        }
+
+        router.pop();
+      } catch (e) {
+        _showSnackbar('Ocurrio un error: $e');
+      }
+    }
+  }
+
+  Income _getDailyIncomeToSave() {
+    return Income(
+      id: widget.income?.id ?? '',
+      date: DateTime.parse(_dateController.text),
+      branch: _branch!,
+      collectionMethodItems: _collectionMethodControllerAndItem.entries.map(
+        (controllerItem) {
+          return CollectionMethodItem(
+            name: controllerItem.key,
+            amount: double.parse(controllerItem.value.text),
+          );
+        },
+      ).toList(),
+    );
+  }
+
+  void _updateTotal() {
+    double total = 0;
+    _collectionMethodControllers.forEach(
+      (controller) {
+        total += double.tryParse(controller.text) ?? 0;
+      },
+    );
+    _totalController.text = total.toString();
+  }
+
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
@@ -192,10 +201,9 @@ class _IncomeFormState extends State<IncomeForm> {
   @override
   void dispose() {
     _dateController.dispose();
-    _cashController.dispose();
-    _cardsController.dispose();
-    _mercadoPagoController.dispose();
+    _collectionMethodControllers.forEach((controller) => controller.dispose());
     _totalController.dispose();
+
     super.dispose();
   }
 }

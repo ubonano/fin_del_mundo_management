@@ -1,16 +1,17 @@
-import 'package:fin_del_mundo_management/modules/payment_method/payment_method.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../../collection_method/utils/collection_method_item.dart';
 
 class IncomeCollectionMethodDetails extends StatelessWidget {
   final double percentage;
   final String total;
-  final PaymentMethod paymentMethod;
+  final CollectionMethodItem collectionMethod;
 
   const IncomeCollectionMethodDetails({
     super.key,
     required this.percentage,
     required this.total,
-    required this.paymentMethod,
+    required this.collectionMethod,
   });
 
   @override
@@ -18,11 +19,11 @@ class IncomeCollectionMethodDetails extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.circle, size: 16, color: paymentMethod.getColor()),
+        Icon(Icons.circle, size: 16, color: collectionMethod.getColor()),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            paymentMethod.getLabel(),
+            collectionMethod.name,
             style: const TextStyle(color: Colors.black),
           ),
         ),

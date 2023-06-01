@@ -63,7 +63,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
   }
 
   List<PieChartSectionData> _buildPieChartSections() {
-    final paymentMethodsTotals = _controller.calculatePaymentMethodTotals();
+    final paymentMethodsTotals = _controller.calculateCollectionMethodTotals();
     return paymentMethodsTotals.entries
         .map(
           (e) => PieChartSectionData(
@@ -77,7 +77,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
   }
 
   List<Widget> _buildPaymentMethodDetails() {
-    final paymentMethodsTotals = _controller.calculatePaymentMethodTotals();
+    final paymentMethodsTotals = _controller.calculateCollectionMethodTotals();
     double total = paymentMethodsTotals.values.fold(0, (a, b) => a + b);
 
     return paymentMethodsTotals.entries.map(
@@ -85,7 +85,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
         double percentage = (e.value / total) * 100;
 
         return IncomeCollectionMethodDetails(
-          paymentMethod: e.key,
+          collectionMethod: e.key,
           percentage: percentage,
           total: AppFormaters.getFormattedTotal(e.value),
         );

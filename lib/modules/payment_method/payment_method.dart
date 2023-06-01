@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class PaymentMethod {
   final String id;
@@ -32,26 +31,5 @@ class PaymentMethod {
       id: doc.id,
       name: data['name'],
     );
-  }
-
-  Color getColor() {
-    Map<String, Color> methodsColors = {
-      'cash': Colors.green,
-      'cards': Colors.orange,
-      'mercadoPago': Colors.lightBlue,
-      'paymentMethodNotImplemented*': Colors.grey,
-    };
-
-    return methodsColors[this.name] ?? Colors.grey;
-  }
-
-  String getLabel() {
-    Map<String, String> methodsLabels = {
-      'cash': 'Efectivo',
-      'cards': 'Tarjetas',
-      'mercadoPago': 'Mercado Pago',
-    };
-
-    return methodsLabels[name] ?? 'paymentMethodNotImplemented*';
   }
 }

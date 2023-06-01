@@ -47,6 +47,7 @@ class IncomeFirestoreRepository implements IncomeRepository {
 
   @override
   Future<void> add(Income income) {
+    print(income);
     return _collection.add(income.toFirestore());
   }
 

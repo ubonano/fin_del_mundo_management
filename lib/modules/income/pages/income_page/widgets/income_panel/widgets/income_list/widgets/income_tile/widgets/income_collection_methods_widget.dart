@@ -10,14 +10,14 @@ class IncomeCollectionMethodsWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalPayment = income.calculateTotal();
+    final totalPayment = income.total;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: income.collectionMethods.entries.map(
+      children: income.collectionMethodItems.map(
         (entry) {
           final percentage =
-              ((entry.value / totalPayment) * 100).toStringAsFixed(2);
+              ((entry.amount / totalPayment) * 100).toStringAsFixed(2);
 
           return Padding(
             padding: const EdgeInsets.all(5),
@@ -25,15 +25,15 @@ class IncomeCollectionMethodsWidgets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
-                  _getPaymentMethodIcon(entry.key),
+                  entry.getIcon(),
                   size: 25,
-                  color: _getPaymentMethodColor(entry.key),
+                  color: entry.getColor(),
                 ),
                 Text(
                   '($percentage%)',
                   style: TextStyle(
                     fontSize: 12,
-                    color: _getPaymentMethodColor(entry.key),
+                    color: entry.getColor(),
                   ),
                 ),
               ],
@@ -44,29 +44,29 @@ class IncomeCollectionMethodsWidgets extends StatelessWidget {
     );
   }
 
-  Color _getPaymentMethodColor(String paymentMethod) {
-    switch (paymentMethod) {
-      case 'cash':
-        return Colors.green;
-      case 'cards':
-        return Colors.orange;
-      case 'mercadoPago':
-        return Colors.blue;
-      default:
-        return Colors.grey;
-    }
-  }
+  // Color _getPaymentMethodColor(String paymentMethod) {
+  //   switch (paymentMethod) {
+  //     case 'cash':
+  //       return Colors.green;
+  //     case 'cards':
+  //       return Colors.orange;
+  //     case 'mercadoPago':
+  //       return Colors.blue;
+  //     default:
+  //       return Colors.grey;
+  //   }
+  // }
 
-  IconData _getPaymentMethodIcon(String paymentMethod) {
-    switch (paymentMethod) {
-      case 'cash':
-        return Icons.wallet;
-      case 'cards':
-        return Icons.credit_card;
-      case 'mercadoPago':
-        return Icons.handshake;
-      default:
-        return Icons.payment;
-    }
-  }
+  // IconData _getPaymentMethodIcon(String paymentMethod) {
+  //   switch (paymentMethod) {
+  //     case 'cash':
+  //       return Icons.wallet;
+  //     case 'cards':
+  //       return Icons.credit_card;
+  //     case 'mercadoPago':
+  //       return Icons.handshake;
+  //     default:
+  //       return Icons.payment;
+  //   }
+  // }
 }
