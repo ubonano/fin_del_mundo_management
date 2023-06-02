@@ -1,3 +1,4 @@
+import 'package:fin_del_mundo_management/modules/income/helpers/migrate_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
   setupEmulator(useEmulator: useEmulator);
 
   // branchDefaultGenerate();
+  // migrateData2();
 
   initializeDateFormatting('es_ES', null).then((_) => runApp(MyApp()));
 }

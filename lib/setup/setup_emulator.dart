@@ -5,7 +5,7 @@ Future<void> setupEmulator({required bool useEmulator}) async {
     FirebaseFirestore.instance.settings = const Settings(
       host: 'localhost:8080',
       sslEnabled: false,
-      persistenceEnabled: false,
+      persistenceEnabled: true,
     );
 
     // await FirebaseAuth.instance.useEmulator('http://localhost:9099');

@@ -31,3 +31,40 @@ void migrateData() async {
     await newCollection.add(newData);
   }
 }
+
+void migrateData2() async {
+  final FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
+  print('INIT MIGRATION');
+  QuerySnapshot dailyIncomesSnapshot =
+      await firestoreInstance.collection('dailyIncomes').get();
+
+  dailyIncomesSnapshot.docs.forEach((doc) async {
+    final data = doc.data() as Map<String, dynamic>;
+    print('migration =: $data');
+    String branchId = "";
+    if (data['branch'] == "Discoteca") {
+      branchId = "uEdiho4VWh0PgkbojfoW";
+    } else if (data['branch'] == "Restaurante") {
+      branchId = "VHoSIo5jxIcUVbfsEVcv";
+    }
+
+    int cashAmount =
+        data['paymentMethods']['cash'] + data['surplus'] - data['shortage'];
+    List<Map<String, dynamic>> collectionItems = [
+      {'name': 'Efectivo', 'amount': cashAmount},
+      {'name': 'Tarjetas', 'amount': data['paymentMethods']['cards']},
+      {'name': 'Mercado Pago', 'amount': data['paymentMethods']['mercadoPago']},
+    ];
+
+    Map<String, dynamic> newData = {
+      'branchId': branchId,
+      'branchName': data['branch'],
+      'collectionItems': collectionItems,
+      'date': data['date'],
+      'total': data['total'] + data['surplus'] - data['shortage'],
+    };
+    print('to =: $newData');
+    await firestoreInstance.collection('incomesV3').add(newData);
+    print('added!...');
+  });
+}
