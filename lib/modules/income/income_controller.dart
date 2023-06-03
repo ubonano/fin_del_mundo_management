@@ -18,7 +18,7 @@ class IncomeController {
       BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
   final _selectedYear =
       BehaviorSubject<String>.seeded(DateTime.now().year.toString());
-  final _totalDailyIncome = BehaviorSubject<double>.seeded(0);
+  final _totalIncome = BehaviorSubject<double>.seeded(0);
 
   IncomeController(this._logger, this._repository) {
     _load();
@@ -28,7 +28,7 @@ class IncomeController {
   Stream<Branch> get selectedBranch => _selectedBranch.stream;
   Stream<String> get selectedMonth => _selectedMonth.stream;
   Stream<String> get selectedYear => _selectedYear.stream;
-  Stream<double> get totalDailyIncome => _totalDailyIncome.stream;
+  Stream<double> get totalDailyIncome => _totalIncome.stream;
 
   void filterByBranch(Branch branch) {
     _logger.info('Changing branch filter to ${branch.name}');
@@ -75,7 +75,7 @@ class IncomeController {
               data.where((income) => income.branch.id == branch.id).toList();
           // }
 
-          _totalDailyIncome.add(filteredData.fold(
+          _totalIncome.add(filteredData.fold(
               0, (previousValue, income) => previousValue + income.total));
 
           _incomes.add(filteredData);
@@ -194,6 +194,6 @@ class IncomeController {
     _selectedBranch.close();
     _selectedYear.close();
     _selectedMonth.close();
-    _totalDailyIncome.close();
+    _totalIncome.close();
   }
 }
