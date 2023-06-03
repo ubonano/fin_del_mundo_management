@@ -7,5 +7,6 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: IncomeRoute.page, initial: true),
         AutoRoute(page: IncomeFormRoute.page),
+        AutoRoute(page: PaymentRoute.page),
       ];
 }
