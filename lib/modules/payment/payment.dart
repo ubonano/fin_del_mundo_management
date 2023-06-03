@@ -8,8 +8,8 @@ class Payment {
   DateTime date;
   Branch branch;
   PaymentCategory category;
-  String beneficiaryId;
   PaymentMethod method;
+  String beneficiaryId;
   String status;
   DateTime paymentDate;
 
@@ -18,8 +18,8 @@ class Payment {
     required this.date,
     required this.branch,
     required this.category,
-    required this.beneficiaryId,
     required this.method,
+    required this.beneficiaryId,
     required this.status,
     required this.paymentDate,
   });

@@ -5,7 +5,7 @@ import '../../../setup/get_it_setup.dart';
 import '../../../utils/app_formaters.dart';
 import '../../../widgets/app_background.dart';
 import '../../../widgets/app_stream_builder.dart';
-import '../../collection_method/helpers/collection_item.dart';
+import '../income_item.dart';
 import '../income.dart';
 import '../income_controller.dart';
 
@@ -94,7 +94,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
   }
 
   Widget _buildIncomeCollectionMethodDetail({
-    required CollectionItem collectionItem,
+    required IncomeItem collectionItem,
     required double percentage,
     required String total,
   }) {
@@ -105,7 +105,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            collectionItem.name,
+            collectionItem.collectioMethodnName,
             style: const TextStyle(color: Colors.black),
           ),
         ),

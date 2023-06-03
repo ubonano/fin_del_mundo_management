@@ -9,7 +9,7 @@ import '../../branch/branch.dart';
 import '../../branch/widgets/branch_dropdown_field.dart';
 import '../../collection_method/collection_method.dart';
 import '../../collection_method/collection_method_controller.dart';
-import '../../collection_method/helpers/collection_item.dart';
+import '../income_item.dart';
 import '../income.dart';
 import '../income_controller.dart';
 
@@ -25,8 +25,8 @@ class IncomeForm extends StatefulWidget {
 class _IncomeFormState extends State<IncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final Map<String, TextEditingController> _collectionMethodControllerAndItem =
-      {};
+  final Map<CollectionMethod, TextEditingController>
+      _collectionMethodControllerAndItem = {};
 
   StackRouter get router => AutoRouter.of(context);
 
@@ -139,7 +139,7 @@ class _IncomeFormState extends State<IncomeForm> {
 
     final controller = TextEditingController(text: amount);
 
-    _collectionMethodControllerAndItem[collectionMethod.name] = controller;
+    _collectionMethodControllerAndItem[collectionMethod] = controller;
     _collectionMethodControllers.add(controller);
 
     return AppFormField.number(
@@ -154,8 +154,9 @@ class _IncomeFormState extends State<IncomeForm> {
   String _getCollectionMethodItemAmount(CollectionMethod collectionMethod) {
     String amount;
     try {
-      amount = widget.income?.collectionItems
-              .firstWhere((witem) => witem.name == collectionMethod.name)
+      amount = widget.income?.incomeItems
+              .firstWhere(
+                  (witem) => witem.collectioMethodnName == collectionMethod.name)
               .amount
               .toString() ??
           '';
@@ -189,10 +190,11 @@ class _IncomeFormState extends State<IncomeForm> {
       id: widget.income?.id ?? '',
       date: DateTime.parse(_dateController.text),
       branch: _branch!,
-      collectionItems: _collectionMethodControllerAndItem.entries.map(
+      incomeItems: _collectionMethodControllerAndItem.entries.map(
         (controllerItem) {
-          return CollectionItem(
-            name: controllerItem.key,
+          return IncomeItem(
+            collectionMethodId: controllerItem.key.id,
+            collectioMethodnName: controllerItem.key.name,
             amount: controllerItem.value.text != ''
                 ? double.parse(controllerItem.value.text)
                 : 0,

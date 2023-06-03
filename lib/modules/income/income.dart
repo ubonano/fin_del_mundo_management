@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
-import '../collection_method/helpers/collection_item.dart';
+import 'income_item.dart';
 
 class Income {
   String id;
   DateTime date;
   Branch branch;
   double total;
-  List<CollectionItem> collectionItems;
+  List<IncomeItem> incomeItems;
 
   Income({
     required this.id,
     required this.date,
     required this.branch,
-    required this.collectionItems,
-  }) : total = collectionItems.fold(0, (prev, method) => prev + method.amount);
+    required this.incomeItems,
+  }) : total = incomeItems.fold(0, (prev, method) => prev + method.amount);
 
   @override
   bool operator ==(Object other) =>
@@ -29,21 +29,21 @@ class Income {
     DateTime? date,
     Branch? branch,
     double? total,
-    List<CollectionItem>? collectionItems,
+    List<IncomeItem>? incomeItems,
   }) {
     return Income(
       id: id ?? this.id,
       date: date ?? this.date,
       branch: branch ?? this.branch,
-      collectionItems: collectionItems ?? this.collectionItems,
+      incomeItems: incomeItems ?? this.incomeItems,
     );
   }
 
   factory Income.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    final collectionItems = List<CollectionItem>.from(
-      data['collectionItems'].map(
-        (item) => CollectionItem.fromMap(item as Map<String, dynamic>),
+    final incomeItems = List<IncomeItem>.from(
+      data['incomeItems'].map(
+        (item) => IncomeItem.fromMap(item as Map<String, dynamic>),
       ),
     );
 
@@ -51,7 +51,7 @@ class Income {
       id: doc.id,
       date: (data['date'] as Timestamp).toDate(),
       branch: Branch(id: data['branchId'], name: data['branchName']),
-      collectionItems: collectionItems,
+      incomeItems: incomeItems,
     );
   }
 
@@ -59,7 +59,7 @@ class Income {
         'date': Timestamp.fromDate(date),
         'branchId': branch.id,
         'branchName': branch.name,
-        'collectionItems': collectionItems.map((item) => item.toMap()).toList(),
+        'incomeItems': incomeItems.map((item) => item.toMap()).toList(),
         'total': total,
       };
 }

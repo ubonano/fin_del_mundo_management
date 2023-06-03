@@ -68,3 +68,52 @@ void migrateData2() async {
     print('added!...');
   });
 }
+
+void migrateData3() async {
+  final FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
+  print('INIT MIGRATION');
+  QuerySnapshot dailyIncomesSnapshot =
+      await firestoreInstance.collection('dailyIncomes').get();
+
+  dailyIncomesSnapshot.docs.forEach((doc) async {
+    final data = doc.data() as Map<String, dynamic>;
+    print('migration =: $data');
+    String branchId = "";
+    if (data['branch'] == "Discoteca") {
+      branchId = "uEdiho4VWh0PgkbojfoW";
+    } else if (data['branch'] == "Restaurante") {
+      branchId = "VHoSIo5jxIcUVbfsEVcv";
+    }
+
+    int cashAmount =
+        data['paymentMethods']['cash'] + data['surplus'] - data['shortage'];
+    List<Map<String, dynamic>> incomeItems = [
+      {
+        'collectionMethodId': 'dtq2k2yV3FIESmPmXNmc',
+        'collectionMethodName': 'Efectivo',
+        'amount': cashAmount
+      },
+      {
+        'collectionMethodId': 'abTu72cZnofSjx9caDAm',
+        'collectionMethodName': 'Tarjetas',
+        'amount': data['paymentMethods']['cards']
+      },
+      {
+        'collectionMethodId': 'YnMmAnWdDYNYdStvcyU5',
+        'collectionMethodName': 'Mercado Pago',
+        'amount': data['paymentMethods']['mercadoPago']
+      },
+    ];
+
+    Map<String, dynamic> newData = {
+      'branchId': branchId,
+      'branchName': data['branch'],
+      'incomeItems': incomeItems,
+      'date': data['date'],
+      'total': data['total'] + data['surplus'] - data['shortage'],
+    };
+    print('to =: $newData');
+    await firestoreInstance.collection('incomesV4').add(newData);
+    print('added!...');
+  });
+}

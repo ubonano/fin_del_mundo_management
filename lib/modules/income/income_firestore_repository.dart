@@ -7,7 +7,7 @@ class IncomeFirestoreRepository implements IncomeRepository {
   late final CollectionReference _collection;
 
   IncomeFirestoreRepository(FirebaseFirestore instance) {
-    _collection = instance.collection('incomesV3');
+    _collection = instance.collection('incomesV4');
   }
 
   @override

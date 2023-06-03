@@ -20,7 +20,7 @@ Future<void> main() async {
   setupEmulator(useEmulator: useEmulator);
 
   // branchDefaultGenerate();
-  // migrateData2();
+  // migrateData3();
 
   initializeDateFormatting('es_ES', null).then((_) => runApp(MyApp()));
 }

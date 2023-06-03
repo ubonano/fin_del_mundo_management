@@ -128,7 +128,7 @@ class IncomeTile extends StatelessWidget {
   Widget _buildCollectionMethodDetail() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: income.collectionItems.map(
+      children: income.incomeItems.map(
         (entry) {
           final percentage =
               ((entry.amount / income.total) * 100).toStringAsFixed(2);

@@ -1,34 +1,38 @@
 import 'package:flutter/material.dart';
 
-class CollectionItem {
-  String name;
+class IncomeItem {
+  String collectioMethodnName;
+  String collectionMethodId;
   double amount;
 
-  CollectionItem({
-    required this.name,
+  IncomeItem({
+    required this.collectioMethodnName,
+    required this.collectionMethodId,
     this.amount = 0.0,
   });
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CollectionItem &&
+      other is IncomeItem &&
           runtimeType == other.runtimeType &&
-          name == other.name;
+          collectionMethodId == other.collectionMethodId;
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode => collectionMethodId.hashCode;
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'collectionMethodId': collectionMethodId,
+      'collectionMethodName': collectioMethodnName,
       'amount': amount,
     };
   }
 
-  factory CollectionItem.fromMap(Map<String, dynamic> map) {
-    return CollectionItem(
-      name: map['name'],
+  factory IncomeItem.fromMap(Map<String, dynamic> map) {
+    return IncomeItem(
+      collectionMethodId: map['collectionMethodId'],
+      collectioMethodnName: map['collectionMethodName'],
       amount: map['amount'],
     );
   }
@@ -41,11 +45,11 @@ class CollectionItem {
       'paymentMethodNotImplemented*': Colors.grey,
     };
 
-    return methodsColors[name] ?? Colors.grey;
+    return methodsColors[collectioMethodnName] ?? Colors.grey;
   }
 
   IconData getIcon() {
-    switch (name) {
+    switch (collectioMethodnName) {
       case 'Efectivo':
         return Icons.wallet;
       case 'Tarjetas':
