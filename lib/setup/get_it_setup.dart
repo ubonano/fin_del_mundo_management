@@ -172,10 +172,7 @@ void _setupProviderInstance() {
 
 void _setupPaymentInstance() {
   getIt.registerLazySingleton<PaymentRepository>(
-    () => PaymentFirestoreRepository(
-      Logger('FirestorePaymentRepository'),
-      _firebaseFirestore,
-    ),
+    () => PaymentFirestoreRepository(_firebaseFirestore),
   );
 
   getIt.registerLazySingleton<PaymentController>(
