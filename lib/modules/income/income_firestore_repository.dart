@@ -12,10 +12,8 @@ class IncomeFirestoreRepository implements IncomeRepository {
 
   @override
   Stream<List<Income>> getAll() {
-    return _collection.snapshots().map(
-          (snapshot) =>
-              snapshot.docs.map((doc) => Income.fromFirestore(doc)).toList(),
-        );
+    return _collection.snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Income.fromFirestore(doc)).toList());
   }
 
   @override
