@@ -6,7 +6,7 @@ import '../../branch/widgets/branch_dropdown.dart';
 import '../income_controller.dart';
 
 class IncomeFilters extends StatelessWidget {
-  final _dailyIncomeController = getIt<IncomeController>();
+  final _incomeController = getIt<IncomeController>();
 
   IncomeFilters({super.key});
 
@@ -16,20 +16,17 @@ class IncomeFilters extends StatelessWidget {
       children: [
         AppDropdownButton(
           items: AppDateTime.generateYears(),
-          streamDataSelected: _dailyIncomeController.selectedYear,
-          onChanged: (newValue) =>
-              _dailyIncomeController.filterByYear(newValue!),
+          streamDataSelected: _incomeController.selectedYear,
+          onChanged: (newValue) => _incomeController.filterByYear(newValue!),
         ),
         AppDropdownButton(
           items: AppDateTime.generateAllMonths(),
-          streamDataSelected: _dailyIncomeController.selectedMonth,
-          onChanged: (newValue) =>
-              _dailyIncomeController.filterByMonth(newValue!),
+          streamDataSelected: _incomeController.selectedMonth,
+          onChanged: (newValue) => _incomeController.filterByMonth(newValue!),
         ),
         BranchDropdown(
-          streamDataSelected: _dailyIncomeController.selectedBranch,
-          onChanged: (newValue) =>
-              _dailyIncomeController.filterByBranch(newValue!),
+          streamDataSelected: _incomeController.selectedBranch,
+          onChanged: (newValue) => _incomeController.filterByBranch(newValue!),
         ),
       ],
     );

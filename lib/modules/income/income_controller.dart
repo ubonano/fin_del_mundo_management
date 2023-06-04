@@ -145,7 +145,7 @@ class IncomeController {
     }
   }
 
-  List<Income> fillDailyIncomesForCurrentMonth() {
+  List<Income> fillIncomesForCurrentMonth() {
     final year = int.parse(_selectedYear.value);
     final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
 

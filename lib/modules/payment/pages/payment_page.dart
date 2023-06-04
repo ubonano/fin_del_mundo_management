@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/app_navigation_panel.dart';
+import '../widgets/payment_category_pie_chart.dart';
+import '../widgets/payment_chart.dart';
+import '../widgets/payment_filters.dart';
 
 @RoutePage()
 class PaymentPage extends StatelessWidget {
@@ -11,12 +14,34 @@ class PaymentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gastos'),
+        title: const Text('Gastos '),
         elevation: 0,
       ),
-      body: const Row(
+      body: Row(
         children: [
-          AppNavigationPanel(),
+          const AppNavigationPanel(),
+          Expanded(
+            child: Column(
+              children: [
+                PaymentFilters(),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            PaymentChart(),
+                            PaymentCategoryPieChart(),
+                          ],
+                        ),
+                      ),
+                      IncomePanel(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

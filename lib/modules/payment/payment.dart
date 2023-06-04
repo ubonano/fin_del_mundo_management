@@ -12,17 +12,18 @@ class Payment {
   String beneficiaryId;
   String status;
   DateTime paymentDate;
+  double total;
 
-  Payment({
-    required this.id,
-    required this.date,
-    required this.branch,
-    required this.category,
-    required this.method,
-    required this.beneficiaryId,
-    required this.status,
-    required this.paymentDate,
-  });
+  Payment(
+      {required this.id,
+      required this.date,
+      required this.branch,
+      required this.category,
+      required this.method,
+      required this.beneficiaryId,
+      required this.status,
+      required this.paymentDate,
+      this.total = 0.0});
 
   @override
   bool operator ==(Object other) =>

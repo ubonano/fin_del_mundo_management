@@ -1,8 +1,10 @@
+import 'package:fin_del_mundo_management/modules/payment_category/payment_category.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 
 import '../../utils/app_date_time.dart';
 import '../branch/branch.dart';
+import '../payment_method/payment_method.dart';
 import 'payment.dart';
 import 'helpers/payment_repository.dart';
 
@@ -86,6 +88,49 @@ class PaymentController {
     } catch (error) {
       _logger.severe('Failed to delete payment: $error');
     }
+  }
+
+  List<Payment> fillPaymentsForCurrentMonth() {
+    final year = int.parse(_selectedYear.value);
+    final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
+
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+
+    List<Payment> dailyIncomesForMonth = [];
+
+    for (int i = 1; i <= daysInMonth; i++) {
+      DateTime currentDate = DateTime(year, month, i);
+
+      var incomeForCurrentDate = _payments.value.firstWhere(
+        (payment) => payment.date.day == currentDate.day,
+        orElse: () => Payment(
+          id: '',
+          date: currentDate,
+          branch: Branch(id: '', name: ''),
+          beneficiaryId: '',
+          category: PaymentCategory(id: '', name: ''),
+          method: PaymentMethod(id: '', name: ''),
+          paymentDate: DateTime.now(),
+          status: '',
+        ),
+      );
+      dailyIncomesForMonth.add(incomeForCurrentDate);
+    }
+
+    return dailyIncomesForMonth;
+  }
+
+  Map<PaymentCategory, double> calculateCategoryTotals() {
+    Map<PaymentCategory, double> categoryTotals = {};
+
+    for (var payment in _payments.value) {
+      categoryTotals.update(
+        payment.category,
+        (value) => value + payment.total,
+        ifAbsent: () => payment.total,
+      );
+    }
+    return categoryTotals;
   }
 
   void dispose() {

@@ -5,13 +5,13 @@ import 'package:intl/intl.dart';
 import '../../../../../setup/get_it_setup.dart';
 import '../../../../../widgets/app_background.dart';
 import '../../../../../widgets/app_stream_builder.dart';
-import '../income.dart';
-import '../income_controller.dart';
+import '../payment.dart';
+import '../payment_controller.dart';
 
-class IncomeChart extends StatelessWidget {
-  final _controller = getIt<IncomeController>();
+class PaymentChart extends StatelessWidget {
+  final _controller = getIt<PaymentController>();
 
-  IncomeChart({Key? key}) : super(key: key);
+  PaymentChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class IncomeChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppBackgroundTitle(title: 'Ingresos diarios'),
+          const AppBackgroundTitle(title: 'Gastos diarios'),
           const SizedBox(height: 12),
           AppStreamBuilder(
-            stream: _controller.incomes,
-            onData: (incomes) => _buildBarChart(),
+            stream: _controller.payments,
+            onData: (payments) => _buildBarChart(),
           ),
         ],
       ),
@@ -58,16 +58,17 @@ class IncomeChart extends StatelessWidget {
     );
   }
 
-  List<charts.Series<Income, String>> _getSeries() {
-    final incomes = _controller.fillIncomesForCurrentMonth();
+  List<charts.Series<Payment, String>> _getSeries() {
+    final payments = _controller.fillPaymentsForCurrentMonth();
 
     return [
-      charts.Series<Income, String>(
-        id: 'Ingresos Diarios',
-        domainFn: (income, _) => DateFormat('dd').format(income.date),
-        measureFn: (income, _) => income.total,
-        data: incomes,
-        fillColorFn: (income, _) => charts.MaterialPalette.purple.shadeDefault,
+      charts.Series<Payment, String>(
+        id: 'Gastos Diarios',
+        domainFn: (payment, _) => DateFormat('dd').format(payment.date),
+        measureFn: (payment, _) => payment.total,
+        data: payments,
+        fillColorFn: (dailyIncome, _) =>
+            charts.MaterialPalette.purple.shadeDefault,
       ),
     ];
   }
