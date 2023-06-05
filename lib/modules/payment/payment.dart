@@ -10,6 +10,7 @@ class Payment {
   PaymentCategory category;
   PaymentMethod method;
   String beneficiaryId;
+  String beneficiaryName;
   String status;
   DateTime paymentDate;
   double total;
@@ -21,6 +22,7 @@ class Payment {
       required this.category,
       required this.method,
       required this.beneficiaryId,
+      required this.beneficiaryName,
       required this.status,
       required this.paymentDate,
       this.total = 0.0});
@@ -51,7 +53,8 @@ class Payment {
         id: data['paymentMethodId'],
         name: data['paymentMethodName'],
       ),
-      beneficiaryId: data['beneficiary'],
+      beneficiaryId: data['beneficiaryId'],
+      beneficiaryName: data['beneficiaryName'],
       status: data['status'],
       paymentDate: (data['paymentDate'] as Timestamp).toDate(),
       total: data['total'],
@@ -66,7 +69,8 @@ class Payment {
         'paymentCategoryName': category.name,
         'paymentMethodId': method.id,
         'paymentMethodName': method.name,
-        'beneficiary': beneficiaryId,
+        'beneficiaryId': beneficiaryId,
+        'beneficiaryName': beneficiaryName,
         'status': status,
         'total': total,
         'paymentDate': Timestamp.fromDate(paymentDate),

@@ -1,19 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fin_del_mundo_management/modules/payment_method/payment_method.dart';
+import 'package:fin_del_mundo_management/modules/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_field.dart';
-import '../../../widgets/app_stream_builder.dart';
 import '../../branch/branch.dart';
+import '../../employee/employee.dart';
+import '../../employee/widgets/employee_dropdown_field.dart';
 import '../../payment/payment.dart';
 import '../../payment/payment_controller.dart';
 import '../../branch/widgets/branch_dropdown_field.dart';
 import '../../payment_category/payment_category.dart';
-import '../../payment_category/payment_category_controller.dart';
 import '../../payment_category/widgets/payment_category_dropdown_field.dart';
 import '../../payment_method/widgets/payment_method_dropdown_field.dart';
+import '../../provider/widgets/provider_dropdown_field.dart';
+
+enum PaymentStatus { pending, paid }
 
 class PaymentForm extends StatefulWidget {
   final Payment? payment;
@@ -33,12 +37,13 @@ class _PaymentFormState extends State<PaymentForm> {
 
   late final TextEditingController _dateController;
   late Branch? _branch;
-  late final TextEditingController _beneficiaryIdController;
-  late final TextEditingController _statusController;
+  late PaymentStatus _paymentStatus;
   late final TextEditingController _paymentDateController;
   late final TextEditingController _totalController;
   late PaymentCategory? _category;
   late PaymentMethod? _method;
+  late Employee? _employee;
+  late Provider? _provider;
 
   late bool _paymentDateFieldEnabled;
   late bool _methodFieldEnabled;
@@ -51,10 +56,11 @@ class _PaymentFormState extends State<PaymentForm> {
         text: widget.payment?.date != null
             ? DateFormat('yyyy-MM-dd').format(widget.payment!.date)
             : '');
-    _beneficiaryIdController =
-        TextEditingController(text: widget.payment?.beneficiaryId ?? '');
-    _statusController =
-        TextEditingController(text: widget.payment?.status ?? '');
+
+    _paymentStatus = widget.payment?.status == "Pagado"
+        ? PaymentStatus.paid
+        : PaymentStatus.pending;
+
     _paymentDateController = TextEditingController(
         text: widget.payment?.paymentDate != null
             ? DateFormat('yyyy-MM-dd').format(widget.payment!.paymentDate)
@@ -87,7 +93,11 @@ class _PaymentFormState extends State<PaymentForm> {
             children: [
               _paymentCategoryField(),
               const SizedBox(width: 20),
-              _beneficiaryIdField(),
+              _category?.name == 'Empleados'
+                  ? _employeeField()
+                  : _category?.name == 'Proveedores'
+                      ? _providerField()
+                      : Container(),
             ],
           ),
           Row(
@@ -128,38 +138,37 @@ class _PaymentFormState extends State<PaymentForm> {
     );
   }
 
-  Widget _beneficiaryIdField() {
-    return Expanded(
-      child: AppFormField.text(
-        labelText: 'ID del beneficiario',
-        required: true,
-        controller: _beneficiaryIdController,
-        onFieldSubmitted: (value) => _submit(),
-      ),
-    );
-  }
-
   Widget _statusField() {
     return Expanded(
-      child: DropdownButtonFormField<String>(
-        decoration: const InputDecoration(
-          labelText: 'Estado',
-        ),
-        value: _statusController.text.isEmpty
-            ? 'Pendiente'
-            : _statusController.text,
-        items: const <String>['Pendiente', 'Pagado'].map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (String? value) {
-          _statusController.text = value!;
-          _paymentDateFieldEnabled = value == "Pagado";
-          _methodFieldEnabled = value == "Pagado";
-          setState(() {});
-        },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Estado'),
+          RadioListTile<PaymentStatus>(
+            title: const Text('Pendiente'),
+            value: PaymentStatus.pending,
+            groupValue: _paymentStatus,
+            onChanged: (PaymentStatus? value) {
+              setState(() {
+                _paymentStatus = value!;
+                _paymentDateFieldEnabled = value == PaymentStatus.paid;
+                _methodFieldEnabled = value == PaymentStatus.paid;
+              });
+            },
+          ),
+          RadioListTile<PaymentStatus>(
+            title: const Text('Pagado'),
+            value: PaymentStatus.paid,
+            groupValue: _paymentStatus,
+            onChanged: (PaymentStatus? value) {
+              setState(() {
+                _paymentStatus = value!;
+                _paymentDateFieldEnabled = value == PaymentStatus.paid;
+                _methodFieldEnabled = value == PaymentStatus.paid;
+              });
+            },
+          ),
+        ],
       ),
     );
   }
@@ -180,6 +189,7 @@ class _PaymentFormState extends State<PaymentForm> {
     return Expanded(
       child: PaymentMethodDropdownField(
         initialValue: widget.payment?.method,
+        enabled: _methodFieldEnabled,
         onChanged: (value) {
           _method = value;
           setState(() {});
@@ -194,6 +204,40 @@ class _PaymentFormState extends State<PaymentForm> {
         initialValue: widget.payment?.category,
         onChanged: (value) {
           _category = value;
+          setState(() {});
+        },
+      ),
+    );
+  }
+
+  Widget _employeeField() {
+    return Expanded(
+      child: EmployeeDropdownField(
+        initialValue: widget.payment != null
+            ? Employee(
+                id: widget.payment!.beneficiaryId,
+                name: widget.payment!.beneficiaryName,
+              )
+            : null,
+        onChanged: (value) {
+          _employee = value;
+          setState(() {});
+        },
+      ),
+    );
+  }
+
+  Widget _providerField() {
+    return Expanded(
+      child: ProviderDropdownField(
+        initialValue: widget.payment != null
+            ? Provider(
+                id: widget.payment!.beneficiaryId,
+                name: widget.payment!.beneficiaryName,
+              )
+            : null,
+        onChanged: (value) {
+          _provider = value;
           setState(() {});
         },
       ),
@@ -240,8 +284,17 @@ class _PaymentFormState extends State<PaymentForm> {
     return Payment(
       id: widget.payment?.id ?? '',
       date: DateTime.parse(_dateController.text),
-      beneficiaryId: _beneficiaryIdController.text,
-      status: _statusController.text,
+      beneficiaryId: _category?.name == "Empleados"
+          ? _employee?.id ?? ''
+          : _category?.name == "Proveedores"
+              ? _provider?.id ?? ''
+              : '',
+      beneficiaryName: _category?.name == "Empleados"
+          ? _employee?.name ?? ''
+          : _category?.name == "Proveedores"
+              ? _provider?.name ?? ''
+              : "",
+      status: _paymentStatus == PaymentStatus.paid ? 'Pagado' : 'Pendiente',
       paymentDate: DateTime.parse(_paymentDateController.text),
       category: _category!,
       total: double.parse(_totalController.text),
@@ -259,8 +312,6 @@ class _PaymentFormState extends State<PaymentForm> {
   @override
   void dispose() {
     _dateController.dispose();
-    _beneficiaryIdController.dispose();
-    _statusController.dispose();
     _paymentDateController.dispose();
     _totalController.dispose();
 

@@ -1,15 +1,15 @@
 import 'package:fin_del_mundo_management/widgets/app_dropdown_field.dart';
 import 'package:flutter/material.dart';
 import '../../../setup/get_it_setup.dart';
-import '../branch.dart';
-import '../branch_controller.dart';
+import '../employee.dart';
+import '../employee_controller.dart';
 
-class BranchDropdownField extends StatefulWidget {
-  final Function(Branch?) onChanged;
-  final Branch? initialValue;
+class EmployeeDropdownField extends StatefulWidget {
+  final Function(Employee?) onChanged;
+  final Employee? initialValue;
   final bool enabled;
 
-  const BranchDropdownField({
+  const EmployeeDropdownField({
     super.key,
     required this.onChanged,
     required this.initialValue,
@@ -17,11 +17,11 @@ class BranchDropdownField extends StatefulWidget {
   });
 
   @override
-  _BranchDropdownFieldState createState() => _BranchDropdownFieldState();
+  _EmployeeDropdownFieldState createState() => _EmployeeDropdownFieldState();
 }
 
-class _BranchDropdownFieldState extends State<BranchDropdownField> {
-  final _controller = getIt<BranchController>();
+class _EmployeeDropdownFieldState extends State<EmployeeDropdownField> {
+  final _controller = getIt<EmployeeController>();
 
   @override
   void initState() {
@@ -33,9 +33,9 @@ class _BranchDropdownFieldState extends State<BranchDropdownField> {
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.branches,
+      stream: _controller.employees,
       getDisplayName: (a) => a.name,
-      label: 'Sucursal',
+      label: 'Empleado',
     );
   }
 }

@@ -1,5 +1,4 @@
-import 'package:fin_del_mundo_management/widgets/app_stream_builder.dart';
-import 'package:fin_del_mundo_management/utils/app_validators.dart';
+import 'package:fin_del_mundo_management/widgets/app_dropdown_field.dart';
 import 'package:flutter/material.dart';
 import '../../../setup/get_it_setup.dart';
 import '../payment_category.dart';
@@ -8,11 +7,13 @@ import '../payment_category_controller.dart';
 class PaymentCategoryDropdownField extends StatefulWidget {
   final Function(PaymentCategory?) onChanged;
   final PaymentCategory? initialValue;
+  final bool enabled;
 
   const PaymentCategoryDropdownField({
     super.key,
     required this.onChanged,
     required this.initialValue,
+    this.enabled = true,
   });
 
   @override
@@ -31,34 +32,12 @@ class _PaymentCategoryDropdownFieldState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: AppStreamBuilder(
-        stream: _controller.paymentCategories,
-        onData: (branches) => DropdownButtonFormField<PaymentCategory>(
-          decoration: const InputDecoration(
-            labelText: 'Categoria',
-            filled: true,
-            isDense: true,
-          ),
-          value: widget.initialValue,
-          validator: AppValidators.object,
-          items: _buildDropdownMenuItems(branches),
-          onChanged: widget.onChanged,
-        ),
-      ),
+    return AppDropdownField(
+      onChanged: widget.onChanged,
+      initialValue: widget.initialValue,
+      stream: _controller.paymentCategories,
+      getDisplayName: (a) => a.name,
+      label: 'Categoria de pago',
     );
-  }
-
-  List<DropdownMenuItem<PaymentCategory>> _buildDropdownMenuItems(
-      List<PaymentCategory> branches) {
-    return branches.map(
-      (branch) {
-        return DropdownMenuItem<PaymentCategory>(
-          value: branch,
-          child: Text(branch.name),
-        );
-      },
-    ).toList();
   }
 }

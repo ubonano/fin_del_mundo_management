@@ -108,6 +108,7 @@ class PaymentController {
           date: currentDate,
           branch: Branch(id: '', name: ''),
           beneficiaryId: '',
+          beneficiaryName: '',
           category: PaymentCategory(id: '', name: ''),
           method: PaymentMethod(id: '', name: ''),
           paymentDate: DateTime.now(),

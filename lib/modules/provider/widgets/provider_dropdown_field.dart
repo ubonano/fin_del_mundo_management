@@ -1,15 +1,15 @@
 import 'package:fin_del_mundo_management/widgets/app_dropdown_field.dart';
 import 'package:flutter/material.dart';
 import '../../../setup/get_it_setup.dart';
-import '../branch.dart';
-import '../branch_controller.dart';
+import '../provider.dart';
+import '../provider_controller.dart';
 
-class BranchDropdownField extends StatefulWidget {
-  final Function(Branch?) onChanged;
-  final Branch? initialValue;
+class ProviderDropdownField extends StatefulWidget {
+  final Function(Provider?) onChanged;
+  final Provider? initialValue;
   final bool enabled;
 
-  const BranchDropdownField({
+  const ProviderDropdownField({
     super.key,
     required this.onChanged,
     required this.initialValue,
@@ -17,11 +17,11 @@ class BranchDropdownField extends StatefulWidget {
   });
 
   @override
-  _BranchDropdownFieldState createState() => _BranchDropdownFieldState();
+  _ProviderDropdownFieldState createState() => _ProviderDropdownFieldState();
 }
 
-class _BranchDropdownFieldState extends State<BranchDropdownField> {
-  final _controller = getIt<BranchController>();
+class _ProviderDropdownFieldState extends State<ProviderDropdownField> {
+  final _controller = getIt<ProviderController>();
 
   @override
   void initState() {
@@ -33,9 +33,9 @@ class _BranchDropdownFieldState extends State<BranchDropdownField> {
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.branches,
+      stream: _controller.providers,
       getDisplayName: (a) => a.name,
-      label: 'Sucursal',
+      label: 'Proveedor',
     );
   }
 }
