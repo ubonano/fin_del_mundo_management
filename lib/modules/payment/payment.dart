@@ -54,6 +54,7 @@ class Payment {
       beneficiaryId: data['beneficiary'],
       status: data['status'],
       paymentDate: (data['paymentDate'] as Timestamp).toDate(),
+      total: data['total'],
     );
   }
 
@@ -67,6 +68,7 @@ class Payment {
         'paymentMethodName': method.name,
         'beneficiary': beneficiaryId,
         'status': status,
+        'total': total,
         'paymentDate': Timestamp.fromDate(paymentDate),
       };
 }

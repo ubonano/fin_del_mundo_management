@@ -155,8 +155,8 @@ class _IncomeFormState extends State<IncomeForm> {
     String amount;
     try {
       amount = widget.income?.incomeItems
-              .firstWhere(
-                  (witem) => witem.collectioMethodnName == collectionMethod.name)
+              .firstWhere((witem) =>
+                  witem.collectioMethodnName == collectionMethod.name)
               .amount
               .toString() ??
           '';
@@ -169,7 +169,7 @@ class _IncomeFormState extends State<IncomeForm> {
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final income = _getDailyIncomeToSave();
+        final income = _getIncomeToSave();
 
         if (widget.income == null) {
           await _incomeController.add(income);
@@ -185,7 +185,7 @@ class _IncomeFormState extends State<IncomeForm> {
     }
   }
 
-  Income _getDailyIncomeToSave() {
+  Income _getIncomeToSave() {
     return Income(
       id: widget.income?.id ?? '',
       date: DateTime.parse(_dateController.text),

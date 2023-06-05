@@ -1,26 +1,28 @@
 import 'package:fin_del_mundo_management/widgets/app_stream_builder.dart';
 import 'package:fin_del_mundo_management/utils/app_validators.dart';
 import 'package:flutter/material.dart';
-import '../branch.dart';
-import '../branch_controller.dart';
 import '../../../setup/get_it_setup.dart';
+import '../payment_method.dart';
+import '../payment_method_controller.dart';
 
-class BranchDropdownField extends StatefulWidget {
-  final Function(Branch?) onChanged;
-  final Branch? initialValue;
+class PaymentMethodDropdownField extends StatefulWidget {
+  final Function(PaymentMethod?) onChanged;
+  final PaymentMethod? initialValue;
 
-  const BranchDropdownField({
+  const PaymentMethodDropdownField({
     super.key,
     required this.onChanged,
     required this.initialValue,
   });
 
   @override
-  _BranchDropdownFieldState createState() => _BranchDropdownFieldState();
+  _PaymentMethodDropdownFieldState createState() =>
+      _PaymentMethodDropdownFieldState();
 }
 
-class _BranchDropdownFieldState extends State<BranchDropdownField> {
-  final _controller = getIt<BranchController>();
+class _PaymentMethodDropdownFieldState
+    extends State<PaymentMethodDropdownField> {
+  final _controller = getIt<PaymentMethodController>();
 
   @override
   void initState() {
@@ -32,10 +34,10 @@ class _BranchDropdownFieldState extends State<BranchDropdownField> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: AppStreamBuilder(
-        stream: _controller.branches,
-        onData: (branches) => DropdownButtonFormField<Branch>(
+        stream: _controller.paymentMethods,
+        onData: (branches) => DropdownButtonFormField<PaymentMethod>(
           decoration: const InputDecoration(
-            labelText: 'Sucursal',
+            labelText: 'Categoria',
             filled: true,
             isDense: true,
           ),
@@ -48,11 +50,11 @@ class _BranchDropdownFieldState extends State<BranchDropdownField> {
     );
   }
 
-  List<DropdownMenuItem<Branch>> _buildDropdownMenuItems(
-      List<Branch> branches) {
+  List<DropdownMenuItem<PaymentMethod>> _buildDropdownMenuItems(
+      List<PaymentMethod> branches) {
     return branches.map(
       (branch) {
-        return DropdownMenuItem<Branch>(
+        return DropdownMenuItem<PaymentMethod>(
           value: branch,
           child: Text(branch.name),
         );

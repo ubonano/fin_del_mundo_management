@@ -28,7 +28,7 @@ class IncomeController {
   Stream<Branch> get selectedBranch => _selectedBranch.stream;
   Stream<String> get selectedMonth => _selectedMonth.stream;
   Stream<String> get selectedYear => _selectedYear.stream;
-  Stream<double> get totalDailyIncome => _totalIncome.stream;
+  Stream<double> get totalIncome => _totalIncome.stream;
 
   void filterByBranch(Branch branch) {
     _logger.info('Changing branch filter to ${branch.name}');

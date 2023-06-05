@@ -5,6 +5,7 @@ import '../../../widgets/app_navigation_panel.dart';
 import '../widgets/payment_category_pie_chart.dart';
 import '../widgets/payment_chart.dart';
 import '../widgets/payment_filters.dart';
+import '../widgets/payment_panel.dart';
 
 @RoutePage()
 class PaymentPage extends StatelessWidget {
@@ -35,7 +36,7 @@ class PaymentPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      IncomePanel(),
+                      PaymentPanel(),
                     ],
                   ),
                 ),

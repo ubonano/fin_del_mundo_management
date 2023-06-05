@@ -34,7 +34,7 @@ class AppValidators {
     return null;
   }
 
-  static String? branch(Branch? value, {bool required = true}) {
+  static String? object(Object? value, {bool required = true}) {
     if (required && (value == null)) {
       return 'Por favor, complete el campo';
     }

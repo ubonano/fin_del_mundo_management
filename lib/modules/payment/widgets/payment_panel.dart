@@ -6,14 +6,14 @@ import '../../../setup/router.gr.dart';
 import '../../../utils/app_formaters.dart';
 import '../../../widgets/app_background.dart';
 import '../../../widgets/app_stream_builder.dart';
-import '../income_controller.dart';
-import 'income_list.dart';
+import '../payment_controller.dart';
+import 'payment_list.dart';
 
-class IncomePanel extends StatelessWidget {
-  final _controller = getIt<IncomeController>();
+class PaymentPanel extends StatelessWidget {
+  final _controller = getIt<PaymentController>();
   late final StackRouter router;
 
-  IncomePanel({super.key});
+  PaymentPanel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,13 @@ class IncomePanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AppBackgroundTitle(title: 'Total de ingresos'),
+            const AppBackgroundTitle(title: 'Total de gastos'),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 22.5),
               child: _buildTop(),
             ),
-            const IncomeList(),
+            const PaymentList(),
           ],
         ),
       ),
@@ -50,7 +50,7 @@ class IncomePanel extends StatelessWidget {
 
   Widget _buildTotalField() {
     return AppStreamBuilder<double>(
-      stream: _controller.totalIncome,
+      stream: _controller.totalPayment,
       onData: (data) => Text(
         '\$ ${AppFormaters.getFormattedTotal(data)}',
         style: const TextStyle(
@@ -64,14 +64,14 @@ class IncomePanel extends StatelessWidget {
 
   Widget _buildAddButton() {
     return ElevatedButton.icon(
-      onPressed: () => router.push(IncomeFormRoute()),
+      onPressed: () => router.push(PaymentFormRoute()),
       icon: const Icon(Icons.add, color: Colors.white, size: 18),
       label: const Text(
-        'Nuevo ingreso',
+        'Nuevo gasto',
         style: TextStyle(color: Colors.white, fontSize: 14),
       ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff5E27FA),
+        backgroundColor: const Color.fromARGB(255, 253, 49, 49),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
     );
