@@ -30,16 +30,16 @@ class PaymentForm extends StatefulWidget {
 
 class _PaymentFormState extends State<PaymentForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  StackRouter get router => AutoRouter.of(context);
-
   final _paymentController = getIt<PaymentController>();
+  late StackRouter _router;
 
-  late final TextEditingController _dateController;
+  // Declaring Controllers, Data and Status
+  late TextEditingController _dateController;
+  late TextEditingController _paymentDateController;
+  late TextEditingController _totalController;
+
   late Branch? _branch;
   late PaymentStatus _paymentStatus;
-  late final TextEditingController _paymentDateController;
-  late final TextEditingController _totalController;
   late PaymentCategory? _category;
   late PaymentMethod? _method;
   late Employee? _employee;
@@ -51,26 +51,33 @@ class _PaymentFormState extends State<PaymentForm> {
   @override
   void initState() {
     super.initState();
+    _initializeData();
+  }
 
-    _dateController = TextEditingController(
-        text: widget.payment?.date != null
-            ? DateFormat('yyyy-MM-dd').format(widget.payment!.date)
-            : '');
+  void _initializeData() {
+    var payment = widget.payment;
 
-    _paymentStatus = widget.payment?.status == "Pagado"
+    _router = AutoRouter.of(context);
+    _paymentStatus = payment?.status == "Pagado"
         ? PaymentStatus.paid
         : PaymentStatus.pending;
+    _paymentDateFieldEnabled = _paymentStatus == PaymentStatus.paid;
+    _methodFieldEnabled = _paymentStatus == PaymentStatus.paid;
 
-    _paymentDateController = TextEditingController(
-        text: widget.payment?.paymentDate != null
-            ? DateFormat('yyyy-MM-dd').format(widget.payment!.paymentDate)
-            : '');
+    _dateController = _createTextController(payment?.date);
+    _paymentDateController = _createTextController(payment?.paymentDate);
     _totalController =
-        TextEditingController(text: widget.payment?.total.toString() ?? '0');
-    _category = widget.payment?.category;
+        TextEditingController(text: payment?.total.toString() ?? '0');
 
-    _paymentDateFieldEnabled = widget.payment?.status == "Pagado";
-    _methodFieldEnabled = widget.payment?.status == "Pagado";
+    _branch = payment?.branch;
+    _category = payment?.category;
+    _method = payment?.method;
+  }
+
+  TextEditingController _createTextController(DateTime? dateTime) {
+    return TextEditingController(
+      text: dateTime != null ? DateFormat('yyyy-MM-dd').format(dateTime) : '',
+    );
   }
 
   @override
@@ -79,40 +86,37 @@ class _PaymentFormState extends State<PaymentForm> {
       key: _formKey,
       child: ListView(
         padding: const EdgeInsets.all(16.0),
-        children: [
-          Row(
-            children: [
-              _dateField(),
-              const SizedBox(width: 20),
-              _branchField(),
-              const SizedBox(width: 20),
-              _totalField(),
-            ],
-          ),
-          Row(
-            children: [
-              _paymentCategoryField(),
-              const SizedBox(width: 20),
-              _category?.name == 'Empleados'
-                  ? _employeeField()
-                  : _category?.name == 'Proveedores'
-                      ? _providerField()
-                      : Container(),
-            ],
-          ),
-          Row(
-            children: [
-              _statusField(),
-              const SizedBox(width: 20),
-              _paymentDateField(),
-              const SizedBox(width: 20),
-              _methodField(),
-            ],
-          ),
-          _buildSubmitButton(),
-        ],
+        children: _buildFormFields(),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields() {
+    return [
+      _buildFormRow([_dateField(), _branchField(), _totalField()]),
+      _buildFormRow([_paymentCategoryField(), _dynamicField()]),
+      _buildFormRow([_statusField(), _paymentDateField(), _methodField()]),
+      _buildSubmitButton(),
+    ];
+  }
+
+  Row _buildFormRow(List<Widget> widgets) {
+    return Row(
+      children: widgets
+          .expand((widget) => [widget, const SizedBox(width: 20)])
+          .toList(),
+    );
+  }
+
+  Widget _dynamicField() {
+    switch (_category?.name) {
+      case 'Empleados':
+        return _employeeField();
+      case 'Proveedores':
+        return _providerField();
+      default:
+        return Container();
+    }
   }
 
   Widget _dateField() {
@@ -273,7 +277,7 @@ class _PaymentFormState extends State<PaymentForm> {
         }
         _showSnackbar('Pago guardado');
 
-        router.pop();
+        _router.pop();
       } catch (e) {
         _showSnackbar('Ocurrió un error: $e');
       }
