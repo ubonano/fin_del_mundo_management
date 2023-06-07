@@ -11,12 +11,18 @@ import 'helpers/payment_repository.dart';
 
 class PaymentController {
   final Logger _logger;
-
   final PaymentRepository _repository;
   final CommonFiltersController _filtersController;
 
   final _payments = BehaviorSubject<List<Payment>>();
   final _totalPayment = BehaviorSubject<double>.seeded(0);
+
+  PaymentController(this._logger, this._repository, this._filtersController) {
+    _load();
+  }
+
+  Stream<List<Payment>> get $payments => _payments.stream;
+  Stream<double> get $totalPayment => _totalPayment.stream;
 
   Stream<Branch> get $selectedBranch => _filtersController.$selectedBranch;
   Stream<String> get $selectedMonth => _filtersController.$selectedMonth;
@@ -26,24 +32,34 @@ class PaymentController {
   String get selectedMonth => _filtersController.selectedMonth;
   String get selectedYear => _filtersController.selectedYear;
 
-  PaymentController(this._logger, this._repository, this._filtersController) {
-    _load();
-  }
-
-  Stream<List<Payment>> get $payments => _payments.stream;
-  Stream<double> get $totalPayment => _totalPayment.stream;
-
   void _load() {
-    _logger.info('Loading payments...');
-    _repository.getAll().listen(
-      (payments) {
-        _payments.add(payments);
-        _logger.info('Loaded ${payments.length} payments.');
-      },
-      onError: (error) {
-        _logger.severe('Failed to load payments: $error');
-      },
-    );
+    _logger.info('Loading payments');
+
+    _filtersController.$combinedFilters.listen((selected) {
+      final monthNumber = AppDateTime.monthNameToNumber(selected['month']!);
+      final currentYear = int.parse(selected['year']!);
+      final branch = selected['branch'] as Branch;
+
+      _repository.getByMonthAndYear(monthNumber, currentYear).listen(
+        (data) {
+          data.sort((a, b) => b.date.compareTo(a.date)); // Descending order.
+
+          List<Payment> filteredData;
+          filteredData =
+              data.where((payment) => payment.branch.id == branch.id).toList();
+
+          _totalPayment.add(filteredData.fold(
+              0, (previousValue, payment) => previousValue + payment.total));
+
+          _payments.add(filteredData);
+        },
+        onError: (err) {
+          _logger.severe('Error loading payments: $err');
+          _payments.addError(err);
+        },
+      );
+    });
+    _logger.info('Payments loaded');
   }
 
   Future<void> add(Payment payment) async {

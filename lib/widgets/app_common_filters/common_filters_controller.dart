@@ -27,6 +27,19 @@ class CommonFiltersController {
   String get selectedMonth => _selectedMonth.value;
   String get selectedYear => _selectedYear.value;
 
+  // En CommonFiltersController
+  Stream<Map<String, dynamic>> get $combinedFilters =>
+      Rx.combineLatest3<String, String, Branch, Map<String, dynamic>>(
+        $selectedMonth,
+        $selectedYear,
+        $selectedBranch,
+        (selectedMonth, selectedYear, selectedBranch) => {
+          'month': selectedMonth,
+          'year': selectedYear,
+          'branch': selectedBranch
+        },
+      );
+
   void filterByBranch(Branch branch) {
     _logger.info('Changing branch filter to ${branch.name}');
     _selectedBranch.add(branch);

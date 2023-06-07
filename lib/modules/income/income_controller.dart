@@ -35,16 +35,7 @@ class IncomeController {
   void _load() {
     _logger.info('Loading incomes');
 
-    Rx.combineLatest3<String, String, Branch, Map<String, dynamic>>(
-      $selectedMonth,
-      $selectedYear,
-      $selectedBranch,
-      (selectedMonth, selectedYear, selectedBranch) => {
-        'month': selectedMonth,
-        'year': selectedYear,
-        'branch': selectedBranch
-      },
-    ).listen((selected) {
+    _filtersController.$combinedFilters.listen((selected) {
       final monthNumber = AppDateTime.monthNameToNumber(selected['month']!);
       final currentYear = int.parse(selected['year']!);
       final branch = selected['branch'] as Branch;

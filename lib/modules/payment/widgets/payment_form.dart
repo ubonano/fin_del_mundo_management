@@ -33,7 +33,6 @@ class _PaymentFormState extends State<PaymentForm> {
   final _paymentController = getIt<PaymentController>();
   late StackRouter _router;
 
-  // Declaring Controllers, Data and Status
   late TextEditingController _dateController;
   late TextEditingController _paymentDateController;
   late TextEditingController _totalController;
@@ -252,7 +251,7 @@ class _PaymentFormState extends State<PaymentForm> {
     return Expanded(
       child: AppFormField.number(
         labelText: 'Total',
-        enabled: false,
+        // enabled: false,
         controller: _totalController,
       ),
     );

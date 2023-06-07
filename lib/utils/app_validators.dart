@@ -1,5 +1,3 @@
-import '../modules/branch/branch.dart';
-
 class AppValidators {
   static String? date(String? value, {bool required = true}) {
     if (_isEmptyOrNull(value, required)) {
