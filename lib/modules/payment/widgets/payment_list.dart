@@ -23,7 +23,7 @@ class _PaymentListState extends State<PaymentList> {
   @override
   Widget build(BuildContext context) {
     return AppStreamBuilder<List<Payment>>(
-      stream: _controller.payments,
+      stream: _controller.$payments,
       onData: (incomes) {
         return Expanded(
           child: ListView.builder(

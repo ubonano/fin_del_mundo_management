@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 
 import '../../utils/app_date_time.dart';
 import '../branch/branch.dart';
+import '../../widgets/app_common_filters/common_filters_controller.dart';
 import '../payment_method/payment_method.dart';
 import 'payment.dart';
 import 'helpers/payment_repository.dart';
@@ -12,40 +13,25 @@ class PaymentController {
   final Logger _logger;
 
   final PaymentRepository _repository;
+  final CommonFiltersController _filtersController;
 
   final _payments = BehaviorSubject<List<Payment>>();
-  final _selectedBranch = BehaviorSubject<Branch>.seeded(Branch.all());
-
-  final _selectedMonth =
-      BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
-  final _selectedYear =
-      BehaviorSubject<String>.seeded(DateTime.now().year.toString());
   final _totalPayment = BehaviorSubject<double>.seeded(0);
 
-  PaymentController(this._logger, this._repository) {
+  Stream<Branch> get $selectedBranch => _filtersController.$selectedBranch;
+  Stream<String> get $selectedMonth => _filtersController.$selectedMonth;
+  Stream<String> get $selectedYear => _filtersController.$selectedYear;
+
+  Branch get selectedBranch => _filtersController.selectedBranch;
+  String get selectedMonth => _filtersController.selectedMonth;
+  String get selectedYear => _filtersController.selectedYear;
+
+  PaymentController(this._logger, this._repository, this._filtersController) {
     _load();
   }
 
-  Stream<List<Payment>> get payments => _payments.stream;
-  Stream<Branch> get selectedBranch => _selectedBranch.stream;
-  Stream<String> get selectedMonth => _selectedMonth.stream;
-  Stream<String> get selectedYear => _selectedYear.stream;
-  Stream<double> get totalPayment => _totalPayment.stream;
-
-  void filterByBranch(Branch branch) {
-    _logger.info('Changing branch filter to ${branch.name}');
-    _selectedBranch.add(branch);
-  }
-
-  void filterByMonth(String month) {
-    _logger.info('Changing month filter to $month');
-    _selectedMonth.add(month);
-  }
-
-  void filterByYear(String year) {
-    _logger.info('Changing year filter to $year');
-    _selectedYear.add(year);
-  }
+  Stream<List<Payment>> get $payments => _payments.stream;
+  Stream<double> get $totalPayment => _totalPayment.stream;
 
   void _load() {
     _logger.info('Loading payments...');
@@ -91,8 +77,8 @@ class PaymentController {
   }
 
   List<Payment> fillPaymentsForCurrentMonth() {
-    final year = int.parse(_selectedYear.value);
-    final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
+    final year = int.parse(selectedYear);
+    final month = AppDateTime.monthNameToNumber(selectedMonth);
 
     int daysInMonth = DateTime(year, month + 1, 0).day;
 
@@ -137,9 +123,6 @@ class PaymentController {
   void dispose() {
     _logger.info('Disposing PaymentController');
     _payments.close();
-    _selectedBranch.close();
-    _selectedYear.close();
-    _selectedMonth.close();
     _totalPayment.close();
   }
 }

@@ -7,6 +7,7 @@ import '../modules/branch/branch_controller.dart';
 import '../modules/collection_method/collection_method_controller.dart';
 import '../modules/income/income_controller.dart';
 import '../modules/employee/employee_controller.dart';
+import '../widgets/app_common_filters/common_filters_controller.dart';
 import '../modules/payment_category/payment_category_controller.dart';
 import '../modules/payment/payment_controller.dart';
 import '../modules/payment_method/payment_method_controller.dart';
@@ -35,7 +36,7 @@ GetIt getIt = GetIt.instance;
 FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
 void setupServiceLocator() {
-  _setupDailyIncomeInstances();
+  _setupncomeInstances();
   _setupCollectionMethodInstance();
   _setupBranchInstance();
   _setupEmployeeInstance();
@@ -46,16 +47,21 @@ void setupServiceLocator() {
   _setupPaymentInstance();
 }
 
-void _setupDailyIncomeInstances() {
+void _setupncomeInstances() {
   getIt.registerLazySingleton<IncomeRepository>(
     () => IncomeFirestoreRepository(_firebaseFirestore),
   );
 
   getIt.registerLazySingleton<IncomeController>(
     () => IncomeController(
-      Logger('DailyIncomeController'),
+      Logger('IncomeController'),
       getIt<IncomeRepository>(),
+      getIt<CommonFiltersController>(),
     ),
+  );
+
+  getIt.registerLazySingleton<CommonFiltersController>(
+    () => CommonFiltersController(Logger('IncomeFiltersController')),
   );
 }
 
@@ -179,6 +185,7 @@ void _setupPaymentInstance() {
     () => PaymentController(
       Logger('PaymentController'),
       getIt<PaymentRepository>(),
+      getIt<CommonFiltersController>(),
     ),
   );
 }

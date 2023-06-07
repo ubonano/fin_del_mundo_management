@@ -23,7 +23,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
         children: [
           const AppBackgroundTitle(title: 'Medios de pago'),
           AppStreamBuilder<List<Income>>(
-            stream: _controller.incomes,
+            stream: _controller.$incomes,
             onData: _buildChart,
           ),
         ],

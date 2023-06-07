@@ -14,7 +14,7 @@ class EmployeeController {
     _load();
   }
 
-  Stream<List<Employee>> get employees => _employeesController.stream;
+  Stream<List<Employee>> get $employees => _employeesController.stream;
 
   void _load() {
     _logger.info('Loading employees...');

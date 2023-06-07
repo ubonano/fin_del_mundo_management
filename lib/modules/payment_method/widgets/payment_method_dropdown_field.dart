@@ -35,7 +35,7 @@ class _PaymentMethodDropdownFieldState
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.paymentMethods,
+      stream: _controller.$paymentMethods,
       getDisplayName: (a) => a.name,
       label: 'Metodo de pago',
     );

@@ -14,7 +14,7 @@ class BranchController {
     _load();
   }
 
-  Stream<List<Branch>> get branches => _branchesController.stream;
+  Stream<List<Branch>> get $branches => _branchesController.stream;
 
   void _load() {
     _logger.info('Loading branches...');

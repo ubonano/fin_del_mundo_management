@@ -13,7 +13,7 @@ class PaymentCategoryController {
     _load();
   }
 
-  Stream<List<PaymentCategory>> get paymentCategories =>
+  Stream<List<PaymentCategory>> get $paymentCategories =>
       _paymentCategoriesController.stream;
 
   void _load() {

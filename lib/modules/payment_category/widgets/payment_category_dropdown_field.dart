@@ -35,7 +35,7 @@ class _PaymentCategoryDropdownFieldState
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.paymentCategories,
+      stream: _controller.$paymentCategories,
       getDisplayName: (a) => a.name,
       label: 'Categoria de pago',
     );

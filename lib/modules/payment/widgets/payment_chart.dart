@@ -23,7 +23,7 @@ class PaymentChart extends StatelessWidget {
           const AppBackgroundTitle(title: 'Gastos diarios'),
           const SizedBox(height: 12),
           AppStreamBuilder(
-            stream: _controller.payments,
+            stream: _controller.$payments,
             onData: (payments) => _buildBarChart(),
           ),
         ],

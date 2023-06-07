@@ -50,7 +50,7 @@ class IncomePanel extends StatelessWidget {
 
   Widget _buildTotalField() {
     return AppStreamBuilder<double>(
-      stream: _controller.totalIncome,
+      stream: _controller.$totalIncome,
       onData: (data) => Text(
         '\$ ${AppFormaters.getFormattedTotal(data)}',
         style: const TextStyle(

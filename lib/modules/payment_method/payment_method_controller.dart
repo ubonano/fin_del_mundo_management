@@ -14,7 +14,7 @@ class PaymentMethodController {
     _load();
   }
 
-  Stream<List<PaymentMethod>> get paymentMethods =>
+  Stream<List<PaymentMethod>> get $paymentMethods =>
       _paymentMethodsController.stream;
 
   void _load() {

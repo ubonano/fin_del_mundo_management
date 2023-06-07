@@ -24,7 +24,7 @@ class _IncomeListState extends State<IncomeList> {
   @override
   Widget build(BuildContext context) {
     return AppStreamBuilder<List<Income>>(
-      stream: _controller.incomes,
+      stream: _controller.$incomes,
       onData: (incomes) {
         return Expanded(
           child: ListView.builder(

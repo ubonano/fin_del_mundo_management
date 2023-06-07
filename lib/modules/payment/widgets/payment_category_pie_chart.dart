@@ -23,7 +23,7 @@ class PaymentCategoryPieChart extends StatelessWidget {
         children: [
           const AppBackgroundTitle(title: 'Categorias'),
           AppStreamBuilder<List<Payment>>(
-            stream: _controller.payments,
+            stream: _controller.$payments,
             onData: _buildChart,
           ),
         ],

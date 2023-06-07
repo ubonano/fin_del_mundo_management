@@ -4,15 +4,15 @@ import 'app_background.dart';
 import 'app_stream_builder.dart';
 
 class AppDropdownButton<T> extends StatelessWidget {
-  final List<T> items;
-  final Stream<T> streamDataSelected;
+  final Stream<List<T>> itemsStream;
+  final Stream<T> itemSelectedStrem;
   final void Function(T?)? onChanged;
 
   const AppDropdownButton({
     Key? key,
-    required this.streamDataSelected,
+    required this.itemSelectedStrem,
     required this.onChanged,
-    required this.items,
+    required this.itemsStream,
   }) : super(key: key);
 
   @override
@@ -20,16 +20,21 @@ class AppDropdownButton<T> extends StatelessWidget {
     return AppBackgound(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       margin: const EdgeInsets.only(left: 25, top: 25),
-      child: AppStreamBuilder<T>(
-        stream: streamDataSelected,
-        onData: (value) => _buildDropdownButton(value),
+      child: AppStreamBuilder<List<T>>(
+        stream: itemsStream,
+        onData: (items) {
+          return AppStreamBuilder<T>(
+            stream: itemSelectedStrem,
+            onData: (itemSelected) => _buildDropdownButton(items, itemSelected),
+          );
+        },
       ),
     );
   }
 
-  DropdownButton<T> _buildDropdownButton(T value) {
+  DropdownButton<T> _buildDropdownButton(List<T> items, T itemSelected) {
     return DropdownButton<T>(
-      value: value,
+      value: itemSelected,
       onChanged: onChanged,
       underline: const SizedBox.shrink(),
       items: items

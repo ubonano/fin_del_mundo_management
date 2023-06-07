@@ -33,7 +33,7 @@ class _EmployeeDropdownFieldState extends State<EmployeeDropdownField> {
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.employees,
+      stream: _controller.$employees,
       getDisplayName: (a) => a.name,
       label: 'Empleado',
     );

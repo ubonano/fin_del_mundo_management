@@ -33,7 +33,7 @@ class _BranchDropdownFieldState extends State<BranchDropdownField> {
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.branches,
+      stream: _controller.$branches,
       getDisplayName: (a) => a.name,
       label: 'Sucursal',
     );

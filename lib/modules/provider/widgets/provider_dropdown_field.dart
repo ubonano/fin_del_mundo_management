@@ -33,7 +33,7 @@ class _ProviderDropdownFieldState extends State<ProviderDropdownField> {
     return AppDropdownField(
       onChanged: widget.onChanged,
       initialValue: widget.initialValue,
-      stream: _controller.providers,
+      stream: _controller.$providers,
       getDisplayName: (a) => a.name,
       label: 'Proveedor',
     );

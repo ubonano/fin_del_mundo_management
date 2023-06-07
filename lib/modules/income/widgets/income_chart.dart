@@ -23,7 +23,7 @@ class IncomeChart extends StatelessWidget {
           const AppBackgroundTitle(title: 'Ingresos diarios'),
           const SizedBox(height: 12),
           AppStreamBuilder(
-            stream: _controller.incomes,
+            stream: _controller.$incomes,
             onData: (incomes) => _buildBarChart(),
           ),
         ],

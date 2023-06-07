@@ -14,7 +14,7 @@ class ProviderController {
     _load();
   }
 
-  Stream<List<Provider>> get providers => _providersController.stream;
+  Stream<List<Provider>> get $providers => _providersController.stream;
 
   void _load() {
     _logger.info('Loading providers...');

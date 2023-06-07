@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import '../../../widgets/app_navigation_panel.dart';
 import '../widgets/income_chart.dart';
-import '../widgets/income_filters.dart';
+import '../../../widgets/app_common_filters/app_common_filters.dart';
 import '../widgets/income_panel.dart';
 import '../widgets/income_collection_methods_charts.dart';
 
@@ -23,7 +23,7 @@ class IncomePage extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                IncomeFilters(),
+                AppCommonFilters(),
                 Expanded(
                   child: Row(
                     children: [

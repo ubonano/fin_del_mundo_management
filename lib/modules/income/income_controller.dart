@@ -1,6 +1,7 @@
 import 'package:fin_del_mundo_management/modules/branch/branch.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
+import '../../widgets/app_common_filters/common_filters_controller.dart';
 import 'income_item.dart';
 import 'income.dart';
 import '../../utils/app_date_time.dart';
@@ -10,48 +11,34 @@ class IncomeController {
   final Logger _logger;
 
   final IncomeRepository _repository;
+  final CommonFiltersController _filtersController;
 
   final _incomes = BehaviorSubject<List<Income>>();
-  final _selectedBranch = BehaviorSubject<Branch>.seeded(Branch.all());
 
-  final _selectedMonth =
-      BehaviorSubject<String>.seeded(AppDateTime.currentMonth());
-  final _selectedYear =
-      BehaviorSubject<String>.seeded(DateTime.now().year.toString());
   final _totalIncome = BehaviorSubject<double>.seeded(0);
 
-  IncomeController(this._logger, this._repository) {
+  IncomeController(this._logger, this._repository, this._filtersController) {
     _load();
   }
 
-  Stream<List<Income>> get incomes => _incomes.stream;
-  Stream<Branch> get selectedBranch => _selectedBranch.stream;
-  Stream<String> get selectedMonth => _selectedMonth.stream;
-  Stream<String> get selectedYear => _selectedYear.stream;
-  Stream<double> get totalIncome => _totalIncome.stream;
+  Stream<List<Income>> get $incomes => _incomes.stream;
+  Stream<double> get $totalIncome => _totalIncome.stream;
 
-  void filterByBranch(Branch branch) {
-    _logger.info('Changing branch filter to ${branch.name}');
-    _selectedBranch.add(branch);
-  }
+  Stream<Branch> get $selectedBranch => _filtersController.$selectedBranch;
+  Stream<String> get $selectedMonth => _filtersController.$selectedMonth;
+  Stream<String> get $selectedYear => _filtersController.$selectedYear;
 
-  void filterByMonth(String month) {
-    _logger.info('Changing month filter to $month');
-    _selectedMonth.add(month);
-  }
-
-  void filterByYear(String year) {
-    _logger.info('Changing year filter to $year');
-    _selectedYear.add(year);
-  }
+  Branch get selectedBranch => _filtersController.selectedBranch;
+  String get selectedMonth => _filtersController.selectedMonth;
+  String get selectedYear => _filtersController.selectedYear;
 
   void _load() {
     _logger.info('Loading incomes');
 
     Rx.combineLatest3<String, String, Branch, Map<String, dynamic>>(
-      _selectedMonth.stream,
-      _selectedYear.stream,
-      _selectedBranch.stream,
+      $selectedMonth,
+      $selectedYear,
+      $selectedBranch,
       (selectedMonth, selectedYear, selectedBranch) => {
         'month': selectedMonth,
         'year': selectedYear,
@@ -146,8 +133,8 @@ class IncomeController {
   }
 
   List<Income> fillIncomesForCurrentMonth() {
-    final year = int.parse(_selectedYear.value);
-    final month = AppDateTime.monthNameToNumber(_selectedMonth.value);
+    final year = int.parse(selectedYear);
+    final month = AppDateTime.monthNameToNumber(selectedMonth);
 
     int daysInMonth = DateTime(year, month + 1, 0).day;
 
@@ -191,9 +178,6 @@ class IncomeController {
   void dispose() {
     _logger.info('Disposing DailyIncomeController');
     _incomes.close();
-    _selectedBranch.close();
-    _selectedYear.close();
-    _selectedMonth.close();
     _totalIncome.close();
   }
 }
