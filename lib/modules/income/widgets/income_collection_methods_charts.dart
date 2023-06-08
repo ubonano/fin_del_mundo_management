@@ -105,7 +105,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            collectionItem.collectioMethodnName,
+            collectionItem.method.name,
             style: const TextStyle(color: Colors.black),
           ),
         ),

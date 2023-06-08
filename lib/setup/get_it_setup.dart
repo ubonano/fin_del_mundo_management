@@ -7,6 +7,9 @@ import '../modules/branch/branch_controller.dart';
 import '../modules/collection_method/collection_method_controller.dart';
 import '../modules/income/income_controller.dart';
 import '../modules/employee/employee_controller.dart';
+import '../modules/income_category/helpers/income_category_repository.dart';
+import '../modules/income_category/income_category_controller.dart';
+import '../modules/income_category/income_category_firestore_repository.dart';
 import '../widgets/app_common_filters/common_filters_controller.dart';
 import '../modules/payment_category/payment_category_controller.dart';
 import '../modules/payment/payment_controller.dart';
@@ -45,6 +48,7 @@ void setupServiceLocator() {
   _setupUserInstance();
   _setupProviderInstance();
   _setupPaymentInstance();
+  _setupIncomeCategoryInstance();
 }
 
 void _setupncomeInstances() {
@@ -186,6 +190,19 @@ void _setupPaymentInstance() {
       Logger('PaymentController'),
       getIt<PaymentRepository>(),
       getIt<CommonFiltersController>(),
+    ),
+  );
+}
+
+void _setupIncomeCategoryInstance() {
+  getIt.registerLazySingleton<IncomeCategoryRepository>(
+    () => IncomeCategoryFirestoreRepository(_firebaseFirestore),
+  );
+
+  getIt.registerLazySingleton<IncomeCategoryController>(
+    () => IncomeCategoryController(
+      Logger('IncomeCategoryController'),
+      getIt<IncomeCategoryRepository>(),
     ),
   );
 }

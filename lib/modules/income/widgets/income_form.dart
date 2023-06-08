@@ -1,14 +1,15 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fin_del_mundo_management/modules/collection_method/widgets/collection_method_dropdown_field.dart';
+import 'package:fin_del_mundo_management/modules/income_category/income_category.dart';
+import 'package:fin_del_mundo_management/modules/income_category/widgets/income_category_dropdown_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_field.dart';
-import '../../../widgets/app_stream_builder.dart';
 import '../../branch/branch.dart';
 import '../../branch/widgets/branch_dropdown_field.dart';
 import '../../collection_method/collection_method.dart';
-import '../../collection_method/collection_method_controller.dart';
 import '../income_line.dart';
 import '../income.dart';
 import '../income_controller.dart';
@@ -24,19 +25,16 @@ class IncomeForm extends StatefulWidget {
 
 class _IncomeFormState extends State<IncomeForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final Map<CollectionMethod, TextEditingController>
-      _collectionMethodControllerAndItem = {};
-
   StackRouter get router => AutoRouter.of(context);
 
   final _incomeController = getIt<IncomeController>();
-  final _collectionMethodController = getIt<CollectionMethodController>();
+
+  int _lineIdCounter = 0;
 
   late final TextEditingController _dateController;
   late Branch? _branch;
-  final List<TextEditingController> _collectionMethodControllers = [];
   late final TextEditingController _totalController;
+  final List<IncomeLine> _lines = [];
 
   @override
   void initState() {
@@ -48,9 +46,19 @@ class _IncomeFormState extends State<IncomeForm> {
             : '');
 
     _branch = widget.income?.branch;
-
     _totalController =
         TextEditingController(text: widget.income?.total.toString() ?? '0');
+
+    if (widget.income != null) {
+      widget.income!.lines.forEach((line) {
+        _lines.add(IncomeLine(
+            id: _lineIdCounter++,
+            method: line.method,
+            category: line.category,
+            amount: line.amount,
+            controller: TextEditingController(text: line.amount.toString())));
+      });
+    }
   }
 
   @override
@@ -61,7 +69,7 @@ class _IncomeFormState extends State<IncomeForm> {
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildRow(),
-          _buildCollectionMethodFieldsStream(),
+          _buildIncomeLines(),
           _buildSubmitButton(),
         ],
       ),
@@ -76,14 +84,54 @@ class _IncomeFormState extends State<IncomeForm> {
         _branchField(),
         const SizedBox(width: 20),
         _buildTotalField(),
+        const SizedBox(width: 20),
+        _buildAddLineButton(),
       ],
     );
   }
 
-  Widget _buildCollectionMethodFieldsStream() {
-    return AppStreamBuilder<List<CollectionMethod>>(
-      stream: _collectionMethodController.$collectionMethods,
-      onData: (data) => Column(children: _collectionMethodFields(data)),
+  Widget _buildIncomeLines() {
+    return Column(
+      children: _lines.map((line) => _buildIncomeLine(line)).toList(),
+    );
+  }
+
+  Widget _buildIncomeLine(IncomeLine line) {
+    return Row(
+      children: [
+        _buildIncomeCategoryField(line),
+        const SizedBox(width: 8),
+        _buildCollectionMethodField(line),
+        const SizedBox(width: 8),
+        _buildAmountField(line),
+        const SizedBox(width: 8),
+        IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            setState(() {
+              _lines.remove(line);
+              _updateTotal();
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddLineButton() {
+    return ElevatedButton(
+      child: const Text('Agregar línea'),
+      onPressed: () {
+        setState(() {
+          _lines.add(
+            IncomeLine(
+              id: _lineIdCounter++,
+              method: CollectionMethod(id: '', name: ''),
+              category: IncomeCategory(id: '', name: ''),
+            ),
+          );
+        });
+      },
     );
   }
 
@@ -127,43 +175,48 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  List<Widget> _collectionMethodFields(
-      List<CollectionMethod> collectionMethods) {
-    return collectionMethods
-        .map((item) => _buildCollectionMethodField(item))
-        .toList();
-  }
-
-  Widget _buildCollectionMethodField(CollectionMethod collectionMethod) {
-    String amount = _getCollectionMethodItemAmount(collectionMethod);
-
-    final controller = TextEditingController(text: amount);
-
-    _collectionMethodControllerAndItem[collectionMethod] = controller;
-    _collectionMethodControllers.add(controller);
-
-    return AppFormField.number(
-      labelText: collectionMethod.name,
-      required: false,
-      controller: controller,
-      onFieldSubmitted: (value) => _submit(),
-      onChanged: (value) => _updateTotal(),
+  Widget _buildIncomeCategoryField(IncomeLine line) {
+    return Expanded(
+      child: IncomeCategoryDropdownField(
+        initialValue: line.category.id != '' ? line.category : null,
+        onChanged: (category) {
+          setState(() {
+            line.category = category!;
+          });
+        },
+      ),
     );
   }
 
-  String _getCollectionMethodItemAmount(CollectionMethod collectionMethod) {
-    String amount;
-    try {
-      amount = widget.income?.lines
-              .firstWhere((witem) =>
-                  witem.collectioMethodnName == collectionMethod.name)
-              .amount
-              .toString() ??
-          '';
-    } catch (e) {
-      amount = '';
-    }
-    return amount;
+  Widget _buildCollectionMethodField(IncomeLine line) {
+    return Expanded(
+      child: CollectionMethodDropdownField(
+        initialValue: line.method.id != '' ? line.method : null,
+        onChanged: (CollectionMethod? newValue) {
+          setState(() {
+            line.method = newValue!;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildAmountField(IncomeLine line) {
+    line.controller = line.controller ?? TextEditingController();
+    line.controller!.addListener(() {
+      setState(() {
+        line.amount = double.tryParse(line.controller!.text) ?? 0;
+        _updateTotal();
+      });
+    });
+
+    return Expanded(
+      child: AppFormField.number(
+        labelText: 'Monto',
+        required: true,
+        controller: line.controller!,
+      ),
+    );
   }
 
   Future<void> _submit() async {
@@ -190,27 +243,15 @@ class _IncomeFormState extends State<IncomeForm> {
       id: widget.income?.id ?? '',
       date: DateTime.parse(_dateController.text),
       branch: _branch!,
-      lines: _collectionMethodControllerAndItem.entries.map(
-        (controllerItem) {
-          return IncomeLine(
-            collectionMethodId: controllerItem.key.id,
-            collectioMethodnName: controllerItem.key.name,
-            amount: controllerItem.value.text != ''
-                ? double.parse(controllerItem.value.text)
-                : 0,
-          );
-        },
-      ).toList(),
+      lines: _lines,
     );
   }
 
   void _updateTotal() {
     double total = 0;
-    _collectionMethodControllers.forEach(
-      (controller) {
-        total += double.tryParse(controller.text) ?? 0;
-      },
-    );
+    _lines.forEach((line) {
+      total += line.amount;
+    });
     _totalController.text = total.toString();
   }
 
@@ -223,9 +264,8 @@ class _IncomeFormState extends State<IncomeForm> {
   @override
   void dispose() {
     _dateController.dispose();
-    _collectionMethodControllers.forEach((controller) => controller.dispose());
+    _lines.forEach((line) => line.controller?.dispose());
     _totalController.dispose();
-
     super.dispose();
   }
 }

@@ -25,7 +25,7 @@ class CollectionMethodDropdownField extends StatelessWidget {
       initialValue: initialValue,
       stream: _controller.$collectionMethods,
       getDisplayName: (a) => a.name,
-      label: 'Metodo de cobor',
+      label: 'Metodo',
     );
   }
 }
