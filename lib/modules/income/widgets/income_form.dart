@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fin_del_mundo_management/modules/collection_method/widgets/collection_method_dropdown_field.dart';
+import 'package:fin_del_mundo_management/modules/income_method/widgets/income_method_dropdown_field.dart';
 import 'package:fin_del_mundo_management/modules/income_category/income_category.dart';
 import 'package:fin_del_mundo_management/modules/income_category/widgets/income_category_dropdown_field.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import '../../../setup/get_it_setup.dart';
 import '../../../widgets/app_form_field.dart';
 import '../../branch/branch.dart';
 import '../../branch/widgets/branch_dropdown_field.dart';
-import '../../collection_method/collection_method.dart';
+import '../../income_method/income_method.dart';
 import '../../income_category/income_category_controller.dart';
 import '../income_line.dart';
 import '../income.dart';
@@ -128,7 +128,7 @@ class _IncomeFormState extends State<IncomeForm> {
           _lines.add(
             IncomeLine(
               id: _lineIdCounter++,
-              method: CollectionMethod.blank(),
+              method: IncomeMethod.blank(),
               category: IncomeCategory
                   .blank(), // Todo llevarlo dentro del constructor para que sean opcionales y tengan por defecto blank
             ),
@@ -197,9 +197,9 @@ class _IncomeFormState extends State<IncomeForm> {
 
   Widget _buildMethodField(IncomeLine line) {
     return Expanded(
-      child: CollectionMethodDropdownField(
+      child: IncomeMethodDropdownField(
         initialValue: line.method.id != '' ? line.method : null,
-        onChanged: (CollectionMethod? newValue) {
+        onChanged: (IncomeMethod? newValue) {
           setState(() {
             line.method = newValue!;
           });

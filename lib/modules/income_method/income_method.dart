@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CollectionMethod {
+class IncomeMethod {
   String id;
   String name;
 
-  CollectionMethod({
+  IncomeMethod({
     required this.id,
     required this.name,
   });
@@ -12,7 +12,7 @@ class CollectionMethod {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CollectionMethod &&
+      other is IncomeMethod &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           name == other.name;
@@ -20,12 +20,12 @@ class CollectionMethod {
   @override
   int get hashCode => id.hashCode;
 
-  factory CollectionMethod.blank() => CollectionMethod(id: '', name: '');
+  factory IncomeMethod.blank() => IncomeMethod(id: '', name: '');
 
-  factory CollectionMethod.fromFirestore(DocumentSnapshot doc) {
+  factory IncomeMethod.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 
-    return CollectionMethod(
+    return IncomeMethod(
       id: doc.id,
       name: data['name'],
     );

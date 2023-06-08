@@ -1,5 +1,5 @@
 import 'package:fin_del_mundo_management/modules/branch/branch.dart';
-import 'package:fin_del_mundo_management/modules/collection_method/collection_method.dart';
+import 'package:fin_del_mundo_management/modules/income_method/income_method.dart';
 import 'package:flutter/material.dart';
 
 import '../income_category/income_category.dart';
@@ -9,7 +9,7 @@ class IncomeLine {
 
   int id;
   IncomeCategory category;
-  CollectionMethod method;
+  IncomeMethod method;
   double amount;
 
   IncomeLine({
@@ -46,7 +46,7 @@ class IncomeLine {
         name: map['incomeCategoryName'],
         branch: Branch(id: '', name: ''),
       ),
-      method: CollectionMethod(
+      method: IncomeMethod(
         id: map['collectionMethodId'],
         name: map['collectionMethodName'],
       ),
