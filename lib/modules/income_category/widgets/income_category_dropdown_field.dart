@@ -1,41 +1,32 @@
 import 'package:fin_del_mundo_management/widgets/app_dropdown_field.dart';
 import 'package:flutter/material.dart';
 import '../../../setup/get_it_setup.dart';
+import '../../branch/branch.dart';
 import '../income_category.dart';
 import '../income_category_controller.dart';
 
-class IncomeCategoryDropdownField extends StatefulWidget {
+class IncomeCategoryDropdownField extends StatelessWidget {
   final Function(IncomeCategory?) onChanged;
   final IncomeCategory? initialValue;
+  final Branch? branchFilter;
   final bool enabled;
 
-  const IncomeCategoryDropdownField({
+  IncomeCategoryDropdownField({
     super.key,
     required this.onChanged,
     required this.initialValue,
+    this.branchFilter,
     this.enabled = true,
   });
 
-  @override
-  _IncomeCategoryDropdownFieldState createState() =>
-      _IncomeCategoryDropdownFieldState();
-}
-
-class _IncomeCategoryDropdownFieldState
-    extends State<IncomeCategoryDropdownField> {
   final _controller = getIt<IncomeCategoryController>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return AppDropdownField(
-      onChanged: widget.onChanged,
-      initialValue: widget.initialValue,
-      stream: _controller.$incomeCategories,
+      onChanged: onChanged,
+      initialValue: initialValue,
+      stream: _controller.$categories,
       getDisplayName: (a) => a.name,
       label: 'Categoria',
     );

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fin_del_mundo_management/modules/income_category/income_category.dart';
+import '../branch/branch.dart';
 import 'helpers/income_category_repository.dart';
 
 class IncomeCategoryFirestoreRepository implements IncomeCategoryRepository {
@@ -15,6 +16,14 @@ class IncomeCategoryFirestoreRepository implements IncomeCategoryRepository {
               .map((doc) => IncomeCategory.fromFirestore(doc))
               .toList(),
         );
+  }
+
+  @override
+  Stream<List<IncomeCategory>> getByBranch(Branch branch) {
+    return _collection.where('branchId', isEqualTo: branch.id).snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => IncomeCategory.fromFirestore(doc))
+            .toList());
   }
 
   @override

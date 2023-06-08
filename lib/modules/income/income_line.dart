@@ -1,3 +1,4 @@
+import 'package:fin_del_mundo_management/modules/branch/branch.dart';
 import 'package:fin_del_mundo_management/modules/collection_method/collection_method.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,7 @@ class IncomeLine {
       category: IncomeCategory(
         id: map['incomeCategoryId'],
         name: map['incomeCategoryName'],
+        branch: Branch(id: '', name: ''),
       ),
       amount: map['amount'],
     );

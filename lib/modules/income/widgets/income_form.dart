@@ -10,6 +10,7 @@ import '../../../widgets/app_form_field.dart';
 import '../../branch/branch.dart';
 import '../../branch/widgets/branch_dropdown_field.dart';
 import '../../collection_method/collection_method.dart';
+import '../../income_category/income_category_controller.dart';
 import '../income_line.dart';
 import '../income.dart';
 import '../income_controller.dart';
@@ -28,6 +29,7 @@ class _IncomeFormState extends State<IncomeForm> {
   StackRouter get router => AutoRouter.of(context);
 
   final _incomeController = getIt<IncomeController>();
+  final _categoryController = getIt<IncomeCategoryController>();
 
   int _lineIdCounter = 0;
 
@@ -127,7 +129,11 @@ class _IncomeFormState extends State<IncomeForm> {
             IncomeLine(
               id: _lineIdCounter++,
               method: CollectionMethod(id: '', name: ''),
-              category: IncomeCategory(id: '', name: ''),
+              category: IncomeCategory(
+                id: '',
+                name: '',
+                branch: Branch(id: '', name: ''),
+              ),
             ),
           );
         });
@@ -158,8 +164,12 @@ class _IncomeFormState extends State<IncomeForm> {
       child: BranchDropdownField(
         initialValue: widget.income?.branch,
         onChanged: (value) {
-          _branch = value;
-          setState(() {});
+          setState(() {
+            _branch = value;
+            _categoryController.loadByBranch(_branch!);
+            _lines.clear();
+            _updateTotal();
+          });
         },
       ),
     );
@@ -179,6 +189,7 @@ class _IncomeFormState extends State<IncomeForm> {
     return Expanded(
       child: IncomeCategoryDropdownField(
         initialValue: line.category.id != '' ? line.category : null,
+        branchFilter: _branch,
         onChanged: (category) {
           setState(() {
             line.category = category!;

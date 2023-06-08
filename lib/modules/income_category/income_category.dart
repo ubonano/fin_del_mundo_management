@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../branch/branch.dart';
+
 class IncomeCategory {
   String id;
   String name;
+  Branch branch;
 
   IncomeCategory({
     required this.id,
     required this.name,
+    required this.branch,
   });
 
   @override
@@ -27,11 +31,17 @@ class IncomeCategory {
     return IncomeCategory(
       id: doc.id,
       name: data['name'],
+      branch: Branch(
+        id: data['branchId'],
+        name: data['branchName'],
+      ),
     );
   }
 
   Map<String, dynamic> toFirestore() => {
         'name': name,
+        'branchId': branch.id,
+        'branchName': branch.name,
       };
 
   Color getColor() {

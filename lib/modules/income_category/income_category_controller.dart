@@ -1,5 +1,6 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
+import '../branch/branch.dart';
 import 'income_category.dart';
 import 'helpers/income_category_repository.dart';
 
@@ -7,20 +8,22 @@ class IncomeCategoryController {
   final Logger _logger;
   final IncomeCategoryRepository _repository;
 
-  final _incomeCategoriesController = BehaviorSubject<List<IncomeCategory>>();
+  final _categoriesController = BehaviorSubject<List<IncomeCategory>>();
 
   IncomeCategoryController(this._logger, this._repository) {
     _load();
   }
 
-  Stream<List<IncomeCategory>> get $incomeCategories =>
-      _incomeCategoriesController.stream;
+  Stream<List<IncomeCategory>> get $categories => _categoriesController.stream;
 
-  void _load() {
+  void _load({Branch? branch}) {
     _logger.info('Loading income categories...');
-    _repository.getAll().listen(
+    final incomeCategoriesStream =
+        branch == null ? _repository.getAll() : _repository.getByBranch(branch);
+
+    incomeCategoriesStream.listen(
       (incomeCategories) {
-        _incomeCategoriesController.add(incomeCategories);
+        _categoriesController.add(incomeCategories);
         _logger.info('Loaded ${incomeCategories.length} income categories.');
       },
       onError: (error) {
@@ -28,6 +31,8 @@ class IncomeCategoryController {
       },
     );
   }
+
+  void loadByBranch(Branch branch) => _load(branch: branch);
 
   Future<void> add(IncomeCategory incomeCategory) async {
     _logger.info('Adding income category: ${incomeCategory.name}...');
@@ -63,6 +68,6 @@ class IncomeCategoryController {
   }
 
   void dispose() {
-    _incomeCategoriesController.close();
+    _categoriesController.close();
   }
 }
