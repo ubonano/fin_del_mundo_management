@@ -14,7 +14,7 @@ class CollectionMethodController {
     _load();
   }
 
-  Stream<List<CollectionMethod>> get collectionMethods =>
+  Stream<List<CollectionMethod>> get $collectionMethods =>
       _collectionMethods.stream;
 
   void _load() {

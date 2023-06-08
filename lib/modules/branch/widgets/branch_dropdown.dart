@@ -5,22 +5,22 @@ import '../../../setup/get_it_setup.dart';
 import '../../../widgets/app_dropdown_button.dart';
 
 class BranchDropdown extends StatelessWidget {
-  final Stream<Branch> streamDataSelected;
-  final void Function(Branch?)? onChanged;
+  final Stream<Branch> $branchSelected;
+  final void Function(Branch?) onChanged;
 
   final _controller = getIt<BranchController>();
 
   BranchDropdown({
     super.key,
-    required this.streamDataSelected,
-    this.onChanged,
+    required this.$branchSelected,
+    required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppDropdownButton<Branch>(
       itemsStream: _controller.$branches,
-      itemSelectedStrem: streamDataSelected,
+      itemSelectedStrem: $branchSelected,
       onChanged: onChanged,
     );
   }

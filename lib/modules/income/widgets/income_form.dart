@@ -82,7 +82,7 @@ class _IncomeFormState extends State<IncomeForm> {
 
   Widget _buildCollectionMethodFieldsStream() {
     return AppStreamBuilder<List<CollectionMethod>>(
-      stream: _collectionMethodController.collectionMethods,
+      stream: _collectionMethodController.$collectionMethods,
       onData: (data) => Column(children: _collectionMethodFields(data)),
     );
   }

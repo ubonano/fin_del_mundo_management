@@ -24,7 +24,7 @@ class AppCommonFilters extends StatelessWidget {
           onChanged: (month) => _controller.filterByMonth(month!),
         ),
         BranchDropdown(
-          streamDataSelected: _controller.$selectedBranch,
+          $branchSelected: _controller.$selectedBranch,
           onChanged: (branch) => _controller.filterByBranch(branch!),
         ),
       ],
