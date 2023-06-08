@@ -9,7 +9,7 @@ import '../../branch/branch.dart';
 import '../../branch/widgets/branch_dropdown_field.dart';
 import '../../collection_method/collection_method.dart';
 import '../../collection_method/collection_method_controller.dart';
-import '../income_item.dart';
+import '../income_line.dart';
 import '../income.dart';
 import '../income_controller.dart';
 
@@ -154,7 +154,7 @@ class _IncomeFormState extends State<IncomeForm> {
   String _getCollectionMethodItemAmount(CollectionMethod collectionMethod) {
     String amount;
     try {
-      amount = widget.income?.incomeItems
+      amount = widget.income?.lines
               .firstWhere((witem) =>
                   witem.collectioMethodnName == collectionMethod.name)
               .amount
@@ -190,9 +190,9 @@ class _IncomeFormState extends State<IncomeForm> {
       id: widget.income?.id ?? '',
       date: DateTime.parse(_dateController.text),
       branch: _branch!,
-      incomeItems: _collectionMethodControllerAndItem.entries.map(
+      lines: _collectionMethodControllerAndItem.entries.map(
         (controllerItem) {
-          return IncomeItem(
+          return IncomeLine(
             collectionMethodId: controllerItem.key.id,
             collectioMethodnName: controllerItem.key.name,
             amount: controllerItem.value.text != ''

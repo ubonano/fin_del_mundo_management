@@ -2,7 +2,7 @@ import 'package:fin_del_mundo_management/modules/branch/branch.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:logging/logging.dart';
 import '../../widgets/app_common_filters/common_filters_controller.dart';
-import 'income_item.dart';
+import 'income_line.dart';
 import 'income.dart';
 import '../../utils/app_date_time.dart';
 import 'helpers/income_repository.dart';
@@ -140,7 +140,7 @@ class IncomeController {
           id: '',
           date: currentDate,
           branch: Branch(id: '', name: ''),
-          incomeItems: [],
+          lines: [],
         ),
       );
       dailyIncomesForMonth.add(incomeForCurrentDate);
@@ -149,11 +149,11 @@ class IncomeController {
     return dailyIncomesForMonth;
   }
 
-  Map<IncomeItem, double> calculateCollectionMethodTotals() {
-    Map<IncomeItem, double> collectionMethodsTotals = {};
+  Map<IncomeLine, double> calculateCollectionMethodTotals() {
+    Map<IncomeLine, double> collectionMethodsTotals = {};
 
     for (var income in _incomes.value) {
-      income.incomeItems.forEach(
+      income.lines.forEach(
         (method) {
           collectionMethodsTotals.update(
             method,

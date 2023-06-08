@@ -5,7 +5,7 @@ import '../../../setup/get_it_setup.dart';
 import '../../../utils/app_formaters.dart';
 import '../../../widgets/app_background.dart';
 import '../../../widgets/app_stream_builder.dart';
-import '../income_item.dart';
+import '../income_line.dart';
 import '../income.dart';
 import '../income_controller.dart';
 
@@ -94,7 +94,7 @@ class IncomeCollectionMethodsPieChart extends StatelessWidget {
   }
 
   Widget _buildIncomeCollectionMethodDetail({
-    required IncomeItem collectionItem,
+    required IncomeLine collectionItem,
     required double percentage,
     required String total,
   }) {

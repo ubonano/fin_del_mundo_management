@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../branch/branch.dart';
-import 'income_item.dart';
+import 'income_line.dart';
 
 class Income {
   String id;
   DateTime date;
   Branch branch;
   double total;
-  List<IncomeItem> incomeItems;
+  List<IncomeLine> lines;
 
   Income({
     required this.id,
     required this.date,
     required this.branch,
-    required this.incomeItems,
-  }) : total = incomeItems.fold(0, (prev, method) => prev + method.amount);
+    required this.lines,
+  }) : total = lines.fold(0, (prev, method) => prev + method.amount);
 
   @override
   bool operator ==(Object other) =>
@@ -29,21 +29,21 @@ class Income {
     DateTime? date,
     Branch? branch,
     double? total,
-    List<IncomeItem>? incomeItems,
+    List<IncomeLine>? incomeItems,
   }) {
     return Income(
       id: id ?? this.id,
       date: date ?? this.date,
       branch: branch ?? this.branch,
-      incomeItems: incomeItems ?? this.incomeItems,
+      lines: incomeItems ?? this.lines,
     );
   }
 
   factory Income.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    final incomeItems = List<IncomeItem>.from(
-      data['incomeItems'].map(
-        (item) => IncomeItem.fromMap(item as Map<String, dynamic>),
+    final incomeItems = List<IncomeLine>.from(
+      data['lines'].map(
+        (item) => IncomeLine.fromMap(item as Map<String, dynamic>),
       ),
     );
 
@@ -51,7 +51,7 @@ class Income {
       id: doc.id,
       date: (data['date'] as Timestamp).toDate(),
       branch: Branch(id: data['branchId'], name: data['branchName']),
-      incomeItems: incomeItems,
+      lines: incomeItems,
     );
   }
 
@@ -59,7 +59,7 @@ class Income {
         'date': Timestamp.fromDate(date),
         'branchId': branch.id,
         'branchName': branch.name,
-        'incomeItems': incomeItems.map((item) => item.toMap()).toList(),
+        'lines': lines.map((item) => item.toMap()).toList(),
         'total': total,
       };
 }

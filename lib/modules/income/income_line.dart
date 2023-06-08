@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class IncomeItem {
+class IncomeLine {
   String collectioMethodnName;
   String collectionMethodId;
   double amount;
 
-  IncomeItem({
+  IncomeLine({
     required this.collectioMethodnName,
     required this.collectionMethodId,
     this.amount = 0.0,
@@ -14,7 +14,7 @@ class IncomeItem {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is IncomeItem &&
+      other is IncomeLine &&
           runtimeType == other.runtimeType &&
           collectionMethodId == other.collectionMethodId;
 
@@ -29,8 +29,8 @@ class IncomeItem {
     };
   }
 
-  factory IncomeItem.fromMap(Map<String, dynamic> map) {
-    return IncomeItem(
+  factory IncomeLine.fromMap(Map<String, dynamic> map) {
+    return IncomeLine(
       collectionMethodId: map['collectionMethodId'],
       collectioMethodnName: map['collectionMethodName'],
       amount: map['amount'],
