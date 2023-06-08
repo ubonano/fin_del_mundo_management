@@ -11,19 +11,17 @@ class IncomeCategoryFirestoreRepository implements IncomeCategoryRepository {
 
   @override
   Stream<List<IncomeCategory>> getAll() {
-    return _collection.snapshots().map(
-          (snapshot) => snapshot.docs
-              .map((doc) => IncomeCategory.fromFirestore(doc))
-              .toList(),
-        );
+    return _collection.snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => IncomeCategory.fromFirestore(doc)).toList());
   }
 
   @override
   Stream<List<IncomeCategory>> getByBranch(Branch branch) {
     return _collection.where('branchId', isEqualTo: branch.id).snapshots().map(
-        (snapshot) => snapshot.docs
-            .map((doc) => IncomeCategory.fromFirestore(doc))
-            .toList());
+          (snapshot) => snapshot.docs
+              .map((doc) => IncomeCategory.fromFirestore(doc))
+              .toList(),
+        );
   }
 
   @override

@@ -39,6 +39,9 @@ class Income {
     );
   }
 
+  factory Income.blank() =>
+      Income(id: '', date: DateTime.now(), branch: Branch.blank(), lines: []);
+
   factory Income.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     final incomeItems = List<IncomeLine>.from(

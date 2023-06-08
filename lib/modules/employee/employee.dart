@@ -20,6 +20,8 @@ class Employee {
   @override
   int get hashCode => id.hashCode;
 
+  factory Employee.blank() => Employee(id: '', name: '');
+
   factory Employee.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

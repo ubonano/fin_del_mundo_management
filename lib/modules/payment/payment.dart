@@ -35,6 +35,18 @@ class Payment {
   @override
   int get hashCode => id.hashCode;
 
+  factory Payment.blank() => Payment(
+        id: '',
+        date: DateTime.now(),
+        branch: Branch.blank(),
+        category: PaymentCategory.blank(),
+        method: PaymentMethod.blank(),
+        beneficiaryId: '',
+        beneficiaryName: '',
+        status: '',
+        paymentDate: DateTime.now(),
+      );
+
   factory Payment.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

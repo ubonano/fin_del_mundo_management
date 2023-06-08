@@ -27,6 +27,8 @@ class Branch {
   @override
   int get hashCode => id.hashCode;
 
+  factory Branch.blank() => Branch(id: '', name: '');
+
   factory Branch.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

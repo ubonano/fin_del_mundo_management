@@ -16,6 +16,8 @@ class IncomeCategoryController {
 
   Stream<List<IncomeCategory>> get $categories => _categoriesController.stream;
 
+  void loadByBranch(Branch branch) => _load(branch: branch);
+
   void _load({Branch? branch}) {
     _logger.info('Loading income categories...');
     final incomeCategoriesStream =
@@ -31,8 +33,6 @@ class IncomeCategoryController {
       },
     );
   }
-
-  void loadByBranch(Branch branch) => _load(branch: branch);
 
   Future<void> add(IncomeCategory incomeCategory) async {
     _logger.info('Adding income category: ${incomeCategory.name}...');
@@ -68,6 +68,7 @@ class IncomeCategoryController {
   }
 
   void dispose() {
+    _logger.info('Disposing IncomeCategoryController...');
     _categoriesController.close();
   }
 }

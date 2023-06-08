@@ -25,6 +25,9 @@ class IncomeCategory {
   @override
   int get hashCode => id.hashCode;
 
+  factory IncomeCategory.blank() =>
+      IncomeCategory(id: '', name: '', branch: Branch.blank());
+
   factory IncomeCategory.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

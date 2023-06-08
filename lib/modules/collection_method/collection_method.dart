@@ -20,6 +20,8 @@ class CollectionMethod {
   @override
   int get hashCode => id.hashCode;
 
+  factory CollectionMethod.blank() => CollectionMethod(id: '', name: '');
+
   factory CollectionMethod.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

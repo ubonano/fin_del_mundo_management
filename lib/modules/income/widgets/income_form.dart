@@ -70,7 +70,7 @@ class _IncomeFormState extends State<IncomeForm> {
       child: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildRow(),
+          _buildHeader(),
           _buildIncomeLines(),
           _buildSubmitButton(),
         ],
@@ -78,7 +78,7 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  Widget _buildRow() {
+  Widget _buildHeader() {
     return Row(
       children: [
         _dateField(),
@@ -101,9 +101,9 @@ class _IncomeFormState extends State<IncomeForm> {
   Widget _buildIncomeLine(IncomeLine line) {
     return Row(
       children: [
-        _buildIncomeCategoryField(line),
+        _buildCategoryField(line),
         const SizedBox(width: 8),
-        _buildCollectionMethodField(line),
+        _buildMethodField(line),
         const SizedBox(width: 8),
         _buildAmountField(line),
         const SizedBox(width: 8),
@@ -128,12 +128,9 @@ class _IncomeFormState extends State<IncomeForm> {
           _lines.add(
             IncomeLine(
               id: _lineIdCounter++,
-              method: CollectionMethod(id: '', name: ''),
-              category: IncomeCategory(
-                id: '',
-                name: '',
-                branch: Branch(id: '', name: ''),
-              ),
+              method: CollectionMethod.blank(),
+              category: IncomeCategory
+                  .blank(), // Todo llevarlo dentro del constructor para que sean opcionales y tengan por defecto blank
             ),
           );
         });
@@ -185,11 +182,10 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  Widget _buildIncomeCategoryField(IncomeLine line) {
+  Widget _buildCategoryField(IncomeLine line) {
     return Expanded(
       child: IncomeCategoryDropdownField(
         initialValue: line.category.id != '' ? line.category : null,
-        branchFilter: _branch,
         onChanged: (category) {
           setState(() {
             line.category = category!;
@@ -199,7 +195,7 @@ class _IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  Widget _buildCollectionMethodField(IncomeLine line) {
+  Widget _buildMethodField(IncomeLine line) {
     return Expanded(
       child: CollectionMethodDropdownField(
         initialValue: line.method.id != '' ? line.method : null,
@@ -233,7 +229,7 @@ class _IncomeFormState extends State<IncomeForm> {
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final income = _getIncomeToSave();
+        final income = _incomeToSave();
 
         if (widget.income == null) {
           await _incomeController.add(income);
@@ -249,7 +245,7 @@ class _IncomeFormState extends State<IncomeForm> {
     }
   }
 
-  Income _getIncomeToSave() {
+  Income _incomeToSave() {
     return Income(
       id: widget.income?.id ?? '',
       date: DateTime.parse(_dateController.text),

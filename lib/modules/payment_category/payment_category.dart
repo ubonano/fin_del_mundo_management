@@ -21,6 +21,8 @@ class PaymentCategory {
   @override
   int get hashCode => id.hashCode;
 
+  factory PaymentCategory.blank() => PaymentCategory(id: '', name: '');
+
   factory PaymentCategory.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 

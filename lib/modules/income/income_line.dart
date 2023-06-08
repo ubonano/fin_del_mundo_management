@@ -8,14 +8,14 @@ class IncomeLine {
   TextEditingController? controller;
 
   int id;
+  IncomeCategory category;
   CollectionMethod method;
   double amount;
-  IncomeCategory category;
 
   IncomeLine({
     required this.id,
-    required this.method,
     required this.category,
+    required this.method,
     this.amount = 0.0,
     this.controller,
   });
@@ -30,10 +30,10 @@ class IncomeLine {
 
   Map<String, dynamic> toMap() {
     return {
-      'collectionMethodId': method.id,
-      'collectionMethodName': method.name,
       'incomeCategoryId': category.id,
       'incomeCategoryName': category.name,
+      'collectionMethodId': method.id,
+      'collectionMethodName': method.name,
       'amount': amount,
     };
   }
@@ -41,14 +41,14 @@ class IncomeLine {
   factory IncomeLine.fromMap(Map<String, dynamic> map) {
     return IncomeLine(
       id: 0,
-      method: CollectionMethod(
-        id: map['collectionMethodId'],
-        name: map['collectionMethodName'],
-      ),
       category: IncomeCategory(
         id: map['incomeCategoryId'],
         name: map['incomeCategoryName'],
         branch: Branch(id: '', name: ''),
+      ),
+      method: CollectionMethod(
+        id: map['collectionMethodId'],
+        name: map['collectionMethodName'],
       ),
       amount: map['amount'],
     );

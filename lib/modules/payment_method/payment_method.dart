@@ -18,6 +18,9 @@ class PaymentMethod {
 
   @override
   int get hashCode => id.hashCode ^ name.hashCode;
+
+  factory PaymentMethod.blank() => PaymentMethod(id: '', name: '');
+
   Map<String, dynamic> toFirestore() {
     return {
       'name': name,
